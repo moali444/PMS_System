@@ -1,0 +1,147 @@
+/**---- Form Cart Css ----**/
+#auth_cart{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    .cart-bx{
+        width: 600px;
+        border-radius: 16px;
+        padding: 40px;
+        z-index: 99;
+        position: relative;
+        background-color: rgba(49, 89, 81, 0.9);
+        .title{
+            margin-bottom: 25px;
+            p{
+                color: #fff;
+                font-size: 0.8rem;
+                margin-bottom: 5px;
+            }
+            h3{
+                margin-top: 0;
+                font-size: 1.6rem;
+                position: relative;
+                line-height: 1;
+                font-weight: 600;
+                padding-bottom: 3px;
+                color: var(--main_yellow_color);
+                &::before{
+                    content: '';
+                    width: 15px;
+                    height: 4px;
+                    position: absolute;
+                    bottom: 0;
+                    inset-inline-start: 0;
+                    background-color: var(--main_yellow_color);
+                }
+            }
+        }
+        .form-control{
+            font-weight: 300;
+            color: #fff;
+            padding-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        ::-webkit-input-placeholder{
+            font-weight: 100 !important;
+        }
+        .form-control,
+        .form-control:focus,
+        .form-control:active{
+            background-color: transparent !important;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            border-radius: 0;
+            box-shadow: none !important;
+            padding-left: 0;
+        }
+        .form-control:focus{
+            border-color: rgba(239, 155, 40, 0.7);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: #ffffff;
+            transition: background-color 5000s ease-in-out 0s;
+            box-shadow: inset 0 0 20px 20px #23232329;
+        }
+        .form-label{
+            margin-bottom: 0;
+            font-size: 0.87rem;
+            color: var(--main_yellow_color);
+        }
+        input::placeholder{
+            font-weight: 300 !important;
+            color: #fff !important;
+            font-size: 0.9rem !important;
+        }
+        .form-links{
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            a{
+                text-decoration: none;
+                font-size: 0.8rem;
+                color: #fff;
+                font-weight: 300;
+                transition: 0.3s;
+                &:hover{
+                    color: var(--main_yellow_color);
+                }
+            }
+        }
+        .form-btn{
+            height: 46px;
+            width: 96%;
+            color: #fff;
+            border-radius: 50px;
+            margin: 0 auto;
+            display: block;
+            border-color: var(--main_yellow_color);
+            background-color: var(--main_yellow_color);
+            transition: 0.3s;
+            &:hover{
+                color: var(--main_yellow_color);
+                background-color: #3d2e00;
+            }
+        }
+        .alert{
+            font-weight: 200;
+            --bs-alert-color: #ffe5e5;
+            --bs-alert-bg: #480006;
+            font-size: 0.8rem;
+            border-color: #885e61;
+            margin-bottom: 10px;        
+        }
+        .show-icon{
+            position: absolute;
+            inset-inline-end: 0;
+            cursor: pointer;
+            color: #fff;
+            z-index: 9999;
+        }
+        .back-to-link{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 15px;
+            a{
+                text-decoration: none;
+                font-size: 0.8rem;
+                color: var(--main_yellow_color);
+                font-weight: 300;
+                transition: 0.3s;
+                &:hover{
+                    color: var(--main_yellow_color);
+                }
+            }
+        }
+    }
+}
