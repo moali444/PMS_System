@@ -14,6 +14,7 @@ import ProjectData from "./modules/Projects/components/ProjectData/ProjectData";
 import TasksList from "./modules/Tasks/components/TasksList/TasksList";
 import TaskData from "./modules/Tasks/components/TaskData/TaskData";
 import UsersList from "./modules/Users/components/UsersList/UsersList";
+import Welcome from "./modules/Welcome/components/Welcome";
 
 //toastify
 import { ToastContainer } from 'react-toastify';
@@ -26,7 +27,7 @@ const App = () => {
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Login /> },
+        { index: true, element: <Welcome /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "change-pass", element: <ChangePass /> },
