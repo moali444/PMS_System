@@ -83,9 +83,9 @@ const LoginForm = () => {
               className="show-icon"
               onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? (
-                <i className="fa-regular fa-eye-slash" />
+                <i className="fa-regular fa-eye-slash" title="Hide password" />
               ) : (
-                <i className="fa-regular fa-eye" />
+                <i className="fa-regular fa-eye" title="Show password" />
               )}
             </span>
           </InputGroup>
