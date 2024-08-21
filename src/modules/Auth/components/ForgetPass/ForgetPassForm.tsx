@@ -11,7 +11,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 interface IFormInput {
   email: string;
-  password: string;
 }
 
 const ForgetPassForm = () => {
@@ -27,7 +26,7 @@ const ForgetPassForm = () => {
     setFocus("email");
   }, [setFocus]);
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
     console.log(data);
     try {
       const response = await axios.post(USERS_URLS.forgetPass, data);
