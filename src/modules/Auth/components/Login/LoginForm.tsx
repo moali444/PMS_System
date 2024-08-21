@@ -2,32 +2,46 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
+
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { USERS_URLS } from "../../../../constants/END_POINTS";
+import { saveTokenToLocalStorage } from "../../../../constants/Tokenhandler";
+import { BeatLoader } from "react-spinners";
 
 interface IFormInput {
   email: string;
   password: string;
+}
+interface ErrorResponse {
+  message: string;
 }
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+
+    formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
-    // try {
-    //     const response = await axios.post('https://', data);
-    //     toast.success(response?.data?.message || 'welcome back again');
-    // } catch (error) {
-    //     toast.error(error.response?.data?.message || 'some_thing_wrong');
-    //     console.log(error);
-    // }
+    try {
+      const response = await axios.post(USERS_URLS.login, data);
+      toast.success(response?.data?.message || "welcome back again");
+      navigate("/dashboard");
+
+      saveTokenToLocalStorage(response.data.token);
+    } catch (error) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      toast.error(axiosError.response?.data?.message || "some_thing_wrong");
+      console.log(error);
+    }
   };
 
   return (
@@ -67,8 +81,7 @@ const LoginForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
+              onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -85,8 +98,16 @@ const LoginForm = () => {
           <Link to="/register">Register Now?</Link>
           <Link to="/forget-pass">Forgot Password?</Link>
         </div>
-        <Button className="form-btn" variant="primary" type="submit">
-          Login
+        <Button
+          disabled={isSubmitting}
+          className="form-btn"
+          variant="primary"
+          type="submit">
+          {isSubmitting ? (
+            <BeatLoader size={15} margin={"2px"} color="white" />
+          ) : (
+            "Login"
+          )}
         </Button>
       </Form>
     </div>
