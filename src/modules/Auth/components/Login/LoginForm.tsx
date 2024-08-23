@@ -24,9 +24,24 @@ const LoginForm = () => {
     // try {
     //     const response = await axios.post('https://', data);
     //     toast.success(response?.data?.message || 'welcome back again');
+
+    // toast.success("Login successfully", {
+    //   position: "top-right",
+    //   autoClose: 3000,
+    //   theme: "colored",
+    // });
     // } catch (error) {
     //     toast.error(error.response?.data?.message || 'some_thing_wrong');
     //     console.log(error);
+    // toast.error(
+    //   error?.response?.data?.message ||
+    //     "An error occurred. Please try again.",
+    //   {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     theme: "colored",
+    //   }
+    // );
     // }
   };
 
