@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { checkTokenFromLocalStorage } from "../../../../constants/Tokenhandler";
+import { getToken } from "../../../../constants/Tokenhandler";
 import { ReactNode } from "react";
 
 interface ProtectedRouteProps {
@@ -7,5 +7,5 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  return checkTokenFromLocalStorage() ? children : <Navigate to={"/login"} />;
+  return getToken() ? children : <Navigate to={"/login"} />;
 };

@@ -9,7 +9,7 @@ import { Alert } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
-import { saveTokenToLocalStorage } from "../../../../constants/Tokenhandler";
+import { setToken } from "../../../../constants/Tokenhandler";
 import { BeatLoader } from "react-spinners";
 
 interface IFormInput {
@@ -19,7 +19,10 @@ interface IFormInput {
 interface ErrorResponse {
   message: string;
 }
-
+interface LoginResponse {
+  token: string;
+  message: string;
+}
 const LoginForm = () => {
   const {
     register,
@@ -31,12 +34,14 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
+
     try {
-      const response = await axios.post(USERS_URLS.login, data);
-      toast.success(response?.data?.message || "welcome back again");
+      const response = await axios.post<LoginResponse>(USERS_URLS.login, data);
+      const { token, message } = response.data;
+      toast.success(message || "welcome back again");
       navigate("/dashboard");
 
-      saveTokenToLocalStorage(response.data.token);
+      setToken(token);
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "some_thing_wrong");
@@ -73,21 +78,20 @@ const LoginForm = () => {
               placeholder="Enter your password"
               {...register("password", {
                 required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters long",
-                },
               })}
             />
-            <span
+            <button
               className="show-icon"
-              onClick={() => setShowPassword(!showPassword)}>
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={
+                showPassword ? "Hide password button" : "Show password button"
+              }>
               {showPassword ? (
                 <i className="fa-regular fa-eye-slash" title="Hide password" />
               ) : (
                 <i className="fa-regular fa-eye" title="Show password" />
               )}
-            </span>
+            </button>
           </InputGroup>
           {errors.password && (
             <Alert className="p-2 mt-3">{errors?.password?.message}</Alert>
