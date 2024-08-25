@@ -1,38 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { USERS_URLS } from "../../../../constants/END_POINTS";
+import { ClipLoader } from "react-spinners";
 
 interface IFormInput {
   email?: string;
   password?: string;
   confirmPassword?: string;
-  seed?: number;
+  seed?: string;
 }
 
 const ResetPassForm = () => {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-      } = useForm<IFormInput>();
-      const [showPassword, setShowPassword] = useState(false);
-      const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    
-      const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        console.log(data);
-        // try {
-        //     const response = await axios.post('https://', data);
-        //     toast.success(response?.data?.message || 'welcome back again');
-        // } catch (error) {
-        //     toast.error(error.response?.data?.message || 'some_thing_wrong');
-        //     console.log(error);
-        // }
-      };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+    setFocus,
+  } = useForm<IFormInput>();
+  const nagivate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    setFocus("email");
+  }, [setFocus]);
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
+    console.log(data);
+    try {
+      const response = await axios.post(USERS_URLS.Reset, data);
+      await toast.success(response?.data?.message);
+      nagivate("/login");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "some_thing_wrong");
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -88,9 +99,9 @@ const ResetPassForm = () => {
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
-                <i className="fa-regular fa-eye-slash" />
-              ) : (
                 <i className="fa-regular fa-eye" />
+              ) : (
+                <i className="fa-regular fa-eye-slash" />
               )}
             </span>
           </InputGroup>
@@ -108,8 +119,10 @@ const ResetPassForm = () => {
               {...register("confirmPassword", {
                 required: "Password is required",
                 validate: (value) => {
-                    return value === watch('password') || 'Password does not match'
-                }
+                  return (
+                    value === watch("password") || "Password does not match"
+                  );
+                },
               })}
             />
             <span
@@ -117,19 +130,28 @@ const ResetPassForm = () => {
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               {showConfirmPassword ? (
-                <i className="fa-regular fa-eye-slash" />
-              ) : (
                 <i className="fa-regular fa-eye" />
+              ) : (
+                <i className="fa-regular fa-eye-slash" />
               )}
             </span>
           </InputGroup>
           {errors.confirmPassword && (
-            <Alert className="p-2 mt-3">{errors?.confirmPassword?.message}</Alert>
+            <Alert className="p-2 mt-3">
+              {errors?.confirmPassword?.message}
+            </Alert>
           )}
         </Form.Group>
 
         <Button className="form-btn" variant="primary" type="submit">
-          Login
+          {isSubmitting ? (
+            <>
+              <span className="m-2">Loading... </span>
+              <ClipLoader size={15} color={"#fff"} />
+            </>
+          ) : (
+            "Save"
+          )}
         </Button>
       </Form>
 
@@ -138,6 +160,6 @@ const ResetPassForm = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ResetPassForm;
