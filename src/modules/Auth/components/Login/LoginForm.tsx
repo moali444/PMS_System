@@ -2,47 +2,51 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
+
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { USERS_URLS } from "../../../../constants/END_POINTS";
+import { setToken } from "../../../../constants/Tokenhandler";
+import { BeatLoader } from "react-spinners";
 
 interface IFormInput {
   email: string;
   password: string;
 }
-
+interface ErrorResponse {
+  message: string;
+}
+interface LoginResponse {
+  token: string;
+  message: string;
+}
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+
+    formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
-    // try {
-    //     const response = await axios.post('https://', data);
-    //     toast.success(response?.data?.message || 'welcome back again');
 
-    // toast.success("Login successfully", {
-    //   position: "top-right",
-    //   autoClose: 3000,
-    //   theme: "colored",
-    // });
-    // } catch (error) {
-    //     toast.error(error.response?.data?.message || 'some_thing_wrong');
-    //     console.log(error);
-    // toast.error(
-    //   error?.response?.data?.message ||
-    //     "An error occurred. Please try again.",
-    //   {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     theme: "colored",
-    //   }
-    // );
-    // }
+    try {
+      const response = await axios.post<LoginResponse>(USERS_URLS.login, data);
+      const { token, message } = response.data;
+      toast.success(message || "welcome back again");
+      navigate("/dashboard");
+
+      setToken(token);
+    } catch (error) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      toast.error(axiosError.response?.data?.message || "some_thing_wrong");
+      console.log(error);
+    }
   };
 
   return (
@@ -74,22 +78,20 @@ const LoginForm = () => {
               placeholder="Enter your password"
               {...register("password", {
                 required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters long",
-                },
               })}
             />
-            <span
+            <button
               className="show-icon"
               onClick={() => setShowPassword(!showPassword)}
-            >
+              aria-label={
+                showPassword ? "Hide password button" : "Show password button"
+              }>
               {showPassword ? (
-                <i className="fa-regular fa-eye-slash" />
+                <i className="fa-regular fa-eye-slash" title="Hide password" />
               ) : (
-                <i className="fa-regular fa-eye" />
+                <i className="fa-regular fa-eye" title="Show password" />
               )}
-            </span>
+            </button>
           </InputGroup>
           {errors.password && (
             <Alert className="p-2 mt-3">{errors?.password?.message}</Alert>
@@ -100,8 +102,16 @@ const LoginForm = () => {
           <Link to="/register">Register Now?</Link>
           <Link to="/forget-pass">Forgot Password?</Link>
         </div>
-        <Button className="form-btn" variant="primary" type="submit">
-          Login
+        <Button
+          disabled={isSubmitting}
+          className="form-btn"
+          variant="primary"
+          type="submit">
+          {isSubmitting ? (
+            <BeatLoader size={15} margin={"2px"} color="white" />
+          ) : (
+            "Login"
+          )}
         </Button>
       </Form>
     </div>

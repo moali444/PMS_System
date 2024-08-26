@@ -1,30 +1,40 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
+import axios from "axios";
+import { USERS_URLS } from "../../../../constants/END_POINTS";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface IFormInput {
   email: string;
-  password: string;
 }
 
 const ForgetPassForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
+    setFocus,
   } = useForm<IFormInput>();
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  useEffect(() => {
+    setFocus("email");
+  }, [setFocus]);
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
     console.log(data);
-    // try {
-    //     const response = await axios.post('https://', data);
-    //     toast.success(response?.data?.message || 'welcome back again');
-    // } catch (error) {
-    //     toast.error(error.response?.data?.message || 'some_thing_wrong');
-    //     console.log(error);
-    // }
+    try {
+      const response = await axios.post(USERS_URLS.forgetPass, data);
+      toast.info(response.data.message);
+      navigate("/reset-pass");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -49,7 +59,14 @@ const ForgetPassForm = () => {
         </Form.Group>
 
         <Button className="form-btn" variant="primary" type="submit">
-          Verify
+          {isSubmitting ? (
+            <>
+              <span className="m-2">Loading... </span>
+              <ClipLoader size={15} color={"#fff"} />
+            </>
+          ) : (
+            "Verify"
+          )}
         </Button>
       </Form>
       <div className="back-to-link">

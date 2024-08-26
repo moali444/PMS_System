@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import "./Sidebar.scss";
+import IMAGES from "../../../../assets/images/images";
+
 
 const SideBar = () => {
   const [toggled, setToggled] = useState(false);
