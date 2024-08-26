@@ -39,6 +39,12 @@ const SideBar = () => {
             component={<Link to="/dashboard/tasks" />}>
             Tasks
           </MenuItem>
+
+          <MenuItem
+            icon={<img src={IMAGES.tasksIcon} alt="pic" />}
+            component={<Link to="/change-pass" />}>
+            Change Password
+          </MenuItem>
         </Menu>
       </Sidebar>
       <button

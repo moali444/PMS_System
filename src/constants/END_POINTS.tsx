@@ -7,12 +7,11 @@ const BASE_USERS = `${BASE_URL}/Users`;
 export const USERS_URLS = {
   login: `${BASE_USERS}/Login`,
   register: `${BASE_USERS}/Register`,
+  changePass: `${BASE_USERS}/ChangePassword`,
 
   currentUser: `${BASE_USERS}/currentUser`,
 
   verify: `${BASE_USERS}/verify`,
-
-
 };
 
 // HEADERS TOKEN
@@ -21,3 +20,5 @@ export const BASE_HEADERS = {
     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
   },
 };
+
+

@@ -2,9 +2,12 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { BASE_HEADERS, USERS_URLS } from "../../../../constants/END_POINTS";
 
 interface IFormInput {
   email?: string;
@@ -15,6 +18,7 @@ interface IFormInput {
 }
 
 const ChangePassForm = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,26 +31,31 @@ const ChangePassForm = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
-    // try {
-    //     const response = await axios.post('https://', data);
-    //     toast.success(response?.data?.message || 'welcome back again');
-    // } catch (error) {
-    //     toast.error(error.response?.data?.message || 'some_thing_wrong');
-    //     console.log(error);
-    // }
+    try {
+      const response = await axios.put(
+        USERS_URLS.changePass,
+        data,
+        {headers:{Authorization:`Bearer ${localStorage.getItem("token")}`}}
+      );
+      toast.success(response?.data?.message || "welcome back again");
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "some_thing_wrong");
+      console.log(error);
+    }
   };
 
   return (
     <div>
       <Form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Form.Group className="mb-3" controlId="">
+        <Form.Group className="mb-3" controlId="">
           <Form.Label>Old Password</Form.Label>
           <InputGroup>
             <Form.Control
               type={showOldPassword ? "text" : "password"}
               placeholder="Enter your New Password"
               {...register("oldPassword", {
-                required: "Password is required",
+                required: "oldPassword is required",
                 minLength: {
                   value: 8,
                   message: "Password must be at least 8 characters long",
@@ -76,7 +85,7 @@ const ChangePassForm = () => {
               type={showPassword ? "text" : "password"}
               placeholder="Enter your New Password"
               {...register("newPassword", {
-                required: "Password is required",
+                required: "newPassword is required",
                 minLength: {
                   value: 8,
                   message: "Password must be at least 8 characters long",
@@ -106,7 +115,7 @@ const ChangePassForm = () => {
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm New Password"
               {...register("confirmNewPassword", {
-                required: "Password is required",
+                required: "confirmNewPassword is required",
                 validate: (value) => {
                   return (
                     value === watch("newPassword") || "Password does not match"
@@ -133,7 +142,7 @@ const ChangePassForm = () => {
         </Form.Group>
 
         <Button className="form-btn" variant="primary" type="submit">
-          Save 
+          Save
         </Button>
       </Form>
 
