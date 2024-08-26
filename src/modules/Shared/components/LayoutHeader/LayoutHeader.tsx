@@ -4,11 +4,9 @@ import { BASE_IMG_URL } from "../../../../constants/END_POINTS";
 import userAvatar from "../../../../assets/images/userAvatar.png";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import useUserInformation from "../../../../constants/useUserInformation";
-import useScreenSize from "../../../../constants/useScreenSize";
 
 const LayoutHeader = () => {
   const { userInformation } = useUserInformation();
-  const { screenType } = useScreenSize();
 
   return (
     <div id="layout_header">
@@ -16,51 +14,24 @@ const LayoutHeader = () => {
       {userInformation && (
         <div className="user-info-container d-flex flex-row align-items-center">
           <i className="notification-icon fa-solid fa-bell" />
-          {screenType === "large" ? (
-            <div className="user-details d-flex flex-row align-items-center">
-              <img
-                className="user-avatar"
-                src={
-                  userInformation?.imagePath
-                    ? `${BASE_IMG_URL}/${userInformation.imagePath}`
-                    : userAvatar
-                }
-              />
-              <div className="user-credentials d-flex flex-column">
-                <span className="user-name">{userInformation.userName}</span>
-                <span className="user-email">{userInformation.email}</span>
-              </div>
-              <DropdownButton
-                title={<i className="fa-solid fa-chevron-down" />}>
-                <Dropdown.Item href="#/action-1">Log Out</Dropdown.Item>
-              </DropdownButton>
+
+          <div className="user-details d-flex flex-row align-items-center">
+            <img
+              className="user-avatar"
+              src={
+                userInformation?.imagePath
+                  ? `${BASE_IMG_URL}/${userInformation.imagePath}`
+                  : userAvatar
+              }
+            />
+            <div className="user-credentials d-flex flex-column">
+              <span className="user-name">{userInformation.userName}</span>
+              <span className="user-email">{userInformation.email}</span>
             </div>
-          ) : (
-            <>
-              <DropdownButton
-                title={<i className="fa-solid fa-chevron-down" />}>
-                <div
-                  style={{ padding: "4px 16px" }}
-                  className="user-details d-flex flex-row align-items-center">
-                  <img
-                    className="user-avatar"
-                    src={
-                      userInformation?.imagePath
-                        ? `${BASE_IMG_URL}/${userInformation.imagePath}`
-                        : userAvatar
-                    }
-                  />
-                  <div className="user-credentials d-flex flex-column">
-                    <span className="user-name">
-                      {userInformation.userName}
-                    </span>
-                    <span className="user-email">{userInformation.email}</span>
-                  </div>
-                </div>
-                <Dropdown.Item href="#/action-1">Log Out</Dropdown.Item>
-              </DropdownButton>
-            </>
-          )}
+            <DropdownButton title={<i className="fa-solid fa-chevron-down" />}>
+              <Dropdown.Item href="#/action-1">Log Out</Dropdown.Item>
+            </DropdownButton>
+          </div>
         </div>
       )}
     </div>
