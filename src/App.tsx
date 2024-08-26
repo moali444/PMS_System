@@ -14,11 +14,11 @@ import ProjectData from "./modules/Projects/components/ProjectData/ProjectData";
 import TasksList from "./modules/Tasks/components/TasksList/TasksList";
 import TaskData from "./modules/Tasks/components/TaskData/TaskData";
 import UsersList from "./modules/Users/components/UsersList/UsersList";
-import Welcome from "./modules/Welcome/components/Welcome";
 
 //toastify
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ProtectedRoute } from "./modules/Shared/components/ProtectedRoute/ProtectedRoute";
 
 const App = () => {
   const routs = createBrowserRouter([
@@ -27,7 +27,7 @@ const App = () => {
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Welcome /> },
+        { index: true, element: <Login /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "change-pass", element: <ChangePass /> },
@@ -37,18 +37,22 @@ const App = () => {
       ],
     },
     {
-      path: 'dashboard',
-      element: <MasterLayout />,
+      path: "dashboard",
+      element: (
+        <ProtectedRoute>
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Dashboard /> },
-        { path: '', element: <Dashboard /> },
-        { path: 'projects', element: <ProjectsList /> },
-        { path: 'project-data', element: <ProjectData /> },
-        { path: 'tasks', element: <TasksList /> },
-        { path: 'tasks-data', element: <TaskData /> },
-        { path: 'users', element: <UsersList /> },
-      ]
+        { path: "", element: <Dashboard /> },
+        { path: "projects", element: <ProjectsList /> },
+        { path: "project-data", element: <ProjectData /> },
+        { path: "tasks", element: <TasksList /> },
+        { path: "tasks-data", element: <TaskData /> },
+        { path: "users", element: <UsersList /> },
+      ],
     },
   ]);
   return (

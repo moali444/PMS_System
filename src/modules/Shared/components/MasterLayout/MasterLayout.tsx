@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
 import UsePageTitle from "../../../../utils/UsePageTitle";
 import SideBar from "../SideBar/SideBar";
-import LayoutHeader from "../LayoutHeader/LayoutHeader";
 import "./MasterLayout.scss";
+import Navbar from "../Navbar/Navbar";
+import LayoutHeader from "../LayoutHeader/LayoutHeader";
 
 const MasterLayout = () => {
-    UsePageTitle();
+  UsePageTitle();
 
   return (
     <div id="master_bx">

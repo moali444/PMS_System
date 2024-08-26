@@ -17,40 +17,34 @@ const SideBar = () => {
         toggled={toggled}
         customBreakPoint="800px"
         onBreakPoint={setBroken}
-        collapsed={collapsed}
-      >
+        collapsed={collapsed}>
         <Menu>
           <MenuItem
             icon={<img src={IMAGES.homeIcon} alt="pic" />}
-            component={<Link to="/dashboard" />}
-          >
+            component={<Link to="/dashboard" />}>
             Home
           </MenuItem>
           <MenuItem
             icon={<img src={IMAGES.usersIcon} alt="pic" />}
-            component={<Link to="/dashboard/users" />}
-          >
+            component={<Link to="/dashboard/users" />}>
             Users
           </MenuItem>
           <MenuItem
             icon={<img src={IMAGES.projectsIcon} alt="pic" />}
-            component={<Link to="/dashboard/projects" />}
-          >
+            component={<Link to="/dashboard/projects" />}>
             Projects
           </MenuItem>
           <MenuItem
             icon={<img src={IMAGES.tasksIcon} alt="pic" />}
-            component={<Link to="/dashboard/tasks" />}
-          >
+            component={<Link to="/dashboard/tasks" />}>
             Tasks
           </MenuItem>
         </Menu>
       </Sidebar>
       <button
         className="sb-button toggle_btn"
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        <img src={ IMAGES.menuArrow } alt="pic" />
+        onClick={() => setCollapsed(!collapsed)}>
+        <img src={IMAGES.menuArrow} alt="pic" />
       </button>
       <main style={{ padding: 10 }}>
         <div>
