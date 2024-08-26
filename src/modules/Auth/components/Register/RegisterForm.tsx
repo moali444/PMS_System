@@ -16,7 +16,7 @@ interface IFormInput {
   password: string;
   confirmPassword: string;
   phoneNumber: number;
-  profileImage: object;
+  profileImage: Array<string>;
 }
 
 const RegisterForm = () => {
@@ -35,11 +35,11 @@ const RegisterForm = () => {
     const formData = new FormData();
     formData.append("userName", data.userName);
     formData.append("email", data.email);
-    formData.append("password", data.password || ``);
-    formData.append("confirmPassword", data.confirmPassword || ``);
-    formData.append("phoneNumber", data.userName || ``);
-    formData.append("country", data.country || ``);
-    formData.append("profileImage", data.profileImage[0] || ``);
+    formData.append("password", data.password);
+    formData.append("confirmPassword", data.confirmPassword);
+    formData.append("phoneNumber", data.userName);
+    formData.append("country", data.country);
+    formData.append("profileImage", data.profileImage[0]);
 
     return formData;
   };
