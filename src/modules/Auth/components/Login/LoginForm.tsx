@@ -82,6 +82,7 @@ const LoginForm = () => {
             />
             <button
               className="show-icon"
+              type="button"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={
                 showPassword ? "Hide password button" : "Show password button"

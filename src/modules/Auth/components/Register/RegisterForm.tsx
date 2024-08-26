@@ -6,17 +6,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert, Col, Row } from "react-bootstrap";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
 interface IFormInput {
-  userName?: string;
-  country?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  phoneNumber?: number;
-  profileImage?: object;
+  userName: string;
+  country: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phoneNumber: number;
+  profileImage: object;
 }
 
 const RegisterForm = () => {
@@ -31,25 +31,25 @@ const RegisterForm = () => {
   const navigate = useNavigate();
   //const [uploadedFile, SetUploadedFile] = useState('');
 
-  const appendToFormData = (data) => {
+  const appendToFormData = (data: IFormInput) => {
     const formData = new FormData();
-    formData.append('userName', data.userName);
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-    formData.append('confirmPassword', data.confirmPassword);
-    formData.append('phoneNumber', data.phoneNumber);
-    formData.append('country', data.country);
-    formData.append('profileImage', data.profileImage[0]);
+    formData.append("userName", data.userName);
+    formData.append("email", data.email);
+    formData.append("password", data.password || ``);
+    formData.append("confirmPassword", data.confirmPassword || ``);
+    formData.append("phoneNumber", data.userName || ``);
+    formData.append("country", data.country || ``);
+    formData.append("profileImage", data.profileImage[0] || ``);
 
     return formData;
-  }
+  };
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const registerData = appendToFormData(data);
     //console.log("Success:", data);
     try {
       const response = await axios.post(USERS_URLS.register, registerData);
-      toast.success(response?.data?.message || 'registered successfuly');
+      toast.success(response?.data?.message || "registered successfuly");
       navigate("/verify-account");
       console.log(response);
     } catch (error) {
@@ -74,7 +74,9 @@ const RegisterForm = () => {
                 })}
               />
               {errors.profileImage && (
-                <Alert className="mt-3 py-2">{errors.profileImage.message}</Alert>
+                <Alert className="mt-3 py-2">
+                  {errors.profileImage.message}
+                </Alert>
               )}
             </Form.Group>
           </Col>
@@ -124,8 +126,7 @@ const RegisterForm = () => {
                 />
                 <span
                   className="show-icon"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
+                  onClick={() => setShowPassword(!showPassword)}>
                   {showPassword ? (
                     <i className="fa-regular fa-eye-slash" />
                   ) : (
@@ -191,8 +192,7 @@ const RegisterForm = () => {
                 />
                 <span
                   className="show-icon"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                   {showConfirmPassword ? (
                     <i className="fa-regular fa-eye-slash" />
                   ) : (

@@ -7,8 +7,11 @@ const BASE_USERS = `${BASE_URL}/Users`;
 export const USERS_URLS = {
   login: `${BASE_USERS}/Login`,
   register: `${BASE_USERS}/Register`,
-  currentUser: `${BASE_USERS}/Users/currentUser`,
+
+  currentUser: `${BASE_USERS}/currentUser`,
+
   verify: `${BASE_USERS}/verify`,
+
 
 };
 
