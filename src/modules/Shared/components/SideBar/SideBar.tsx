@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./Sidebar.scss";
 import IMAGES from "../../../../assets/images/images";
 
-
 const SideBar = () => {
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(
@@ -13,25 +12,40 @@ const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
+    <div id="sidebar_bx">
       <Sidebar
         toggled={toggled}
         customBreakPoint="800px"
         onBreakPoint={setBroken}
-        collapsed={collapsed}
-      >
+        collapsed={collapsed}>
         <Menu>
           <MenuItem
-            icon={<i className="fa-sharp fa-solid fa-house-chimney"></i>}
-            component={<Link to="/" />}
-          >
+            icon={<img src={IMAGES.homeIcon} alt="pic" />}
+            component={<Link to="/dashboard" />}>
             Home
           </MenuItem>
-          <MenuItem> Calendar</MenuItem>
-          <MenuItem> E-commerce</MenuItem>
-          <MenuItem> Examples</MenuItem>
+          <MenuItem
+            icon={<img src={IMAGES.usersIcon} alt="pic" />}
+            component={<Link to="/dashboard/users" />}>
+            Users
+          </MenuItem>
+          <MenuItem
+            icon={<img src={IMAGES.projectsIcon} alt="pic" />}
+            component={<Link to="/dashboard/projects" />}>
+            Projects
+          </MenuItem>
+          <MenuItem
+            icon={<img src={IMAGES.tasksIcon} alt="pic" />}
+            component={<Link to="/dashboard/tasks" />}>
+            Tasks
+          </MenuItem>
         </Menu>
       </Sidebar>
+      <button
+        className="sb-button toggle_btn"
+        onClick={() => setCollapsed(!collapsed)}>
+        <img src={IMAGES.menuArrow} alt="pic" />
+      </button>
       <main style={{ padding: 10 }}>
         <div>
           {broken && (
@@ -39,13 +53,6 @@ const SideBar = () => {
               Toggle
             </button>
           )}
-
-          <button
-            className="sb-button"
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            Collapse
-          </button>
         </div>
       </main>
     </div>
