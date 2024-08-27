@@ -12,6 +12,14 @@ import ClipLoader from "react-spinners/ClipLoader";
 interface IFormInput {
   email: string;
 }
+interface IForgetPassResponse {
+  message: string;
+}
+interface IErrorResponse {
+  message: string;
+  statusCode: number;
+  additionalInfo: Record<string, any>;
+}
 
 const ForgetPassForm = () => {
   const {
@@ -27,13 +35,22 @@ const ForgetPassForm = () => {
   }, [setFocus]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
-    console.log(data);
     try {
-      const response = await axios.post(USERS_URLS.forgetPass, data);
+      const response = await axios.post<IForgetPassResponse>(
+        USERS_URLS.forgetPass,
+        data
+      );
+      console.log(response);
       toast.info(response.data.message);
       navigate("/reset-pass");
     } catch (error) {
-      toast.error(error.response.data.message);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorResponse: IErrorResponse = error.response
+          .data as IErrorResponse;
+        toast.error(errorResponse.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
@@ -58,7 +75,12 @@ const ForgetPassForm = () => {
           )}
         </Form.Group>
 
-        <Button className="form-btn" variant="primary" type="submit">
+        <Button
+          className="form-btn"
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? (
             <>
               <span className="m-2">Loading... </span>

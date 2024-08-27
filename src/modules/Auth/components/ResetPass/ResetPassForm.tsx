@@ -17,6 +17,16 @@ interface IFormInput {
   seed?: string;
 }
 
+interface IResetPassResponse {
+  message: string;
+}
+
+interface IErrorResponse {
+  message: string;
+  statusCode: number;
+  additionalInfo: Record<string, any>;
+}
+
 const ResetPassForm = () => {
   const {
     register,
@@ -36,12 +46,21 @@ const ResetPassForm = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
     console.log(data);
     try {
-      const response = await axios.post(USERS_URLS.Reset, data);
+      const response = await axios.post<IResetPassResponse>(
+        USERS_URLS.Reset,
+        data
+      );
+      console.log(response);
       await toast.success(response?.data?.message);
       nagivate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "some_thing_wrong");
-      console.log(error);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorResponse: IErrorResponse = error.response
+          .data as IErrorResponse;
+        toast.error(errorResponse.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
@@ -69,7 +88,7 @@ const ResetPassForm = () => {
         <Form.Group className="mb-3" controlId="">
           <Form.Label>OTP Verification</Form.Label>
           <Form.Control
-            type="number"
+            type="string"
             placeholder="Enter Verification"
             {...register("seed", {
               required: "OTP is required",
@@ -143,7 +162,7 @@ const ResetPassForm = () => {
           )}
         </Form.Group>
 
-        <Button className="form-btn" variant="primary" type="submit">
+        <Button className="form-btn" variant="primary" type="submit" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
               <span className="m-2">Loading... </span>
