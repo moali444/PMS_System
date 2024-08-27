@@ -32,7 +32,7 @@ const ForgetPassForm = () => {
       const response = await axios.post(USERS_URLS.forgetPass, data);
       toast.info(response.data.message);
       navigate("/reset-pass");
-    } catch (error) {
+    } catch (error:any) {
       toast.error(error.response.data.message);
     }
   };
