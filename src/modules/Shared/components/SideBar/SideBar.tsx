@@ -1,53 +1,60 @@
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.scss";
 import IMAGES from "../../../../assets/images/images";
 
+interface ISideBarProps {
+  toggleSidebar: () => void;
+}
 
-const SideBar = () => {
-  const [toggled, setToggled] = useState(false);
-  const [broken, setBroken] = useState(
-    window.matchMedia("(max-width: 800px)").matches
-  );
-  const [collapsed, setCollapsed] = useState(false);
+const SideBar = ({ toggleSidebar }: ISideBarProps) => {
+  const [toggled, setToggled] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const location = useLocation();
+
+  const handleToggle = () => {
+    setCollapsed(!collapsed);
+    toggleSidebar();
+  };
 
   return (
-    <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
-      <Sidebar
-        toggled={toggled}
-        customBreakPoint="800px"
-        onBreakPoint={setBroken}
-        collapsed={collapsed}
-      >
+    <div className="sidebar_bx">
+      <Sidebar toggled={toggled} collapsed={collapsed} className="vh-100">
         <Menu>
           <MenuItem
-            icon={<i className="fa-sharp fa-solid fa-house-chimney"></i>}
-            component={<Link to="/" />}
+            active={location.pathname === "/dashboard"}
+            icon={<img src={IMAGES.homeIcon} alt="pic" />}
+            component={<Link to="/dashboard" />}
           >
             Home
           </MenuItem>
-          <MenuItem> Calendar</MenuItem>
-          <MenuItem> E-commerce</MenuItem>
-          <MenuItem> Examples</MenuItem>
+          <MenuItem
+            active={location.pathname === "/dashboard/users"}
+            icon={<img src={IMAGES.usersIcon} alt="pic" />}
+            component={<Link to="/dashboard/users" />}
+          >
+            Users
+          </MenuItem>
+          <MenuItem
+            active={location.pathname === "/dashboard/projects"}
+            icon={<img src={IMAGES.projectsIcon} alt="pic" />}
+            component={<Link to="/dashboard/projects" />}
+          >
+            Projects
+          </MenuItem>
+          <MenuItem
+            active={location.pathname === "/dashboard/tasks"}
+            icon={<img src={IMAGES.tasksIcon} alt="pic" />}
+            component={<Link to="/dashboard/tasks" />}
+          >
+            Tasks
+          </MenuItem>
         </Menu>
       </Sidebar>
-      <main style={{ padding: 10 }}>
-        <div>
-          {broken && (
-            <button className="sb-button" onClick={() => setToggled(!toggled)}>
-              Toggle
-            </button>
-          )}
-
-          <button
-            className="sb-button"
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            Collapse
-          </button>
-        </div>
-      </main>
+      <button className="sb-button toggle_btn" onClick={handleToggle}>
+        <img src={IMAGES.menuArrow} alt="pic" />
+      </button>
     </div>
   );
 };
