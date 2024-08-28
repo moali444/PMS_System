@@ -30,10 +30,10 @@ const App = () => {
         { index: true, element: <Login /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
-        { path: "change-pass", element: <ChangePass /> },
         { path: "verify-account", element: <VerifyAccount /> },
         { path: "forget-pass", element: <ForgetPass /> },
         { path: "reset-pass", element: <ResetPass /> },
+        { path: "change-pass", element: <ChangePass /> },
       ],
     },
     {
@@ -52,6 +52,7 @@ const App = () => {
         { path: "tasks", element: <TasksList /> },
         { path: "tasks-data", element: <TaskData /> },
         { path: "users", element: <UsersList /> },
+
       ],
     },
   ]);
