@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const useScreenSize = () => {
-  const getScreenCategory = (width) => {
+  const getScreenCategory = (width:any) => {
     if (width < 768) {
       return "small";
     } else if (width >= 768 && width < 1024) {

@@ -39,7 +39,7 @@ const ResetPassForm = () => {
       const response = await axios.post(USERS_URLS.Reset, data);
       await toast.success(response?.data?.message);
       nagivate("/login");
-    } catch (error) {
+    } catch (error:any) {
       toast.error(error.response?.data?.message || "some_thing_wrong");
       console.log(error);
     }
@@ -69,7 +69,7 @@ const ResetPassForm = () => {
         <Form.Group className="mb-3" controlId="">
           <Form.Label>OTP Verification</Form.Label>
           <Form.Control
-            type="number"
+            type="string"
             placeholder="Enter Verification"
             {...register("seed", {
               required: "OTP is required",

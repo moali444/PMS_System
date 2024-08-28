@@ -7,6 +7,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import {USERS_URLS} from "../../../../constants/END_POINTS"
 import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
+
 function VerifyAccountForm() {
    
    const navigate = useNavigate()
@@ -20,7 +22,7 @@ function VerifyAccountForm() {
    const {
       register,
       handleSubmit,
-      formState: { errors },
+      formState: { errors ,isSubmitting},
    } = useForm<IFormInput>()
 
    // call Api Verify Account
@@ -29,12 +31,24 @@ function VerifyAccountForm() {
 
       axios.put(USERS_URLS.verify, data)
 
-         .then((response) =>{
-            toast.success(response?.data?.message || 'The  Verification is Successfully ');
+         .then(() =>{
+            toast.success("Verify account is Successfully", {
+               position: "top-right",
+               autoClose: 3000,
+               theme: "colored",
+             });
             navigate("/login")
          })
          .catch((error) =>{
-            toast.error(error.response?.data?.message || 'some_thing_wrong');
+            toast.error(
+               error?.response?.data?.message ||
+                 "An error occurred. Please try again.",
+               {
+                 position: "top-right",
+                 autoClose: 3000,
+                 theme: "colored",
+               }
+             );
             
          })
 
@@ -79,9 +93,17 @@ function VerifyAccountForm() {
 
             </Form.Group>
 
-            <Button className="form-btn mt-4" variant="primary" type="submit">
-               save
-            </Button>
+            <Button
+          disabled={isSubmitting}
+          className="form-btn"
+          variant="primary"
+          type="submit">
+          {isSubmitting ? (
+            <BeatLoader size={15} margin={"2px"} color="white" />
+          ) : (
+            "save"
+          )}
+        </Button>
          </Form>
       </div>
    )
