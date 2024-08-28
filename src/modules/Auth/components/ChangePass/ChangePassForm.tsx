@@ -8,6 +8,7 @@ import { Alert } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { BASE_HEADERS, USERS_URLS } from "../../../../constants/END_POINTS";
+import { getToken } from "../../../../constants/Tokenhandler";
 
 interface IFormInput {
   email?: string;
@@ -23,7 +24,7 @@ const ChangePassForm = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors , isSubmitting},
   } = useForm<IFormInput>();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -35,9 +36,12 @@ const ChangePassForm = () => {
       const response = await axios.put(
         USERS_URLS.changePass,
         data,
-        {headers:{Authorization:`Bearer ${localStorage.getItem("token")}`}}
+        {
+          headers: { Authorization: getToken() },
+        }
       );
-      toast.success(response?.data?.message || "welcome back again");
+      toast.success(response?.data?.message || "Password has been updated successfully");
+      localStorage.removeItem("token")
       navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message || "some_thing_wrong");
@@ -141,8 +145,8 @@ const ChangePassForm = () => {
           )}
         </Form.Group>
 
-        <Button className="form-btn" variant="primary" type="submit">
-          Save
+        <Button className="form-btn" variant="primary" type="submit" disabled={isSubmitting}>
+          Change Password
         </Button>
       </Form>
 
