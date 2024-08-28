@@ -1,0 +1,31 @@
+.notFound{
+    background: var(--main_green_color);
+   color: var(--main_yellow_color);
+   #auth-img-notfound{
+      width: 250px;
+      margin: 50px auto;
+      img{
+         width: 100%;
+      }
+   }
+   button{
+      // background-color: rgba(239, 155, 40, 1);
+      background-color: var(--main_yellow_color);
+      padding: 20px 30px;
+      border-radius: 1rem;
+      font-size: 20px ;
+      text-transform: capitalize;
+      color: var(--bs-white);
+      font-weight: 500;
+      letter-spacing: 2px;
+
+    &:hover{
+    transition: 500ms;
+      border: 1px solid orange;
+      color: black;
+      font-weight: 700;
+      background-color: rgba(255, 166, 0, 0.295);
+    }
+   }
+
+}
