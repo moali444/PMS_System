@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { BASE_HEADERS, USERS_URLS } from "../../../../constants/END_POINTS";
 import { getToken } from "../../../../constants/Tokenhandler";
+import { BeatLoader } from "react-spinners";
+
 
 interface IFormInput {
   email?: string;
@@ -146,7 +148,9 @@ const ChangePassForm = () => {
         </Form.Group>
 
         <Button className="form-btn" variant="primary" type="submit" disabled={isSubmitting}>
-          Change Password
+        {isSubmitting ?(
+            <BeatLoader size={15} margin={"2px"} color="white" />
+          ):("Change Password")}
         </Button>
       </Form>
 
