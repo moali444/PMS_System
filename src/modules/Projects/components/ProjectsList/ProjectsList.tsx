@@ -2,7 +2,7 @@ import "./ProjectsList.scss";
 
 const ProjectsList = () => {
   return (
-    <div id="projects-list">
+    <div id="projects-list ">
       <div className="head">
         <span className="title">Projects</span>
         <button>+ Add New Project</button>

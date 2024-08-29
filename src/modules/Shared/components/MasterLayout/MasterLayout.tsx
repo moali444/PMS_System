@@ -17,7 +17,9 @@ const MasterLayout = () => {
 
   return (
     <div id="master_bx">
-      <LayoutHeader />
+      <div className="fixed-header">
+        <LayoutHeader />
+      </div>
       <div className={`d-flex ${collapsed ? "collapsed" : ""} content-bx   `}>
         <div className="sideBar-container position-fixed ">
           <SideBar toggleSidebar={toggleSidebar} />

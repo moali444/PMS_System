@@ -1,9 +1,7 @@
-import './TasksList.scss';
+import "./TasksList.scss";
 
 const TasksList = () => {
-  return (
-    <div>TasksList</div>
-  )
-}
+  return <div>TasksList</div>;
+};
 
-export default TasksList
+export default TasksList;
