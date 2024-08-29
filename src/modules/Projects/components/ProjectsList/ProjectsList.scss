@@ -1,0 +1,12 @@
+#projects-list {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  margin-left: -10px;
+  width: 100%;
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+  }
+}
