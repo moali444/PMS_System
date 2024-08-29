@@ -14,6 +14,12 @@
   .ps-menu-button:hover {
     background-color: rgba(239, 155, 40, 0.3);
   }
+  .ps-active {
+    .ps-menu-icon {
+      background-color: rgba(239, 155, 40, 0.3) !important;
+      border-radius: 6px;
+    }
+  }
   .toggle_btn {
     position: absolute;
     left: 98%;
