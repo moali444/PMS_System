@@ -15,7 +15,8 @@
     background-color: rgba(239, 155, 40, 0.3);
   }
   .toggle_btn {
-    position: relative;
+    position: absolute;
+    left: 98%;
     inset-inline-end: 6px;
     top: 80px;
     width: 16px;
