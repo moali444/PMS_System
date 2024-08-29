@@ -1,9 +1,7 @@
-import './ProjectData.scss';
+import "./ProjectData.scss";
 
 const ProjectData = () => {
-  return (
-    <div>ProjectData</div>
-  )
-}
+  return <div>ProjectData</div>;
+};
 
-export default ProjectData
+export default ProjectData;
