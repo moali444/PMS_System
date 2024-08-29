@@ -52,7 +52,7 @@ const SideBar = () => {
         onClick={() => setCollapsed(!collapsed)}>
         <img src={IMAGES.menuArrow} alt="pic" />
       </button>
-      <main style={{ padding: 10 }}>
+      <main>
         <div>
           {broken && (
             <button className="sb-button" onClick={() => setToggled(!toggled)}>
