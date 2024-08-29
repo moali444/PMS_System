@@ -1,3 +1,4 @@
+import ProjectData from "../ProjectData/ProjectData";
 import "./ProjectsList.scss";
 
 const ProjectsList = () => {
@@ -5,8 +6,11 @@ const ProjectsList = () => {
     <div id="projects-list">
       <div className="head">
         <span className="title">Projects</span>
-        <button>+ Add New Project</button>
+        <button>
+          <i className="fa-solid fa-plus" /> Add New Project
+        </button>
       </div>
+      <ProjectData />
     </div>
   );
 };
