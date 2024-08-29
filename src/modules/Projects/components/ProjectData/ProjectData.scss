@@ -47,5 +47,18 @@
         margin-left: 20px;
       }
     }
+    td {
+      color: rgba(79, 79, 79, 1);
+    }
+    .dropdown {
+      button {
+        background-color: transparent;
+        color: rgba(79, 79, 79, 1);
+        border: none;
+        &::after {
+          display: none;
+        }
+      }
+    }
   }
 }

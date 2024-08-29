@@ -8,6 +8,10 @@ interface userInforamtionType {
   email: string;
   imagePath: null | string;
   isActivated: boolean;
+  group: {
+    id: number;
+    name: string;
+  };
 }
 interface ErrorResponse {
   message: string;
@@ -26,7 +30,13 @@ const useUserInformation = () => {
           }
         );
         const { userName, email, imagePath, isActivated } = response.data;
-        setUserInformation({ userName, email, imagePath, isActivated });
+        setUserInformation({
+          userName,
+          email,
+          imagePath,
+          isActivated,
+          group: { id: response.data.group.id, name: response.data.group.name },
+        });
       } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         console.log(axiosError);
