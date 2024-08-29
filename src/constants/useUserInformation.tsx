@@ -20,6 +20,8 @@ const useUserInformation = () => {
   const [userInformation, setUserInformation] =
     useState<userInforamtionType | null>(null);
 
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
@@ -40,11 +42,13 @@ const useUserInformation = () => {
       } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         console.log(axiosError);
+      } finally {
+        setLoading(false); // Set loading to false once the request is complete
       }
     };
     getCurrentUser();
   }, []);
-  return { userInformation };
+  return { userInformation, loading };
 };
 
 export default useUserInformation;

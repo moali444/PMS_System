@@ -5,7 +5,7 @@ import "./ProjectsList.scss";
 const ProjectsList = () => {
   const navigate = useNavigate();
   return (
-    <div id="projects-list">
+    <div id="projects-list ">
       <div className="head">
         <span className="title">Projects</span>
         <button onClick={() => navigate("/dashboard/add-project")}>
