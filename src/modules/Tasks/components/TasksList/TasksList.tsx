@@ -136,7 +136,7 @@ const TasksList = () => {
               <input
                 type="text"
                 className="form-control border-0 me-2"
-                placeholder="Username"
+                placeholder="Search Fleets"
                 value={title}
                 onChange={handleSearchChange}
               />
@@ -288,7 +288,7 @@ const TasksList = () => {
               value={pageSize}
               onChange={handlePageSizeChange}
             >
-              {[1, 10, 15, 20].map((size) => (
+              {[1, 5, 10, 15, 20].map((size) => (
                 <option key={size} value={size}>
                   {size}
                 </option>
@@ -298,7 +298,9 @@ const TasksList = () => {
           </div>
 
           <div>
-            <span className="me-3 ">Page 1 of 10</span>
+            <span className="me-3 ">
+              Page {currentPage} of {totalPages}
+            </span>
             <button
               className="btn  me-2 fs-3 "
               onClick={() => handlePageChange(currentPage - 1)}
