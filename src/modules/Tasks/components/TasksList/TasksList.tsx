@@ -136,7 +136,7 @@ const TasksList = () => {
               <input
                 type="text"
                 className="form-control border-0 me-2"
-                placeholder="Username"
+                placeholder="Search Fleets"
                 value={title}
                 onChange={handleSearchChange}
               />
@@ -280,41 +280,45 @@ const TasksList = () => {
         </table>
 
         {/* Pagination Controls */}
-        <div className="pagination-controls d-flex justify-content-end mt-4 align-items-center ">
-          <div className="me-5">
-            <label className="me-3">Showing </label>
-            <select
-              className="me-3 form-select   d-inline-block w-auto"
-              value={pageSize}
-              onChange={handlePageSizeChange}
-            >
-              {[1, 10, 15, 20].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-            <label> per page</label>
-          </div>
+        {tasks.length > 0 && (
+          <div className="pagination-controls d-flex justify-content-end mt-4 align-items-center ">
+            <div className="me-5">
+              <label className="me-3">Showing </label>
+              <select
+                className="me-3 form-select   d-inline-block w-auto"
+                value={pageSize}
+                onChange={handlePageSizeChange}
+              >
+                {[1, 5, 10, 15, 20].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+              <label> per page</label>
+            </div>
 
-          <div>
-            <span className="me-3 ">Page 1 of 10</span>
-            <button
-              className="btn  me-2 fs-3 "
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              &lt;{" "}
-            </button>
-            <button
-              className="btn fs-3 "
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              &gt;
-            </button>
+            <div>
+              <span className="me-3 ">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                className="btn  me-2 fs-3 "
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                &lt;{" "}
+              </button>
+              <button
+                className="btn fs-3 "
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                &gt;
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
