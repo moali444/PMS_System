@@ -9,7 +9,7 @@ export const USERS_URLS = {
   register: `${BASE_USERS}/Register`,
   forgetPass: `${BASE_USERS}/Reset/Request`,
   Reset: `${BASE_USERS}/Reset`,
-
+  currentUser: `${BASE_USERS}/currentUser`,
   changePass: `${BASE_USERS}/ChangePassword`,
   getUsers: `${BASE_USERS}`,
   verify: `${BASE_USERS}/verify`,
