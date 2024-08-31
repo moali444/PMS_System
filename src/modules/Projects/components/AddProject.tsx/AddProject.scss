@@ -1,0 +1,119 @@
+.header-project {
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+  .project-view {
+    margin-bottom: 0.5rem;
+
+
+    font-size: 14px;
+    color: rgba(14, 56, 47, 1);
+
+    strong {
+      margin: 10px;
+    }
+  }
+
+  .main-text {
+    font-family: Montserrat;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 29.26px;
+    text-align: left;
+    color: rgba(14, 56, 47, 1);
+
+  }
+}
+
+.form-AddProject {
+  .form-control:focus{
+    box-shadow: none;
+    border: orange 1px solid;
+ 
+    outline: none;
+  }
+  width: 816px;
+height: 500px;
+  border-radius: 16px 0px 0px 0px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  padding: 3rem 2rem;
+
+  .info{
+    span{
+      display: inline-block;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: left;
+     color:   rgba(79, 79, 79, 1);
+     margin: 10px -10px;
+    }
+  }
+
+  .footerAddProject {
+    width: 100%;
+    bottom: 0;
+    left: 0;
+
+    button {
+      margin: 50px 30px;
+      &:first-child {
+        width: 100px;
+        height: 40px;
+
+        text-align: center;
+        border-radius: 24px ;
+      
+        background-color:   rgba(255, 255, 255, 1);
+        border: 1px 0px 0px 0px;
+        color: rgba(14, 56, 47, 1);
+        border: 1px solid rgba(0, 0, 0, 1)
+      }
+
+      &:last-child {
+        background: rgba(239, 155, 40, 1);
+        text-align: center;
+        border: none;
+        width: 100px;
+        height: 40px;
+        font-size: 16px;
+        font-weight: 400;
+        border-radius: 24px;
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+  }
+
+}
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .header-project {
+  
+    .project-view {
+      margin-bottom: 0.5rem;
+  
+  
+      font-size: 14px;
+      color: rgba(14, 56, 47, 1);
+  
+      strong {
+        margin: 5px;
+      }
+    }
+  
+    .main-text {
+      font-size: 18px;
+      font-weight: 300;
+  
+    }
+  }
+  .form-AddProject {
+    width: 400px;
+  }
+}
+

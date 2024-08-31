@@ -1,0 +1,48 @@
+/**---- Welcome Css ----**/
+#welcome_page {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#welcome_page::before {
+  content: "";
+  width: 30%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  background-image: url(../../../assets/images/svg/welcome/welcome-top.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: top;
+}
+#welcome_page::after {
+  content: "";
+  width: 300px;
+  height: 400px;
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  background-image: url(../../../assets/images/svg/welcome/welcome-bottom.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: top;
+}
+#welcome_page .start-btn {
+  padding: 12px 30px;
+  border-radius: 50px;
+  color: #fff;
+  text-align: center;
+  font-weight: 300;
+  text-decoration: none;
+  background-color: var(--main_yellow_color);
+  transition: 0.3s;
+}
+#welcome_page .start-btn:hover {
+  color: var(--main_yellow_color);
+  background-color: #3d2e00;
+}/*# sourceMappingURL=Welcome.css.map */

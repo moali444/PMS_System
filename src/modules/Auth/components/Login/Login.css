@@ -1,0 +1,37 @@
+/**---- Login Css ----**/
+#login_page {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#login_page::before {
+  content: "";
+  width: 40%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  background-image: url(../../../../assets/images/svg/login/login-top.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: top;
+}
+#login_page::after {
+  content: "";
+  width: 300px;
+  height: 400px;
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  background-image: url(../../../../assets/images/svg/login/login-bottom.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: top;
+}
+#login_page .show-icon {
+  background-color: transparent;
+  border: none;
+}/*# sourceMappingURL=Login.css.map */
