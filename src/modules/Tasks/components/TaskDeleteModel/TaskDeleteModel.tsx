@@ -23,7 +23,7 @@ export default function TaskDeleteModel({ deleteTask }: IProps) {
       <Modal
         show={modalShow}
         onHide={() => setModalShow(false)}
-        size="md"
+        size="sm"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
