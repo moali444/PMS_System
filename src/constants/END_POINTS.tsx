@@ -26,6 +26,12 @@ export const TASKS_URLS = {
   tasksManger: `${BASE_URL}/Task/manager`,
   delete: (id: number) => `${BASE_URL}/Task/${id}`,
 };
+
+export const USERS_LIST = {
+  getUsersUrls: `${BASE_URL}/Users/Manager`,
+  toggleStatusUrls: (id) => `${BASE_URL}/Users/${id}`,
+}
+
 // HEADERS TOKEN
 export const BASE_HEADERS = {
   headers: {
