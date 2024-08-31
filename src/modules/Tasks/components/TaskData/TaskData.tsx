@@ -4,7 +4,10 @@ import Form from "react-bootstrap/Form";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { TASKS_PROJECTS_URLS, USERS_URLS } from "../../../../constants/END_POINTS";
+import {
+  TASKS_PROJECTS_URLS,
+  USERS_URLS,
+} from "../../../../constants/END_POINTS";
 import { getToken } from "../../../../constants/Tokenhandler";
 import "./TaskData.scss";
 import { Alert, Button } from "react-bootstrap";
@@ -19,7 +22,7 @@ interface IFormInput {
 
 const TaskData = () => {
   const [userList, setUserList] = useState([]);
-  const [userProject, setUserProject]:any = useState([]);
+  const [userProject, setUserProject]: any = useState([]);
 
   const navigate = useNavigate();
   const {
@@ -31,11 +34,15 @@ const TaskData = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     try {
-      const response = await axios.post(TASKS_PROJECTS_URLS.creatTaskByManger, data, {
-        headers: { Authorization: getToken() },
-      });
+      const response = await axios.post(
+        TASKS_PROJECTS_URLS.creatTaskByManger,
+        data,
+        {
+          headers: { Authorization: getToken() },
+        }
+      );
       console.log(response);
-      
+
       toast.success(response?.data?.message || "task added");
 
       navigate("/dashboard/tasks");
@@ -58,7 +65,6 @@ const TaskData = () => {
     }
   };
 
-
   const getAllProject = async () => {
     try {
       const response = await axios.get(TASKS_PROJECTS_URLS.getAllProject, {
@@ -73,7 +79,7 @@ const TaskData = () => {
 
   useEffect(() => {
     getUsers();
-    getAllProject()
+    getAllProject();
   }, []);
 
   return (
@@ -133,7 +139,10 @@ const TaskData = () => {
                         required: "user is required",
                       })}
                     >
-                      {userList?.map((user:any) => (
+                      <option disabled hidden>
+                        Choose the User
+                      </option>
+                      {userList?.map((user: any) => (
                         <option key={user.id} value={user.id}>
                           {user.userName}
                         </option>
@@ -156,13 +165,15 @@ const TaskData = () => {
                         required: "project is required",
                       })}
                     >
-                     {userProject?.map((proj:any)=>(
+                      <option disabled hidden>
+                        Choose the Project
+                      </option>
 
-                      <option key={proj.id} value={proj.id}  >
-                        {proj.title}
+                      {userProject?.map((proj: any) => (
+                        <option key={proj.id} value={proj.id}>
+                          {proj.title}
                         </option>
-
-                     ))}
+                      ))}
                     </Form.Select>
                   </InputGroup>
                   {errors.projectId && (
