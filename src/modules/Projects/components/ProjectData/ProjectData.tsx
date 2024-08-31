@@ -33,7 +33,7 @@ const ProjectData = () => {
       console.log(response.data.data);
       setProjectsList(response.data.data);
     } catch (error) {
-      const axiosError = error as AxiosError<ErrorResponse>;
+      const axiosError  = error as AxiosError<ErrorResponse>;
 
       console.log(error);
     }
