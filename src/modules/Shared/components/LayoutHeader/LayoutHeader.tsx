@@ -24,8 +24,8 @@ interface IUserDetailsProps {
 const UserDetails = () => {
   const { userInformation, loading }: IUserDetailsProps = useUserInformation();
 
-  console.log("Loading:", loading);
-  console.log("User Information:", userInformation);
+  // console.log("Loading:", loading);
+  // console.log("User Information:", userInformation);
 
   // Show loading skeleton while data is being fetched
   if (loading) {

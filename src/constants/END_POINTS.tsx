@@ -13,22 +13,31 @@ export const USERS_URLS = {
   getUsers: `${BASE_USERS}`,
   verify: `${BASE_USERS}/verify`,
 };
+const BASE_PROJECTS = `${BASE_URL}/Project`;
+export const PROJECTS_URLS = {
+  getProjectsForManager: `${BASE_PROJECTS}/manager`,
+  getProjectsForEmployee: `${BASE_PROJECTS}/employee`,
+  deleteProject: (id: number) => `${BASE_PROJECTS}/${id}`,
+};
+
+export const TASKS_URLS = {
+  tasksManger: `${BASE_URL}/Task/manager`,
+  delete: (id: number) => `${BASE_URL}/Task/${id}`,
+};
 
 // HEADERS TOKEN
 export const BASE_HEADERS = {
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 };
-
-
 
 //project tasks
 
 
 const BASE_projects_task = `${BASE_URL}`
 
-export const TASKS_URLS = {
+export const TASKS_PROJECTS_URLS = {
   creatTaskByManger:`${BASE_projects_task}/Task`,
   getAllProject:`${BASE_projects_task}/Project`,
 

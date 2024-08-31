@@ -22,7 +22,7 @@
   }
   .toggle_btn {
     position: absolute;
-    left: 98%;
+    left: 94%;
     inset-inline-end: 6px;
     top: 80px;
     width: 16px;
@@ -33,6 +33,7 @@
     align-items: center;
     justify-content: center;
     background-color: var(--main_yellow_color);
+    z-index: 999;
   }
   .ps-menu-root {
     padding-top: 25px;

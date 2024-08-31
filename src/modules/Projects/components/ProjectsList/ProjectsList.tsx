@@ -1,12 +1,18 @@
+import { useNavigate } from "react-router-dom";
+import ProjectData from "../ProjectData/ProjectData";
 import "./ProjectsList.scss";
 
 const ProjectsList = () => {
+  const navigate = useNavigate();
   return (
-    <div id="projects-list ">
+    <div id="projects-list">
       <div className="head">
         <span className="title">Projects</span>
-        <button>+ Add New Project</button>
+        <button onClick={() => navigate("/dashboard/add-project")}>
+          <i className="fa-solid fa-plus" /> Add New Project
+        </button>
       </div>
+      <ProjectData />
     </div>
   );
 };

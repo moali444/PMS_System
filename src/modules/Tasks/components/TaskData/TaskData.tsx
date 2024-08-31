@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { TASKS_URLS, USERS_URLS } from "../../../../constants/END_POINTS";
+import { TASKS_PROJECTS_URLS, USERS_URLS } from "../../../../constants/END_POINTS";
 import { getToken } from "../../../../constants/Tokenhandler";
 import "./TaskData.scss";
 import { Alert, Button } from "react-bootstrap";
@@ -31,7 +31,7 @@ const TaskData = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     try {
-      const response = await axios.post(TASKS_URLS.creatTaskByManger, data, {
+      const response = await axios.post(TASKS_PROJECTS_URLS.creatTaskByManger, data, {
         headers: { Authorization: getToken() },
       });
       console.log(response);
@@ -61,7 +61,7 @@ const TaskData = () => {
 
   const getAllProject = async () => {
     try {
-      const response = await axios.get(TASKS_URLS.getAllProject, {
+      const response = await axios.get(TASKS_PROJECTS_URLS.getAllProject, {
         headers: { Authorization: getToken() },
       });
       console.log(response.data.data);
