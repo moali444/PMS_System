@@ -102,4 +102,20 @@
       border: none;
     }
   }
+  .active-label{
+    margin-top: 5px;
+    display: flex;
+    padding: 6px 20px;
+    border-radius: 50px;
+    color: #fff;
+    background-color: #009247;
+  }
+  .deactive-label{
+    margin-top: 5px;
+    display: flex;
+    padding: 6px 20px;
+    border-radius: 50px;
+    color: #fff;
+    background: rgba(146, 46, 37, 0.7);
+  }
 }
