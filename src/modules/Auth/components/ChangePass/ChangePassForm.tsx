@@ -1,15 +1,15 @@
+import axios from "axios";
 import { useState } from "react";
+import { Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Alert } from "react-bootstrap";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { BASE_HEADERS, USERS_URLS } from "../../../../constants/END_POINTS";
-import { getToken } from "../../../../constants/Tokenhandler";
 import { BeatLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { USERS_URLS } from "../../../../constants/END_POINTS";
+import { getToken } from "../../../../constants/Tokenhandler";
 
 
 interface IFormInput {

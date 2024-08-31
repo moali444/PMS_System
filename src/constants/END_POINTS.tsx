@@ -7,10 +7,10 @@ const BASE_USERS = `${BASE_URL}/Users`;
 export const USERS_URLS = {
   login: `${BASE_USERS}/Login`,
   register: `${BASE_USERS}/Register`,
- forgetPass: `${BASE_USERS}/Reset/Request`,
-  Reset : `${BASE_USERS}/Reset`,
+  forgetPass: `${BASE_USERS}/Reset/Request`,
+  Reset: `${BASE_USERS}/Reset`,
   changePass: `${BASE_USERS}/ChangePassword`,
-  currentUser: `${BASE_USERS}/currentUser`,
+  getUsers: `${BASE_USERS}`,
   verify: `${BASE_USERS}/verify`,
 };
 
@@ -22,3 +22,14 @@ export const BASE_HEADERS = {
 };
 
 
+
+//project tasks
+
+
+const BASE_projects_task = `${BASE_URL}`
+
+export const TASKS_URLS = {
+  creatTaskByManger:`${BASE_projects_task}/Task`,
+  getAllProject:`${BASE_projects_task}/Project`,
+
+}
