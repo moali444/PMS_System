@@ -23,7 +23,7 @@ export default function AddProject() {
   const onSubmit: SubmitHandler<AddProject> = (data) => {
      
     axios.post(BASE_PROJECTS,data,BASE_HEADERS).then(() =>{
-      toast.success("Verify account is Successfully", {
+      toast.success("adding is true", {
         position: "top-right",
         autoClose: 3000,
         theme: "colored",
