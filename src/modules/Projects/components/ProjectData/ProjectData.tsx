@@ -146,14 +146,16 @@ const ProjectData = () => {
 
                       <Dropdown.Menu>
                         <Dropdown.Item
-                          onClick={() => navigate("/dashboard/update-project")}>
+                          onClick={() => navigate("/dashboard/update-project")}
+                        >
                           Update
                         </Dropdown.Item>
                         <Dropdown.Item
                           onClick={() => {
                             setModalShow(true);
                             setSelectedProjectId(project.id);
-                          }}>
+                          }}
+                        >
                           Delete
                         </Dropdown.Item>
                       </Dropdown.Menu>
@@ -183,20 +185,24 @@ const ProjectData = () => {
                 pageSize: e.target.value,
                 pageNumber: "1",
               });
-            }}>
+            }}
+          >
             <option
               selected={searchParams.get("pageSize") === "5" || false}
-              value={5}>
+              value={5}
+            >
               5
             </option>
             <option
               selected={searchParams.get("pageSize") === "10" || false}
-              value={10}>
+              value={10}
+            >
               10
             </option>
             <option
               selected={searchParams.get("pageSize") === "20" || false}
-              value={20}>
+              value={20}
+            >
               20
             </option>
           </select>{" "}
@@ -220,7 +226,8 @@ const ProjectData = () => {
                 Number(searchParams.get("pageNumber")) - 1
               ).toString(),
             });
-          }}>
+          }}
+        >
           <i className="fa-solid fa-chevron-left" />
         </button>
         <button
@@ -240,7 +247,8 @@ const ProjectData = () => {
               ).toString(),
             });
           }}
-          className="pagination-next">
+          className="pagination-next"
+        >
           <i className="fa-solid fa-chevron-right" />
         </button>
       </div>
