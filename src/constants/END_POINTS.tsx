@@ -17,6 +17,7 @@ const BASE_PROJECTS = `${BASE_URL}/Project`;
 export const PROJECTS_URLS = {
   getProjectsForManager: `${BASE_PROJECTS}/manager`,
   getProjectsForEmployee: `${BASE_PROJECTS}/employee`,
+  deleteProject: (id: number) => `${BASE_PROJECTS}/${id}`,
 };
 // HEADERS TOKEN
 export const BASE_HEADERS = {
