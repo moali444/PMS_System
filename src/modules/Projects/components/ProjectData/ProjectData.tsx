@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 import ProjectDeleteModal from "../ProjectDeleteModal/ProjectDeleteModal";
+import { toast } from "react-toastify";
+import NoData from "../../../Shared/components/NoData/NoData";
 
 interface ErrorResponse {
   message: string;
@@ -26,16 +28,14 @@ interface paginationInformation {
   pageNumber: number;
 }
 
-interface searchParams {
-  pageSize: string;
-  pageNumber: string;
-  title: string;
-}
 const ProjectData = () => {
   const [projectsList, setProjectsList] = useState<ProjectListType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modalShow, setModalShow] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [sortedValue, setSortedValue] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+    null
+  );
   const [paginationInfo, setPaginationInfo] = useState<paginationInformation>({
     totalNumberOfPages: 0,
     totalNumberOfRecords: 0,
@@ -50,9 +50,7 @@ const ProjectData = () => {
     pageNumber: paginationInfo.pageNumber.toString(),
     title: filtrationSearch.title,
   });
-
   const { userInformation } = useUserInformation();
-
   const isManager = userInformation?.group.name === "Manager";
   const navigate = useNavigate();
   const getProject = async () => {
@@ -85,8 +83,73 @@ const ProjectData = () => {
       console.log(error);
     }
   };
+
+  const handlePagination = (value: string): void => {
+    const newParams = new URLSearchParams(searchParams.toString());
+    if (value === "next") {
+      setPaginationInfo({
+        ...paginationInfo,
+        pageNumber: paginationInfo.pageNumber + 1,
+      });
+      newParams.set(
+        "pageNumber",
+        (Number(searchParams.get("pageNumber")) + 1).toString()
+      );
+      newParams.set("pageSize", paginationInfo.pageSize.toString());
+      setSearchParams(newParams);
+    } else {
+      setPaginationInfo({
+        ...paginationInfo,
+        pageNumber: paginationInfo.pageNumber - 1,
+      });
+      newParams.set(
+        "pageNumber",
+        (Number(searchParams.get("pageNumber")) - 1).toString()
+      );
+      newParams.set("pageSize", paginationInfo.pageSize.toString());
+      setSearchParams(newParams);
+    }
+  };
+  const handleSort = (value: string): void => {
+    if (value === "title") {
+      if (sortedValue) {
+        console.log("sorted");
+        setProjectsList(
+          projectsList.sort((p1, p2) => p2.title.localeCompare(p1.title))
+        );
+        setSortedValue(false);
+      } else if (!sortedValue) {
+        setProjectsList(
+          projectsList.sort((p1, p2) => p1.title.localeCompare(p2.title))
+        );
+        setSortedValue(true);
+      }
+    } else {
+      if (sortedValue) {
+        setProjectsList(
+          projectsList.sort(
+            (a, b) =>
+              new Date(b.creationDate).getTime() -
+              new Date(a.creationDate).getTime()
+          )
+        );
+        setSortedValue(false);
+      } else if (!sortedValue) {
+        setProjectsList(
+          projectsList.sort(
+            (a, b) =>
+              new Date(a.creationDate).getTime() -
+              new Date(b.creationDate).getTime()
+          )
+        );
+        setSortedValue(true);
+      }
+    }
+  };
   useEffect(() => {
-    getProject();
+    if (userInformation) {
+      getProject();
+    }
   }, [
     userInformation,
     paginationInfo.pageNumber,
@@ -117,11 +180,17 @@ const ProjectData = () => {
         <thead>
           <tr>
             <th>
-              Title <SortIcon />
+              Title{" "}
+              <span onClick={() => handleSort("title")}>
+                <SortIcon />
+              </span>
             </th>
             <th>Description</th>
             <th>
-              creationDate <SortIcon />
+              creationDate{" "}
+              <span onClick={() => handleSort("creationDate")}>
+                <SortIcon />
+              </span>
             </th>
 
             <th></th>
@@ -131,128 +200,111 @@ const ProjectData = () => {
           <ScaleLoader className="loader" />
         ) : (
           <tbody>
-            {projectsList.map((project) => (
-              <tr>
-                <td>{project.title}</td>
-                <td>{project.description}</td>
-                <td>{project.creationDate}</td>
+            {projectsList.length > 0 ? (
+              projectsList.map((project) => (
+                <tr>
+                  <td>{project.title}</td>
+                  <td>{project.description}</td>
+                  <td>{new Date(project.creationDate).toLocaleString()}</td>
 
-                <td>
-                  {isManager ? (
-                    <Dropdown>
-                      <Dropdown.Toggle>
-                        <i className="fa-solid fa-ellipsis-vertical" />
-                      </Dropdown.Toggle>
+                  <td>
+                    {isManager ? (
+                      <Dropdown>
+                        <Dropdown.Toggle>
+                          <i className="fa-solid fa-ellipsis-vertical" />
+                        </Dropdown.Toggle>
 
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={() => navigate("/dashboard/update-project")}
-                        >
-                          Update
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={() => {
-                            setModalShow(true);
-                            setSelectedProjectId(project.id);
-                          }}
-                        >
-                          Delete
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  ) : (
-                    ""
-                  )}
-                </td>
-              </tr>
-            ))}
+                        <Dropdown.Menu>
+                          <Dropdown.Item
+                            onClick={() =>
+                              navigate("/dashboard/update-project")
+                            }>
+                            <i className="fa-regular fa-pen-to-square me-3" />
+                            Edit
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={() => {
+                              setModalShow(true);
+                              setSelectedProjectId(project.id);
+                            }}>
+                            <i className="fa-solid fa-trash me-2" />
+                            Delete
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    ) : (
+                      ""
+                    )}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <NoData />
+            )}
           </tbody>
         )}
       </Table>
-      <div className="pagination">
-        <div className="pagination-info">
-          Showing{" "}
-          <select
-            disabled={isLoading}
-            onChange={(e) => {
-              setPaginationInfo({
-                ...paginationInfo,
-                pageSize: Number(e.target.value),
-                pageNumber: 1,
-              });
-              setSearchParams({
-                ...searchParams,
-                pageSize: e.target.value,
-                pageNumber: "1",
-              });
-            }}
-          >
-            <option
-              selected={searchParams.get("pageSize") === "5" || false}
-              value={5}
-            >
-              5
-            </option>
-            <option
-              selected={searchParams.get("pageSize") === "10" || false}
-              value={10}
-            >
-              10
-            </option>
-            <option
-              selected={searchParams.get("pageSize") === "20" || false}
-              value={20}
-            >
-              20
-            </option>
-          </select>{" "}
-          of {paginationInfo.totalNumberOfRecords} Results
+      {projectsList.length > 0 ? (
+        <div className="pagination">
+          <div className="pagination-info">
+            Showing{" "}
+            <select
+              disabled={isLoading}
+              onChange={(e) => {
+                setPaginationInfo({
+                  ...paginationInfo,
+                  pageSize: Number(e.target.value),
+                  pageNumber: 1,
+                });
+                setSearchParams({
+                  ...searchParams,
+                  pageSize: e.target.value,
+                  pageNumber: "1",
+                });
+              }}>
+              <option
+                selected={searchParams.get("pageSize") === "5" || false}
+                value={5}>
+                5
+              </option>
+              <option
+                selected={searchParams.get("pageSize") === "10" || false}
+                value={10}>
+                10
+              </option>
+              <option
+                selected={searchParams.get("pageSize") === "20" || false}
+                value={20}>
+                20
+              </option>
+            </select>{" "}
+            of {paginationInfo.totalNumberOfRecords} Results
+          </div>
+          <div className="pagination-page-number">
+            Page {searchParams.get("pageNumber")} of{" "}
+            {paginationInfo.totalNumberOfPages}
+          </div>
+          <button
+            disabled={Number(searchParams.get("pageNumber")) === 1 || isLoading}
+            className="pagination-prev"
+            onClick={() => handlePagination("prev")}>
+            <i className="fa-solid fa-chevron-left" />
+          </button>
+          <button
+            disabled={
+              Number(searchParams.get("pageNumber")) ===
+                paginationInfo.totalNumberOfPages || isLoading
+            }
+            onClick={() => handlePagination("next")}
+            className="pagination-next">
+            <i className="fa-solid fa-chevron-right" />
+          </button>
         </div>
-        <div className="pagination-page-number">
-          Page {searchParams.get("pageNumber")} of{" "}
-          {paginationInfo.totalNumberOfPages}
-        </div>
-        <button
-          disabled={Number(searchParams.get("pageNumber")) === 1 || isLoading}
-          className="pagination-prev"
-          onClick={() => {
-            setPaginationInfo({
-              ...paginationInfo,
-              pageNumber: paginationInfo.pageNumber - 1,
-            });
-            setSearchParams({
-              ...searchParams,
-              pageNumber: (
-                Number(searchParams.get("pageNumber")) - 1
-              ).toString(),
-            });
-          }}
-        >
-          <i className="fa-solid fa-chevron-left" />
-        </button>
-        <button
-          disabled={
-            Number(searchParams.get("pageNumber")) ===
-              paginationInfo.totalNumberOfPages || isLoading
-          }
-          onClick={() => {
-            setPaginationInfo({
-              ...paginationInfo,
-              pageNumber: paginationInfo.pageNumber + 1,
-            });
-            setSearchParams({
-              ...searchParams,
-              pageNumber: (
-                Number(searchParams.get("pageNumber")) + 1
-              ).toString(),
-            });
-          }}
-          className="pagination-next"
-        >
-          <i className="fa-solid fa-chevron-right" />
-        </button>
-      </div>
-      {modalShow && (
+      ) : (
+        ""
+      )}
+
+      {modalShow && selectedProjectId !== null && (
         <ProjectDeleteModal
           selectedProjectId={selectedProjectId}
           modalShow={modalShow}
