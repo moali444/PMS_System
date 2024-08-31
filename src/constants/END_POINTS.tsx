@@ -13,12 +13,21 @@ export const USERS_URLS = {
   currentUser: `${BASE_USERS}/currentUser`,
   verify: `${BASE_USERS}/verify`,
 };
+<<<<<<< HEAD
 const BASE_PROJECTS = `${BASE_URL}/Project`;
 export const PROJECTS_URLS = {
   getProjectsForManager: `${BASE_PROJECTS}/manager`,
   getProjectsForEmployee: `${BASE_PROJECTS}/employee`,
   deleteProject: (id: number) => `${BASE_PROJECTS}/${id}`,
 };
+=======
+
+export const TASKS_URLS = {
+  tasksManger: `${BASE_URL}/Task/manager`,
+  delete: (id: number) => `${BASE_URL}/Task/${id}`,
+};
+
+>>>>>>> dev
 // HEADERS TOKEN
 export const BASE_HEADERS = {
   headers: {
