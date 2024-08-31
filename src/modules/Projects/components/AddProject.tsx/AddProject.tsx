@@ -7,9 +7,9 @@ import "./AddProject.scss";
 import { BASE_HEADERS, BASE_PROJECTS } from "../../../../constants/END_POINTS";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function AddProject() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // call api
   interface AddProject {
     title: String;
@@ -21,32 +21,28 @@ export default function AddProject() {
     formState: { errors },
   } = useForm<AddProject>();
   const onSubmit: SubmitHandler<AddProject> = (data) => {
-     
-    axios.post(BASE_PROJECTS,data,BASE_HEADERS).then(() =>{
-      toast.success("adding is true", {
-        position: "top-right",
-        autoClose: 3000,
-        theme: "colored",
-      });
-      navigate("/dashboard/projects")
-
-    }).catch((error :any ) =>{
-      toast.error(
-        error?.response?.data?.message ||
-          "An error occurred. Please try again.",
-        {
+    axios
+      .post(BASE_PROJECTS, data, BASE_HEADERS)
+      .then(() => {
+        toast.success("adding is true", {
           position: "top-right",
           autoClose: 3000,
           theme: "colored",
-        }
-      );
-      console.log(error);
-      
-    })
-    
-    
-
-
+        });
+        navigate("/dashboard/projects");
+      })
+      .catch((error: any) => {
+        toast.error(
+          error?.response?.data?.message ||
+            "An error occurred. Please try again.",
+          {
+            position: "top-right",
+            autoClose: 3000,
+            theme: "colored",
+          }
+        );
+        console.log(error);
+      });
   };
   return (
     <>
@@ -68,27 +64,37 @@ export default function AddProject() {
               <span>Title</span>
               <InputGroup>
                 <Form.Control
-                  {...register("title",{required:"pleace enter title"})}
+                  {...register("title", { required: "pleace enter title" })}
                   placeholder="Title"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                   style={{ borderRadius: "1rem", outline: "none" }}
                 />
               </InputGroup>
-              <span style={{color:"red" }}>{errors.title?.message}</span>
+              <span style={{ color: "red" }}>{errors.title?.message}</span>
               <div className="mt-4">
                 <span>Description</span>
 
                 <InputGroup>
                   <Form.Control
-                    {...register("description",{required:"description is required"})}
+                    {...register("description", {
+                      required: "description is required",
+                    })}
                     as="textarea"
                     aria-label="With textarea"
                     style={{ borderRadius: "1rem", height: "100px" }}
                     placeholder="Description"
                   />
                 </InputGroup>
-                <span style={{color:"red" , textTransform:"capitalize", margin:"10px" }}>{errors.description?.message}</span>
+                <span
+                  style={{
+                    color: "red",
+                    textTransform: "capitalize",
+                    margin: "10px",
+                  }}
+                >
+                  {errors.description?.message}
+                </span>
               </div>
             </div>
             <div className="footerAddProject d-flex justify-content-between align-items-center">
@@ -100,4 +106,4 @@ export default function AddProject() {
       </div>
     </>
   );
-
+}

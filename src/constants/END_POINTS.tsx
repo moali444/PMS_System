@@ -9,18 +9,13 @@ export const USERS_URLS = {
   register: `${BASE_USERS}/Register`,
   forgetPass: `${BASE_USERS}/Reset/Request`,
   Reset: `${BASE_USERS}/Reset`,
+
   changePass: `${BASE_USERS}/ChangePassword`,
   getUsers: `${BASE_USERS}`,
   verify: `${BASE_USERS}/verify`,
 };
 
-export const  BASE_PROJECTS = `${BASE_URL}/Project`;
-
-export const PROJECTS_URLS = {
-  getProjectsForManager: `${BASE_PROJECTS}/manager`,
-  getProjectsForEmployee: `${BASE_PROJECTS}/employee`,
-
-const BASE_PROJECTS = `${BASE_URL}/Project`;
+export const BASE_PROJECTS = `${BASE_URL}/Project`;
 export const PROJECTS_URLS = {
   getProjectsForManager: `${BASE_PROJECTS}/manager`,
   getProjectsForEmployee: `${BASE_PROJECTS}/employee`,
@@ -30,26 +25,19 @@ export const PROJECTS_URLS = {
 export const TASKS_URLS = {
   tasksManger: `${BASE_URL}/Task/manager`,
   delete: (id: number) => `${BASE_URL}/Task/${id}`,
-
 };
 // HEADERS TOKEN
 export const BASE_HEADERS = {
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
-
-};
-
 };
 
 //project tasks
 
-
-const BASE_projects_task = `${BASE_URL}`
+const BASE_projects_task = `${BASE_URL}`;
 
 export const TASKS_PROJECTS_URLS = {
-  creatTaskByManger:`${BASE_projects_task}/Task`,
-  getAllProject:`${BASE_projects_task}/Project`,
-
-}
-
+  creatTaskByManger: `${BASE_projects_task}/Task`,
+  getAllProject: `${BASE_projects_task}/Project`,
+};

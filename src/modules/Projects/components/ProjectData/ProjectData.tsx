@@ -6,11 +6,9 @@ import useUserInformation from "../../../../constants/useUserInformation";
 import axios, { AxiosError } from "axios";
 import { BASE_HEADERS, PROJECTS_URLS } from "../../../../constants/END_POINTS";
 import { useEffect, useState } from "react";
-
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 import ProjectDeleteModal from "../ProjectDeleteModal/ProjectDeleteModal";
-
 
 interface ErrorResponse {
   message: string;
@@ -19,16 +17,6 @@ interface ProjectListType {
   title: string;
   description: string;
   creationDate: string;
-
-}
-const ProjectData = () => {
-  const [projectsList, setProjectsList] = useState<ProjectListType[]>([]);
-  const { userInformation } = useUserInformation();
-  console.log(userInformation?.group.name);
-  const isManager = userInformation?.group.name === "Manager";
-  const navigate = useNavigate();
-  const getProject = async () => {
-
   id: number;
 }
 interface paginationInformation {
@@ -74,15 +62,6 @@ const ProjectData = () => {
         isManager
           ? PROJECTS_URLS.getProjectsForManager
           : PROJECTS_URLS.getProjectsForEmployee,
-
-        { params: { pageSize: 10, pageNumber: 1 }, ...BASE_HEADERS }
-      );
-      console.log(response.data.data);
-      setProjectsList(response.data.data);
-    } catch (error) {
-      const axiosError  = error as AxiosError<ErrorResponse>;
-
-
         {
           params: {
             pageSize: searchParams.get("pageSize") || 10,
@@ -108,10 +87,6 @@ const ProjectData = () => {
   };
   useEffect(() => {
     getProject();
-
-  }, [userInformation]);
-  console.log(projectsList);
-
   }, [
     userInformation,
     paginationInfo.pageNumber,
@@ -125,12 +100,6 @@ const ProjectData = () => {
         <Form noValidate>
           <Form.Group className="search-input" controlId="">
             <i className="fa-solid fa-magnifying-glass"></i>
-
-            <Form.Control type="email" placeholder="Search By Title" />
-          </Form.Group>
-        </Form>
-      </div>
-
             <Form.Control
               type="email"
               placeholder="Search By Title"
@@ -143,7 +112,6 @@ const ProjectData = () => {
           </Form.Group>
         </Form>
       </div>
-
 
       <Table striped bordered hover>
         <thead>
@@ -159,39 +127,6 @@ const ProjectData = () => {
             <th></th>
           </tr>
         </thead>
-
-        <tbody>
-          {projectsList.map((project) => (
-            <tr>
-              <td>{project.title}</td>
-              <td>{project.description}</td>
-              <td>{project.creationDate}</td>
-
-              <td>
-                {isManager ? (
-                  <Dropdown>
-                    <Dropdown.Toggle>
-                      <i className="fa-solid fa-ellipsis-vertical" />
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item
-                        onClick={() => navigate("/dashboard/update-project")}>
-                        Update
-                      </Dropdown.Item>
-                      <Dropdown.Item>Delete</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                ) : (
-                  ""
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <div className="pagination"></div>
-
         {isLoading ? (
           <ScaleLoader className="loader" />
         ) : (
@@ -211,14 +146,16 @@ const ProjectData = () => {
 
                       <Dropdown.Menu>
                         <Dropdown.Item
-                          onClick={() => navigate("/dashboard/update-project")}>
+                          onClick={() => navigate("/dashboard/update-project")}
+                        >
                           Update
                         </Dropdown.Item>
                         <Dropdown.Item
                           onClick={() => {
                             setModalShow(true);
                             setSelectedProjectId(project.id);
-                          }}>
+                          }}
+                        >
                           Delete
                         </Dropdown.Item>
                       </Dropdown.Menu>
@@ -248,20 +185,24 @@ const ProjectData = () => {
                 pageSize: e.target.value,
                 pageNumber: "1",
               });
-            }}>
+            }}
+          >
             <option
               selected={searchParams.get("pageSize") === "5" || false}
-              value={5}>
+              value={5}
+            >
               5
             </option>
             <option
               selected={searchParams.get("pageSize") === "10" || false}
-              value={10}>
+              value={10}
+            >
               10
             </option>
             <option
               selected={searchParams.get("pageSize") === "20" || false}
-              value={20}>
+              value={20}
+            >
               20
             </option>
           </select>{" "}
@@ -285,7 +226,8 @@ const ProjectData = () => {
                 Number(searchParams.get("pageNumber")) - 1
               ).toString(),
             });
-          }}>
+          }}
+        >
           <i className="fa-solid fa-chevron-left" />
         </button>
         <button
@@ -305,7 +247,8 @@ const ProjectData = () => {
               ).toString(),
             });
           }}
-          className="pagination-next">
+          className="pagination-next"
+        >
           <i className="fa-solid fa-chevron-right" />
         </button>
       </div>
