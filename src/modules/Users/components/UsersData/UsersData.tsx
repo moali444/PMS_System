@@ -1,14 +1,15 @@
 import { Dropdown, Form } from "react-bootstrap";
-import "./ProjectData.scss";
+import "./UsersData.scss";
 import Table from "react-bootstrap/Table";
 import SortIcon from "./SortIcon";
 import useUserInformation from "../../../../constants/useUserInformation";
 import axios, { AxiosError } from "axios";
-import { BASE_HEADERS, PROJECTS_URLS } from "../../../../constants/END_POINTS";
+import { BASE_HEADERS, USERS_URLS } from "../../../../constants/END_POINTS";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
-import ProjectDeleteModal from "../ProjectDeleteModal/ProjectDeleteModal";
+import UserDeleteModal from "../UserDeleteModal/UserDeleteModal";
+import { toast } from "react-toastify";
 
 interface ErrorResponse {
   message: string;
@@ -31,11 +32,11 @@ interface searchParams {
   pageNumber: string;
   title: string;
 }
-const ProjectData = () => {
-  const [projectsList, setProjectsList] = useState<ProjectListType[]>([]);
+const UsersData = () => {
+  const [usersList, setUsersList] = useState<ProjectListType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modalShow, setModalShow] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [selectedUserId, setSelectedUsersId] = useState(null);
   const [paginationInfo, setPaginationInfo] = useState<paginationInformation>({
     totalNumberOfPages: 0,
     totalNumberOfRecords: 0,
@@ -59,9 +60,7 @@ const ProjectData = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        isManager
-          ? PROJECTS_URLS.getProjectsForManager
-          : PROJECTS_URLS.getProjectsForEmployee,
+        USERS_URLS.getList,
         {
           params: {
             pageSize: searchParams.get("pageSize") || 10,
@@ -72,7 +71,7 @@ const ProjectData = () => {
         }
       );
       console.log(response.data);
-      setProjectsList(response.data.data);
+      setUsersList(response.data.data);
       setPaginationInfo({
         ...paginationInfo,
         totalNumberOfPages: response.data.totalNumberOfPages,
@@ -116,27 +115,25 @@ const ProjectData = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>
-              Title <SortIcon />
-            </th>
-            <th>Description</th>
-            <th>
-              creationDate <SortIcon />
-            </th>
-
-            <th></th>
-          </tr>
+              <th>User Name <SortIcon /></th>
+              <th>Status <SortIcon /></th>
+              <th>Phone Number <SortIcon /></th>
+              <th>Email <SortIcon /></th>
+              <th>Date Created <SortIcon /></th>
+              <th></th>
+            </tr>
         </thead>
         {isLoading ? (
           <ScaleLoader className="loader" />
         ) : (
           <tbody>
-            {projectsList.map((project) => (
+            {usersList.map((user) => (
               <tr>
-                <td>{project.title}</td>
-                <td>{project.description}</td>
-                <td>{project.creationDate}</td>
-
+                <td>{user.userName}</td>
+                <td>{user.isActivated}</td>
+                <td>{user.phoneNumber}</td>
+                <td>{user.email}</td>
+                <td>{user.creationDate}</td>
                 <td>
                   {isManager ? (
                     <Dropdown>
@@ -146,16 +143,17 @@ const ProjectData = () => {
 
                       <Dropdown.Menu>
                         <Dropdown.Item
-                          onClick={() => navigate("/dashboard/update-project")}>
-                          Update
+                          // onClick={() => navigate("/dashboard/update-project")}
+                        >
+                          Block
                         </Dropdown.Item>
-                        <Dropdown.Item
+                        {/* <Dropdown.Item
                           onClick={() => {
                             setModalShow(true);
-                            setSelectedProjectId(project.id);
+                            setSelectedUsersId(user.id);
                           }}>
                           Delete
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                       </Dropdown.Menu>
                     </Dropdown>
                   ) : (
@@ -245,8 +243,8 @@ const ProjectData = () => {
         </button>
       </div>
       {modalShow && (
-        <ProjectDeleteModal
-          selectedProjectId={selectedProjectId}
+        <UserDeleteModal
+          selectedUserId={selectedUserId}
           modalShow={modalShow}
           setModalShow={setModalShow}
           getProject={getProject}
@@ -256,4 +254,4 @@ const ProjectData = () => {
   );
 };
 
-export default ProjectData;
+export default UsersData;
