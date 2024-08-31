@@ -20,9 +20,19 @@ interface IFormInput {
   projectId: Number;
 }
 
+interface User {
+  userName: string;
+  id: number;
+}
+
+interface Project {
+  title: string;
+  id: number;
+}
+
 const TaskData = () => {
-  const [userList, setUserList] = useState([]);
-  const [userProject, setUserProject]: any = useState([]);
+  const [userList, setUserList] = useState<User[]>([]);
+  const [userProject, setUserProject] = useState<Project[]>([]);
 
   const navigate = useNavigate();
   const {
@@ -142,7 +152,7 @@ const TaskData = () => {
                       <option disabled hidden>
                         Choose the User
                       </option>
-                      {userList?.map((user: any) => (
+                      {userList?.map((user) => (
                         <option key={user.id} value={user.id}>
                           {user.userName}
                         </option>
@@ -169,7 +179,7 @@ const TaskData = () => {
                         Choose the Project
                       </option>
 
-                      {userProject?.map((proj: any) => (
+                      {userProject?.map((proj) => (
                         <option key={proj.id} value={proj.id}>
                           {proj.title}
                         </option>
