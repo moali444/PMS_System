@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import NoData from "../../../Shared/components/NoData/NoData";
 import { ScaleLoader } from "react-spinners";
+import TaskUpdateModel from "../TaskUpdateModel/TaskUpdateModel";
 
 interface Manager {
   id: number;
@@ -272,13 +273,10 @@ const TasksList = () => {
 
                       <Dropdown.Menu>
                         <Dropdown.Item>
-                          <TaskModelView task={task} />
+                          <TaskModelView task={task}/>
                         </Dropdown.Item>
                         <Dropdown.Item>
-                          <button>
-                            <i className="fa-regular fa-pen-to-square me-3"></i>
-                            Edit
-                          </button>
+                          <TaskUpdateModel taskData={task}/>
                         </Dropdown.Item>
                         <Dropdown.Item>
                           <TaskDeleteModel

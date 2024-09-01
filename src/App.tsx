@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ProtectedRoute } from "./modules/Shared/components/ProtectedRoute/ProtectedRoute";
 import AddProject from "./modules/Projects/components/AddProject.tsx/AddProject";
 import UpdateProject from "./modules/Projects/components/UpdateProject/UpdateProject";
+import TaskUpdateModel from "./modules/Tasks/components/TaskUpdateModel/TaskUpdateModel";
 
 const App = () => {
   const routs = createBrowserRouter([
@@ -56,6 +57,7 @@ const App = () => {
         { path: "users", element: <UsersList /> },
         { path: "add-project", element: <AddProject /> },
         { path: "update-project", element: <UpdateProject /> },
+        { path: "TaskUpdateModel", element: <TaskUpdateModel /> },
       ],
     },
   ]);

@@ -13,6 +13,7 @@ import { getToken } from "../../../../constants/Tokenhandler";
 import "./TaskData.scss";
 import { Alert, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import TaskUpdateModel from "../TaskUpdateModel/TaskUpdateModel";
 
 interface IFormInput {
   title?: string;
@@ -60,17 +61,22 @@ const TaskData = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "some_thing_wrong");
       console.log(error);
+      
     }
   };
 
   const getUsers = async () => {
     try {
       const response = await axios.get(USERS_URLS.getUsers, {
+        params: {
+          pageSize: 1000,
+        },
         headers: { Authorization: getToken() },
       });
 
       console.log(response.data.data);
       setUserList(response.data.data);
+      
     } catch (error) {
       console.log(error);
     }
@@ -131,6 +137,7 @@ const TaskData = () => {
                   as="textarea"
                   placeholder="Description"
                   style={{ height: "100px" }}
+                  
                   {...register("description", {
                     required: "description is required",
                   })}
@@ -153,12 +160,16 @@ const TaskData = () => {
                         required: "user is required",
                       })}
                     >
-                      <option value="">Choose the User</option>
+                      <option value="Choose the User" hidden>
+                        Choose the User
+                      </option>
                       {userList?.map((user) => (
                         <option key={user.id} value={user.id}>
                           {user.userName}
                         </option>
+                        
                       ))}
+
                     </Form.Select>
                   </InputGroup>
                   {errors.employeeId && (
@@ -177,7 +188,7 @@ const TaskData = () => {
                         required: "project is required",
                       })}
                     >
-                      <option disabled hidden>
+                      <option value=" Choose the Project" hidden>
                         Choose the Project
                       </option>
 
