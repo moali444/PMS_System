@@ -77,17 +77,25 @@
             flex-direction: column;
             &.color-1{
                 background-color: #E5E6F4;
+                .icon{
+                    background-color: #CFD1EC;
+                }
             }
             &.color-2{
                 background-color: #F4F4E5;
+                .icon{
+                    background-color: #E4E4BC;
+                }
             }
             &.color-3{
                 background-color: #F4E5ED;
+                .icon{
+                    background-color: #E7C3D7;
+                }
             }
             .icon{
                 padding: 10px;
                 border-radius: 15px;
-                background-color: #CFD1EC;
                 display: inline-flex;
                 width: fit-content;
                 margin-bottom: 10px;
