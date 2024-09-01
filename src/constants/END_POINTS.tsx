@@ -51,13 +51,11 @@ export const BASE_HEADERS = {
 
 
 };
-//project tasks
-const BASE_projects_task = `${BASE_URL}`
+
 
 //project tasks
 
 const BASE_projects_task = `${BASE_URL}`;
-
 
 export const TASKS_PROJECTS_URLS = {
   creatTaskByManger: `${BASE_projects_task}/Task`,

@@ -52,7 +52,7 @@ const App = () => {
         { path: "projects", element: <ProjectsList /> },
         { path: "project-data", element: <ProjectData /> },
         { path: "tasks", element: <TasksList /> },
-        { path: "tasks-data", element: <TaskData /> },
+        { path: "add-task", element: <TaskData /> },
         { path: "users", element: <UsersList /> },
         { path: "add-project", element: <AddProject /> },
         { path: "update-project", element: <UpdateProject /> },
