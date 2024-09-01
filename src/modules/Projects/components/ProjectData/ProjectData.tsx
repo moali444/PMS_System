@@ -243,6 +243,7 @@ const ProjectData = () => {
             )}
           </tbody>
         )}
+        {""}
       </Table>
       {projectsList.length > 0 ? (
         <div className="pagination">
