@@ -6,7 +6,7 @@ import useUserInformation from "../../../../constants/useUserInformation";
 import axios, { AxiosError } from "axios";
 import { BASE_HEADERS, PROJECTS_URLS } from "../../../../constants/END_POINTS";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 
 interface ErrorResponse {
   message: string;
@@ -15,6 +15,7 @@ interface ProjectListType {
   title: string;
   description: string;
   creationDate: string;
+  id: Number;
 }
 const ProjectData = () => {
   const [projectsList, setProjectsList] = useState<ProjectListType[]>([]);
@@ -33,7 +34,7 @@ const ProjectData = () => {
       console.log(response.data.data);
       setProjectsList(response.data.data);
     } catch (error) {
-      const axiosError  = error as AxiosError<ErrorResponse>;
+      const axiosError = error as AxiosError<ErrorResponse>;
 
       console.log(error);
     }
@@ -82,7 +83,16 @@ const ProjectData = () => {
 
                     <Dropdown.Menu>
                       <Dropdown.Item
-                        onClick={() => navigate("/dashboard/update-project")}>
+                        onClick={() => {
+                          let id: Number = project.id;
+                          localStorage.setItem(
+                            "Update_project",
+                            JSON.stringify(id)
+                          );
+
+                          navigate("/dashboard/update-project");
+                        }}
+                      >
                         Update
                       </Dropdown.Item>
                       <Dropdown.Item>Delete</Dropdown.Item>

@@ -1,5 +1,13 @@
 import React from "react";
-
-export default function UpdateProject() {
-  return <div>UpdateProject</div>;
+import UpdateFormProject from "./UpdateFormProject";
+import AuthAddProject from "../../../Shared/components/AuthAddProject/AuthAddProject";
+export default function UpdateProject () {
+  return (
+    <>
+      <AuthAddProject
+        title_text=" update a project "
+        content={<UpdateFormProject/>}
+      />
+    </>
+  );
 }

@@ -17,6 +17,12 @@ export const  BASE_PROJECTS = `${BASE_URL}/Project`;
 export const PROJECTS_URLS = {
   getProjectsForManager: `${BASE_PROJECTS}/manager`,
   getProjectsForEmployee: `${BASE_PROJECTS}/employee`,
+  UpdateProject:  (id:Number) =>{
+   return  `${BASE_PROJECTS}/${id}`
+  }  ,
+  getProject:  (id:Number) =>{
+    return `${BASE_PROJECTS}/${id}`
+  }  ,
 };
 // HEADERS TOKEN
 export const BASE_HEADERS = {
