@@ -4,12 +4,14 @@ import "./TasksList.scss";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { BASE_HEADERS, TASKS_URLS } from "../../../../constants/END_POINTS";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+// import Skeleton from "react-loading-skeleton";
+// import "react-loading-skeleton/dist/skeleton.css";
 import TaskModelView from "../TaskModelView/TaskModelView";
 import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import NoData from "../../../Shared/components/NoData/NoData";
+import { ScaleLoader } from "react-spinners";
 
 interface Manager {
   id: number;
@@ -49,7 +51,7 @@ interface ErrorResponse {
 }
 
 const TasksList = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>("");
@@ -124,7 +126,11 @@ const TasksList = () => {
       <div></div>
       <header className="d-flex justify-content-between p-4">
         <h2>Tasks</h2>
-        <button onClick={()=>{navigate("/dashboard/add-task")}}>
+        <button
+          onClick={() => {
+            navigate("/dashboard/add-task");
+          }}
+        >
           <i className="fa-solid fa-plus mx-3"></i>Add New Task
         </button>
       </header>
@@ -161,7 +167,7 @@ const TasksList = () => {
           </div>
         </div>
 
-        <table className="table table-striped">
+        <table className={`table ${!loading ? "table-striped" : ""}`}>
           <thead>
             <tr>
               <th scope="col">
@@ -199,32 +205,41 @@ const TasksList = () => {
           </thead>
           <tbody>
             {loading ? (
-              Array.from({ length: 5 }).map((_, index) => (
-                <tr key={index}>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td>
-                    <Skeleton />
-                  </td>
-                </tr>
-              ))
+              // Array.from({ length: 5 }).map((_, index) => (
+              //   <tr key={index}>
+              //     <td>
+              //       <Skeleton />
+              //     </td>
+              //     <td>
+              //       <Skeleton />
+              //     </td>
+              //     <td>
+              //       <Skeleton />
+              //     </td>
+              //     <td>
+              //       <Skeleton />
+              //     </td>
+              //     <td>
+              //       <Skeleton />
+              //     </td>
+              //     <td>
+              //       <Skeleton />
+              //     </td>
+              //   </tr>
+              // ))
+              <tr>
+                <td colSpan={6} className="customTd">
+                  <div className="loadingContainer">
+                    <ScaleLoader className="loader" />
+                  </div>
+                </td>
+              </tr>
             ) : tasks.length === 0 ? (
               <tr>
-                <td colSpan={6} className="text-center">
-                  No tasks available
+                <td colSpan={6} className="text-center ">
+                  <div style={{ height: "350px" }}>
+                    <NoData />
+                  </div>
                 </td>
               </tr>
             ) : (
