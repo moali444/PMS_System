@@ -134,8 +134,8 @@ const TasksList = () => {
           <i className="fa-solid fa-plus mx-3"></i>Add New Task
         </button>
       </header>
-      <div className="tasksInfo shadow-sm mt-5 p-5 m-auto">
-        <div className="filtration my-4 d-flex ">
+      <div className="tasksInfo shadow-sm mt-5  m-auto">
+        <div className="filtration  d-flex py-4 px-3">
           <div className="inputContiner me-3">
             <div className="input-group flex-nowrap">
               <span className="input-group-text" id="addon-wrapping">
