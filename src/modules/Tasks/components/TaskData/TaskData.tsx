@@ -66,6 +66,9 @@ const TaskData = () => {
   const getUsers = async () => {
     try {
       const response = await axios.get(USERS_URLS.getUsers, {
+        params: {
+          pageSize: 1000,
+        },
         headers: { Authorization: getToken() },
       });
 
