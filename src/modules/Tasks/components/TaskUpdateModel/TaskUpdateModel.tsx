@@ -1,67 +1,93 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Form, InputGroup, Modal } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { TASKS_URLS } from "../../../../constants/END_POINTS";
+import { TASKS_URLS, USERS_URLS } from "../../../../constants/END_POINTS";
 import { getToken } from "../../../../constants/Tokenhandler";
 import { toast } from "react-toastify";
 
-interface Employe {
-  employeeId: Number;
-}
-
+// interface Employe {
+//   employeeId: Number;
+// }
 
 // interface updateTask {
 //   title?: string;
-//   description?: string; 
+//   description?: string;
 // }
 
-interface Task {
-  id:number,
-  title:string,
-  employee:Employe,
-  description:string
+// interface Task {
+//   id: number;
+//   title: string;
+//   employee: Employe;
+//   description: string;
+// }
+
+interface IFormInput {
+  title: string;
+  description: string;
+  employeeId: number;
 }
 
-export default function TaskUpdateModel({taskData}:Task) {
+export default function TaskUpdateModel({ taskData }) {
+  const [userList, setUserList] = useState([]);
+  // console.log(taskData);
 
-  console.log(taskData);
-  
-  
-  const [modalShow, setModalShow] = useState(false); 
+  const [modalShow, setModalShow] = useState(false);
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<Task>();
+  } = useForm<IFormInput>();
 
-  const  onSubmit: SubmitHandler <Task> = async (data) => {
-    console.log(data);
+  // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  //   alert("welcome");
+  //   // console.log(data);
+  //   // try {
+  //   //   const response = await axios.put(TASKS_URLS.update(taskData), data, {
+  //   //     headers: { Authorization: getToken() },
+  //   //   });
+  //   //   console.log(response);
+
+  //   //   toast.success("task Item updated");
+  //   // } catch (error) {
+  //   //   console.log(error);
+  //   // }
+  // };
+
+  const seyHi = () => {
+    console.log("hi");
+  };
+
+  const getUsers = async () => {
     try {
-      const response = await axios.put(TASKS_URLS.update(taskData), 
-      data, 
-      {
+      const response = await axios.get(USERS_URLS.getUsers, {
+        params: {
+          pageSize: 1000,
+        },
         headers: { Authorization: getToken() },
-
       });
-      console.log(response);
 
-      toast.success("task Item updated");
+      // console.log(response.data.data);
+      setUserList(response.data.data);
+      // console.log(userList);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(()=>{
-    if (taskData) {
-      setValue("title", taskData.title)
-      setValue("description", taskData.description)
-      setValue("employee", taskData.employee.id)
-    }
-  })
+  useEffect(() => {
+    getUsers();
+  });
 
+  useEffect(() => {
+    if (taskData) {
+      setValue("title", taskData.title);
+      setValue("description", taskData.description);
+      setValue("employeeId", taskData.employee.id);
+    }
+  });
 
   return (
     <>
@@ -85,7 +111,7 @@ export default function TaskUpdateModel({taskData}:Task) {
           </button>
         </div>
         <Modal.Body>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={handleSubmit(seyHi)}>
             <Form.Group className="mb-4" controlId="">
               <Form.Label>Title</Form.Label>
               <InputGroup>
@@ -109,7 +135,6 @@ export default function TaskUpdateModel({taskData}:Task) {
                   as="textarea"
                   placeholder="Description"
                   style={{ height: "100px" }}
-                  
                   {...register("description", {
                     required: "description is required",
                   })}
@@ -135,68 +160,34 @@ export default function TaskUpdateModel({taskData}:Task) {
                       <option value="Choose the User" hidden>
                         Choose the User
                       </option>
-                      {taskData.employee?.map((user) => (
-                        <option key={user.id} value={user.id}>
-                          {user.userName}
-                        </option>
+                      {userList.map((user) => (
+                        <option value={user.id}>{user.userName}</option>
                       ))}
                     </Form.Select>
                   </InputGroup>
-                  {errors.employeeId && (
-                    <Alert className="p-2 mt-3">
-                      {errors?.employeeId?.message}
-                    </Alert>
-                  )}
-                </Form.Group>
-              </div>
-              <div className="project-option col-md-6 ">
-                <Form.Group className="my-4" controlId="">
-                  <Form.Label>Project</Form.Label>
-                  <InputGroup>
-                    <Form.Select
-                      {...register("projectId", {
-                        required: "project is required",
-                      })}
-                    >
-                      <option value=" Choose the Project" hidden>
-                        Choose the Project
-                      </option>
-
-                      {userProject?.map((proj) => (
-                        <option key={proj.id} value={proj.id}>
-                          {proj.title}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </InputGroup>
-                  {errors.projectId && (
-                    <Alert className="p-2 mt-3">
-                      {errors?.projectId?.message}
-                    </Alert>
-                  )}
                 </Form.Group>
               </div>
             </div>
-            <div className="btn-group d-flex justify-content-between">
-              <div className="btn-save rounded-4">
-                <Button
-                  className="form-btn btn-outline-dark rounded-5 px-4"
-                  variant=""
-               
-                >
-                  cancel
-                </Button>
-              </div>
+            <div className="btn-group d-flex justify-content-between flex-row-reverse">
               <div className="btn-cancel">
                 <Button
                   className="form-btn rounded-5 px-4 text-white"
                   variant="warning"
                   type="submit"
-                  disabled={isSubmitting}
-                 
+                  // disabled={isSubmitting}
                 >
-                  
                   Save
+                </Button>
+              </div>
+              <div className="btn-save rounded-4">
+                <Button
+                  className="form-btn btn-outline-dark rounded-5 px-4"
+                  variant=""
+                  onClick={() => {
+                    setModalShow(false);
+                  }}
+                >
+                  cancel
                 </Button>
               </div>
             </div>
