@@ -9,6 +9,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import TaskModelView from "../TaskModelView/TaskModelView";
 import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface Manager {
   id: number;
@@ -48,6 +49,7 @@ interface ErrorResponse {
 }
 
 const TasksList = () => {
+  const navigate = useNavigate()
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>("");
@@ -122,7 +124,7 @@ const TasksList = () => {
       <div></div>
       <header className="d-flex justify-content-between p-4">
         <h2>Tasks</h2>
-        <button>
+        <button onClick={()=>{navigate("/dashboard/add-task")}}>
           <i className="fa-solid fa-plus mx-3"></i>Add New Task
         </button>
       </header>
