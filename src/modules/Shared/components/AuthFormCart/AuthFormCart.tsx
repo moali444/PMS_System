@@ -3,7 +3,7 @@ import IMAGES from '../../../../assets/images/images';
 import './AuthFormCart.scss';
 
 interface Item{
-    title_text?: string,
+    title_text?: string
     content?: ReactNode,
 }
 
