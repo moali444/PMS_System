@@ -122,7 +122,7 @@ const TasksList = () => {
   };
 
   return (
-    <div id="tasks-bx" className="vh-100">
+    <div id="tasks-bx" style={{ minHeight: "692px" }}>
       <div></div>
       <header className="d-flex justify-content-between p-4">
         <h2>Tasks</h2>
