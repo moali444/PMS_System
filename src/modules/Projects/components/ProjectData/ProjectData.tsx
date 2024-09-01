@@ -242,6 +242,7 @@ const ProjectData = () => {
             ))}
           </tbody>
         )}
+        {""}
       </Table>
       <div className="pagination">
         <div className="pagination-info">
