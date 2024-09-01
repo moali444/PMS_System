@@ -58,6 +58,22 @@
         font-family: 400 !important;
         font-size: 14px !important;
       }
+      .customTd {
+        background-color: white !important;
+      }
+      .loadingContainer {
+        width: 100%;
+        height: 350px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .loader {
+          span {
+            background-color: rgba(49, 89, 81, 0.9) !important;
+          }
+        }
+      }
+
       .status {
         color: #ffff;
         text-align: center;
