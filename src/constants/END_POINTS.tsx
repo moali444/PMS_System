@@ -10,9 +10,10 @@ export const USERS_URLS = {
   forgetPass: `${BASE_USERS}/Reset/Request`,
   Reset: `${BASE_USERS}/Reset`,
   changePass: `${BASE_USERS}/ChangePassword`,
-  currentUser: `${BASE_USERS}/currentUser`,
+  getUsers: `${BASE_USERS}`,
   verify: `${BASE_USERS}/verify`,
 };
+
 export const  BASE_PROJECTS = `${BASE_URL}/Project`;
 export const PROJECTS_URLS = {
   getProjectsForManager: `${BASE_PROJECTS}/manager`,
@@ -29,4 +30,13 @@ export const BASE_HEADERS = {
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
+
 };
+//project tasks
+const BASE_projects_task = `${BASE_URL}`
+export const TASKS_PROJECTS_URLS = {
+  creatTaskByManger:`${BASE_projects_task}/Task`,
+  getAllProject:`${BASE_projects_task}/Project`,
+
+}
+
