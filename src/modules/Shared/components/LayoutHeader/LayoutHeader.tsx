@@ -23,6 +23,7 @@ interface IUserDetailsProps {
 
 const UserDetails = () => {
   const { userInformation, loading }: IUserDetailsProps = useUserInformation();
+  console.log(userInformation);
 
   // console.log("Loading:", loading);
   // console.log("User Information:", userInformation);

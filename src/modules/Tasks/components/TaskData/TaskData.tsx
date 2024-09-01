@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
+  PROJECTS_URLS,
   TASKS_PROJECTS_URLS,
   USERS_URLS,
 } from "../../../../constants/END_POINTS";
@@ -77,7 +78,10 @@ const TaskData = () => {
 
   const getAllProject = async () => {
     try {
-      const response = await axios.get(TASKS_PROJECTS_URLS.getAllProject, {
+      const response = await axios.get(PROJECTS_URLS.getProjectsForManager, {
+        params: {
+          pageSize: 1000,
+        },
         headers: { Authorization: getToken() },
       });
       console.log(response.data.data);
@@ -149,9 +153,7 @@ const TaskData = () => {
                         required: "user is required",
                       })}
                     >
-                      <option disabled hidden>
-                        Choose the User
-                      </option>
+                      <option value="">Choose the User</option>
                       {userList?.map((user) => (
                         <option key={user.id} value={user.id}>
                           {user.userName}
