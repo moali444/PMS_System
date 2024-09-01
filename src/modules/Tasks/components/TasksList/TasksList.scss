@@ -18,7 +18,7 @@
     }
   }
   .tasksInfo {
-    width: 90%;
+    width: 95%;
 
     background-color: #fff;
     border-radius: 8px;
@@ -96,10 +96,15 @@
         width: 60px;
         background-color: #009247;
       }
+      th {
+        height: 50px;
+        padding: 10px 10px 15px 10px;
+      }
       td {
         color: #4f4f4f;
-        padding-top: 15px;
+        padding: 13px 10px 15px 10px;
         border: none;
+        height: 48px;
 
         .dropdown-toggle {
           background-color: transparent !important;
