@@ -11,6 +11,7 @@ import { ScaleLoader } from "react-spinners";
 import ProjectDeleteModal from "../ProjectDeleteModal/ProjectDeleteModal";
 import { toast } from "react-toastify";
 import NoData from "../../../Shared/components/NoData/NoData";
+import { getToken } from "../../../../constants/Tokenhandler";
 
 interface ErrorResponse {
   message: string;
@@ -66,7 +67,7 @@ const ProjectData = () => {
             pageNumber: searchParams.get("pageNumber"),
             title: searchParams.get("title"),
           },
-          ...BASE_HEADERS,
+          headers: { Authorization: getToken() },
         }
       );
       console.log(response.data);

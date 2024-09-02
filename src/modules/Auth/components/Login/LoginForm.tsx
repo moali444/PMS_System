@@ -40,7 +40,7 @@ const LoginForm = () => {
       const { token, message } = response.data;
       toast.success(message || "welcome back again");
       navigate("/dashboard");
-
+      console.log(token);
       setToken(token);
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
