@@ -77,7 +77,7 @@ const LayoutHeader = () => {
   const navigate = useNavigate();
 
   const logOut = () => {
-    setToken("");
+    localStorage.removeItem("token");
     navigate("/login");
   };
   return (

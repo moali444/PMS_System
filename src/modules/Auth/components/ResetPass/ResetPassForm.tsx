@@ -5,7 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Alert } from "react-bootstrap";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
 import { ClipLoader } from "react-spinners";
@@ -15,6 +15,9 @@ interface IFormInput {
   password?: string;
   confirmPassword?: string;
   seed?: string;
+}
+interface ErrorResponse {
+  message: string;
 }
 
 const ResetPassForm = () => {
@@ -37,10 +40,11 @@ const ResetPassForm = () => {
     console.log(data);
     try {
       const response = await axios.post(USERS_URLS.Reset, data);
-      await toast.success(response?.data?.message);
+      toast.success(response?.data?.message);
       nagivate("/login");
-    } catch (error:any) {
-      toast.error(error.response?.data?.message || "some_thing_wrong");
+    } catch (error) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      toast.error(axiosError.response?.data?.message || "some_thing_wrong");
       console.log(error);
     }
   };
@@ -96,8 +100,7 @@ const ResetPassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
+              onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? (
                 <i className="fa-regular fa-eye" />
               ) : (
@@ -127,8 +130,7 @@ const ResetPassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
               {showConfirmPassword ? (
                 <i className="fa-regular fa-eye" />
               ) : (
@@ -143,7 +145,11 @@ const ResetPassForm = () => {
           )}
         </Form.Group>
 
-        <Button className="form-btn" variant="primary" type="submit">
+        <Button
+          className="form-btn"
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}>
           {isSubmitting ? (
             <>
               <span className="m-2">Loading... </span>

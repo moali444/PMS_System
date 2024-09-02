@@ -7,6 +7,9 @@ const IMAGES = {
   tasksIcon: new URL("./svg/sidemenu/tasks.svg", import.meta.url).href,
   usersIcon: new URL("./svg/sidemenu/users.svg", import.meta.url).href,
   menuArrow: new URL("./svg/sidemenu/menu-arrow.svg", import.meta.url).href,
+  static1: new URL("./svg/static-1.svg", import.meta.url).href,
+  static2: new URL("./svg/static-2.svg", import.meta.url).href,
+  static3: new URL("./svg/static-3.svg", import.meta.url).href,
 };
 
 export default IMAGES;

@@ -3,67 +3,64 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { BASE_HEADERS, BASE_PROJECTS } from "../../../../constants/END_POINTS";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 export default function AddFormProject() {
   const navigate = useNavigate();
 
   // call api
   interface AddProject {
-    title: String;
-    description: String;
+    title: string;
+    description: string;
+  }
+  interface ErrorResponse {
+    message: string;
   }
   const {
     register,
     handleSubmit,
-    getValues ,
+    getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<AddProject>();
   const onSubmit: SubmitHandler<AddProject> = (data) => {
     axios
       .post(BASE_PROJECTS, data, BASE_HEADERS)
       .then(() => {
-        toast.success("Adding is Successfully", {
-          position: "top-right",
-          autoClose: 3000,
-          theme: "colored",
-        });
+        toast.success("Adding is Successfully");
         navigate("/dashboard/projects");
-        localStorage.removeItem("onBeforeUnload")
+        localStorage.removeItem("onBeforeUnload");
       })
-      .catch((error: any) => {
+      .catch((error) => {
+        const axiosError = error as AxiosError<ErrorResponse>;
         toast.error(
-          error?.response?.data?.message ||
-            "An error occurred. Please try again.",
-          {
-            position: "top-right",
-            autoClose: 3000,
-            theme: "colored",
-          }
+          axiosError.response?.data?.message ||
+            "An error occurred. Please try again."
         );
+
         console.log(error);
       });
   };
+
   useEffect(() => {
-    const onBeforeUnload = () => {
-      localStorage.setItem("onBeforeUnload", JSON.stringify(getValues()))
+    const beforeUnload = (e) => {
+      e.preventDefault();
     };
-    window.addEventListener("beforeunload", onBeforeUnload);
+    window.addEventListener("beforeunload", beforeUnload);
     return () => {
-      window.removeEventListener("beforeunload", onBeforeUnload);
+      window.removeEventListener("beforeunload", beforeUnload);
     };
   }, []);
-  useEffect(() =>{
-    if(localStorage.getItem("onBeforeUnload")){
-       const data_unload = JSON.parse(localStorage.getItem("onBeforeUnload"))
-      setValue("title",data_unload.title)
-      setValue("description",data_unload.description)
+  useEffect(() => {
+    if (localStorage.getItem("onBeforeUnload")) {
+      const data_unload = JSON.parse(localStorage.getItem("onBeforeUnload"));
+      setValue("title", data_unload.title);
+      setValue("description", data_unload.description);
       console.log(data_unload);
-      
     }
-  } ,[])
+  }, []);
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-5">
@@ -100,17 +97,28 @@ export default function AddFormProject() {
                   color: "red",
                   textTransform: "capitalize",
                   margin: "10px",
-                }}
-              >
+                }}>
                 {errors.description?.message}
               </span>
             </div>
           </div>
           <div className="footerAddProject d-flex justify-content-between align-items-center">
-            <button type={"button"} onClick={() =>{
-              navigate(-1)
-            }}>Cancel</button>
-            <button type="submit">Save</button>
+            <button
+              type={"button"}
+              onClick={() => {
+                navigate(-1);
+              }}>
+              Cancel
+            </button>
+            <button disabled={isSubmitting} type="submit">
+              {isSubmitting ? (
+                <>
+                  <ClipLoader size={15} color={"#fff"} />
+                </>
+              ) : (
+                "Save"
+              )}
+            </button>
           </div>
         </div>
       </form>

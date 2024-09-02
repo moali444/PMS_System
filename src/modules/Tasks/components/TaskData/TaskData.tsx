@@ -13,6 +13,7 @@ import { getToken } from "../../../../constants/Tokenhandler";
 import "./TaskData.scss";
 import { Alert, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
 import TaskUpdateModel from "../TaskUpdateModel/TaskUpdateModel";
 
 interface IFormInput {
@@ -90,7 +91,7 @@ const TaskData = () => {
         },
         headers: { Authorization: getToken() },
       });
-      // console.log(response.data.data);
+      console.log(response.data.data);
       setUserProject(response.data.data);
     } catch (error) {
       console.log(error);
@@ -101,7 +102,15 @@ const TaskData = () => {
     getUsers();
     getAllProject();
   }, []);
-
+  useEffect(() => {
+    const beforeUnload = (e) => {
+      e.preventDefault();
+    };
+    window.addEventListener("beforeunload", beforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnload);
+    };
+  }, []);
   return (
     <>
       <div className="taskData-header m-4 p-3">
@@ -160,9 +169,7 @@ const TaskData = () => {
                         required: "user is required",
                       })}
                     >
-                      <option value="Choose the User" hidden>
-                        Choose the User
-                      </option>
+                      <option value="">Choose the User</option>
                       {userList?.map((user) => (
                         <option key={user.id} value={user.id}>
                           {user.userName}
@@ -188,7 +195,7 @@ const TaskData = () => {
                         required: "project is required",
                       })}
                     >
-                      <option value=" Choose the Project" hidden>
+                      <option value="" >
                         Choose the Project
                       </option>
 
@@ -214,8 +221,7 @@ const TaskData = () => {
                   variant=""
                   onClick={() => {
                     navigate("/dashboard/tasks");
-                  }}
-                >
+                  }}>
                   cancel
                 </Button>
               </div>
@@ -224,9 +230,14 @@ const TaskData = () => {
                   className="form-btn rounded-5 px-4 text-white"
                   variant="warning"
                   type="submit"
-                  disabled={isSubmitting}
-                >
-                  Save
+                  disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <ClipLoader size={15} color={"#fff"} />
+                    </>
+                  ) : (
+                    "Save"
+                  )}
                 </Button>
               </div>
             </div>

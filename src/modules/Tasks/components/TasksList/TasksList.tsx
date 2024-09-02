@@ -296,7 +296,7 @@ const TasksList = () => {
 
         {/* Pagination Controls */}
         {tasks.length > 0 && (
-          <div className="pagination-controls d-flex justify-content-end mt-4 align-items-center ">
+          <div className="pagination-controls d-flex justify-content-end mt-4 pb-3 pe-3 align-items-center ">
             <div className="me-5">
               <label className="me-3">Showing </label>
               <select
@@ -322,7 +322,7 @@ const TasksList = () => {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                &lt;{" "}
+                &lt;
               </button>
               <button
                 className="btn fs-3 "
