@@ -43,13 +43,14 @@ export default function AddFormProject() {
         console.log(error);
       });
   };
+
   useEffect(() => {
-    const onBeforeUnload = () => {
-      localStorage.setItem("onBeforeUnload", JSON.stringify(getValues()));
+    const beforeUnload = (e) => {
+      e.preventDefault();
     };
-    window.addEventListener("beforeunload", onBeforeUnload);
+    window.addEventListener("beforeunload", beforeUnload);
     return () => {
-      window.removeEventListener("beforeunload", onBeforeUnload);
+      window.removeEventListener("beforeunload", beforeUnload);
     };
   }, []);
   useEffect(() => {

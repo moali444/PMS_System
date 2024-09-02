@@ -84,67 +84,36 @@ const ProjectData = () => {
     }
   };
 
-  const handlePagination = (value: string): void => {
-    const newParams = new URLSearchParams(searchParams.toString());
-    if (value === "next") {
-      setPaginationInfo({
-        ...paginationInfo,
-        pageNumber: paginationInfo.pageNumber + 1,
-      });
-      newParams.set(
-        "pageNumber",
-        (Number(searchParams.get("pageNumber")) + 1).toString()
-      );
-      newParams.set("pageSize", paginationInfo.pageSize.toString());
-      setSearchParams(newParams);
-    } else {
-      setPaginationInfo({
-        ...paginationInfo,
-        pageNumber: paginationInfo.pageNumber - 1,
-      });
-      newParams.set(
-        "pageNumber",
-        (Number(searchParams.get("pageNumber")) - 1).toString()
-      );
-      newParams.set("pageSize", paginationInfo.pageSize.toString());
-      setSearchParams(newParams);
-    }
+  const handlePagination = (direction: "next" | "prev"): void => {
+    const newPageNumber =
+      paginationInfo.pageNumber + (direction === "next" ? 1 : -1);
+    setPaginationInfo((prev) => ({ ...prev, pageNumber: newPageNumber }));
+    setSearchParams((prev) => {
+      prev.set("pageNumber", newPageNumber.toString());
+      return prev;
+    });
   };
-  const handleSort = (value: string): void => {
-    if (value === "title") {
-      if (sortedValue) {
-        console.log("sorted");
-        setProjectsList(
-          projectsList.sort((p1, p2) => p2.title.localeCompare(p1.title))
-        );
-        setSortedValue(false);
-      } else if (!sortedValue) {
-        setProjectsList(
-          projectsList.sort((p1, p2) => p1.title.localeCompare(p2.title))
-        );
-        setSortedValue(true);
-      }
-    } else {
-      if (sortedValue) {
-        setProjectsList(
-          projectsList.sort(
-            (a, b) =>
-              new Date(b.creationDate).getTime() -
-              new Date(a.creationDate).getTime()
+  const handleSort = (value: "creationDate" | "title"): void => {
+    const sortTitle = () => {
+      setProjectsList(
+        projectsList.sort((p1, p2) =>
+          (sortedValue ? p2 : p1).title.localeCompare(
+            (sortedValue ? p1 : p2).title
           )
-        );
-        setSortedValue(false);
-      } else if (!sortedValue) {
-        setProjectsList(
-          projectsList.sort(
-            (a, b) =>
-              new Date(a.creationDate).getTime() -
-              new Date(b.creationDate).getTime()
-          )
-        );
-        setSortedValue(true);
-      }
-    }
+        )
+      );
+    };
+    const sortDate = () => {
+      setProjectsList(
+        projectsList.sort(
+          (a, b) =>
+            new Date((sortedValue ? b : a).creationDate).getTime() -
+            new Date((sortedValue ? a : b).creationDate).getTime()
+        )
+      );
+    };
+    setSortedValue(!sortedValue);
+    return value === "title" ? sortTitle() : sortDate();
   };
   useEffect(() => {
     if (userInformation) {
@@ -202,7 +171,7 @@ const ProjectData = () => {
           <tbody>
             {projectsList.length > 0 ? (
               projectsList.map((project) => (
-                <tr>
+                <tr key={project.id}>
                   <td>{project.title}</td>
                   <td>{project.description}</td>
                   <td>{new Date(project.creationDate).toLocaleString()}</td>

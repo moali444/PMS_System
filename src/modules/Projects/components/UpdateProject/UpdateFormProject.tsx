@@ -64,6 +64,15 @@ export default function UpdateProject() {
   useEffect(() => {
     get_project();
   }, []);
+  useEffect(() => {
+    const beforeUnload = (e) => {
+      e.preventDefault();
+    };
+    window.addEventListener("beforeunload", beforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnload);
+    };
+  }, []);
   return (
     <div className="d-flex justify-content-center align-items-center mt-5">
       <form onSubmit={handleSubmit(onSubmit)}>

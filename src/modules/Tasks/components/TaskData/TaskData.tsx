@@ -99,7 +99,15 @@ const TaskData = () => {
     getUsers();
     getAllProject();
   }, []);
-
+  useEffect(() => {
+    const beforeUnload = (e) => {
+      e.preventDefault();
+    };
+    window.addEventListener("beforeunload", beforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnload);
+    };
+  }, []);
   return (
     <>
       <div className="taskData-header m-4 p-3">
