@@ -10,7 +10,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
 import { setToken } from "../../../../constants/Tokenhandler";
-import { BeatLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 interface IFormInput {
   email: string;
@@ -109,7 +109,10 @@ const LoginForm = () => {
           variant="primary"
           type="submit">
           {isSubmitting ? (
-            <BeatLoader size={15} margin={"2px"} color="white" />
+            <>
+              <span className="m-2">Loading... </span>
+              <ClipLoader size={15} color={"#fff"} />
+            </>
           ) : (
             "Login"
           )}

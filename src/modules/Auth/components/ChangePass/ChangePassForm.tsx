@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -6,11 +6,10 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { BeatLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
 import { getToken } from "../../../../constants/Tokenhandler";
-
 
 interface IFormInput {
   email?: string;
@@ -19,14 +18,16 @@ interface IFormInput {
   oldPassword?: string;
   seed?: number;
 }
-
+interface ErrorResponse {
+  message: string;
+}
 const ChangePassForm = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors , isSubmitting},
+    formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -35,18 +36,17 @@ const ChangePassForm = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     try {
-      const response = await axios.put(
-        USERS_URLS.changePass,
-        data,
-        {
-          headers: { Authorization: getToken() },
-        }
+      const response = await axios.put(USERS_URLS.changePass, data, {
+        headers: { Authorization: getToken() },
+      });
+      toast.success(
+        response?.data?.message || "Password has been updated successfully"
       );
-      toast.success(response?.data?.message || "Password has been updated successfully");
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
       navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "some_thing_wrong");
+      const axiosError = error as AxiosError<ErrorResponse>;
+      toast.error(axiosError.response?.data?.message || "some_thing_wrong");
       console.log(error);
     }
   };
@@ -70,8 +70,7 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowOldPassword(!showOldPassword)}
-            >
+              onClick={() => setShowOldPassword(!showOldPassword)}>
               {showOldPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -100,8 +99,7 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
+              onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -131,8 +129,7 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
               {showConfirmPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -147,10 +144,19 @@ const ChangePassForm = () => {
           )}
         </Form.Group>
 
-        <Button className="form-btn" variant="primary" type="submit" disabled={isSubmitting}>
-        {isSubmitting ?(
-            <BeatLoader size={15} margin={"2px"} color="white" />
-          ):("Change Password")}
+        <Button
+          className="form-btn"
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <span className="m-2">Loading... </span>
+              <ClipLoader size={15} color={"#fff"} />
+            </>
+          ) : (
+            "Change Password"
+          )}
         </Button>
       </Form>
 

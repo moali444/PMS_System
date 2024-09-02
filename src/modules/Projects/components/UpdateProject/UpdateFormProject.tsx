@@ -6,22 +6,24 @@ import { BASE_HEADERS, PROJECTS_URLS } from "../../../../constants/END_POINTS";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 export default function UpdateProject() {
   const navigate = useNavigate();
   const [data_list, set_data_list] = useState<UpdateProject | undefined>();
-  const project_id:Number = JSON.parse(""|localStorage.getItem("Update_project"));
+  const storedValue = localStorage.getItem("Update_project");
+  const project_id: any = storedValue ? JSON.parse(storedValue) : null;
   // call api
   interface UpdateProject {
-    id?: Number;
-    title: String | undefined;
-    description: String | undefined;
+    id?: number;
+    title: string | undefined;
+    description: string | undefined;
   }
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<UpdateProject>();
   const set_Data = () => {
     setValue("title", data_list?.title);
@@ -36,23 +38,14 @@ export default function UpdateProject() {
     axios
       .put(PROJECTS_URLS.UpdateProject(project_id), getValues(), BASE_HEADERS)
       .then(() => {
-        toast.success("Update is Successfully", {
-          position: "top-right",
-          autoClose: 3000,
-          theme: "colored",
-        });
+        toast.success("Update is Successfully");
         navigate("/dashboard/projects");
-        localStorage.removeItem("Update_project")
+        localStorage.removeItem("Update_project");
       })
       .catch((error) => {
         toast.error(
           error?.response?.data?.message ||
-            "An error occurred. Please try again.",
-          {
-            position: "top-right",
-            autoClose: 3000,
-            theme: "colored",
-          }
+            "An error occurred. Please try again."
         );
         console.log(error);
       });
@@ -106,15 +99,22 @@ export default function UpdateProject() {
                   color: "red",
                   textTransform: "capitalize",
                   margin: "10px",
-                }}
-              >
+                }}>
                 {errors.description?.message}
               </span>
             </div>
           </div>
           <div className="footerAddProject d-flex justify-content-between align-items-center">
             <button>Cancel</button>
-            <button type="submit">Update</button>
+            <button disabled={isSubmitting} type="submit">
+              {isSubmitting ? (
+                <>
+                  <ClipLoader size={15} color={"#fff"} />
+                </>
+              ) : (
+                "Update"
+              )}
+            </button>
           </div>
         </div>
       </form>
