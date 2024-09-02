@@ -74,7 +74,7 @@ const TaskData = () => {
         headers: { Authorization: getToken() },
       });
 
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setUserList(response.data.data);
       
     } catch (error) {
@@ -90,7 +90,7 @@ const TaskData = () => {
         },
         headers: { Authorization: getToken() },
       });
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setUserProject(response.data.data);
     } catch (error) {
       console.log(error);
