@@ -1,8 +1,11 @@
 import axios from "axios";
-import InputGroup from "react-bootstrap/InputGroup";
+import { useEffect, useState } from "react";
+import { Alert, Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { useForm, SubmitHandler } from "react-hook-form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import {
   PROJECTS_URLS,
@@ -12,10 +15,6 @@ import {
 } from "../../../../constants/END_POINTS";
 import { getToken } from "../../../../constants/Tokenhandler";
 import "./TaskData.scss";
-import { Alert, Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
-import TaskUpdateModel from "../TaskUpdateModel/TaskUpdateModel";
 
 interface IFormInput {
   title?: string;

@@ -1,19 +1,18 @@
-import { Alert, Dropdown } from "react-bootstrap";
+import axios, { AxiosError } from "axios";
+import { useEffect, useState } from "react";
+import { Dropdown } from "react-bootstrap";
+import { BASE_HEADERS, TASKS_URLS } from "../../../../constants/END_POINTS";
 import SortIcon from "./SortIcone";
 import "./TasksList.scss";
-import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { BASE_HEADERS, TASKS_URLS } from "../../../../constants/END_POINTS";
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
-import TaskModelView from "../TaskModelView/TaskModelView";
-import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
-import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import NoData from "../../../Shared/components/NoData/NoData";
 import { ScaleLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import useUserInformation from "../../../../constants/useUserInformation";
-import TaskUpdateModel from "../TaskUpdateModel/TaskUpdateModel";
+import NoData from "../../../Shared/components/NoData/NoData";
+import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
+import TaskModelView from "../TaskModelView/TaskModelView";
 
 interface Manager {
   id: number;
