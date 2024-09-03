@@ -34,7 +34,6 @@ const ChangePassForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     try {
       const response = await axios.put(USERS_URLS.changePass, data, {
         headers: { Authorization: getToken() },
@@ -47,7 +46,6 @@ const ChangePassForm = () => {
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "some_thing_wrong");
-      console.log(error);
     }
   };
 

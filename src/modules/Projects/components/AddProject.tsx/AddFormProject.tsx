@@ -39,8 +39,6 @@ export default function AddFormProject() {
           axiosError.response?.data?.message ||
             "An error occurred. Please try again."
         );
-
-        console.log(error);
       });
   };
 
@@ -58,7 +56,6 @@ export default function AddFormProject() {
       const data_unload = JSON.parse(localStorage.getItem("onBeforeUnload"));
       setValue("title", data_unload.title);
       setValue("description", data_unload.description);
-      console.log(data_unload);
     }
   }, []);
 

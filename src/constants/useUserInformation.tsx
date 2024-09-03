@@ -41,7 +41,6 @@ const useUserInformation = () => {
         });
       } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
-        console.log(axiosError);
       } finally {
         setLoading(false); // Set loading to false once the request is complete
       }

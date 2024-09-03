@@ -44,7 +44,6 @@ const TaskData = () => {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     try {
       const response = await axios.post(
         TASKS_PROJECTS_URLS.creatTaskByManger,
@@ -53,14 +52,12 @@ const TaskData = () => {
           headers: { Authorization: getToken() },
         }
       );
-      console.log(response);
 
       toast.success(response?.data?.message || "task added");
 
       navigate("/dashboard/tasks");
     } catch (error) {
       toast.error(error.response?.data?.message || "some_thing_wrong");
-      console.log(error);
     }
   };
 
@@ -72,11 +69,8 @@ const TaskData = () => {
         },
         headers: { Authorization: getToken() },
       });
-
-      console.log(response.data.data);
       setUserList(response.data.data);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -88,10 +82,8 @@ const TaskData = () => {
         },
         headers: { Authorization: getToken() },
       });
-      console.log(response.data);
       setUserProject(response.data.data);
     } catch (error) {
-      console.log(error);
     }
   };
 

@@ -53,7 +53,6 @@ interface ErrorResponse {
 
 const TasksList = () => {
   const { userInformation, loading: userLoading } = useUserInformation();
-  console.log(userInformation);
   const navigate = useNavigate();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,6 +60,7 @@ const TasksList = () => {
   const [title, setTitle] = useState<string>(
     localStorage.getItem("searchTitle") || ""
   );
+  const [sortedValue, setSortedValue] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -81,8 +81,6 @@ const TasksList = () => {
         },
         ...BASE_HEADERS,
       });
-
-      console.log(response.data.data);
       setTasks(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
     } catch (error) {
@@ -111,11 +109,9 @@ const TasksList = () => {
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(event.target.value);
-    console.log(filter);
   };
   const handleSearchChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTitle(event.target.value);
-    console.log(title);
   };
 
   const handlePageChange = (page: number) => {
@@ -128,12 +124,69 @@ const TasksList = () => {
     setPageSize(Number(event.target.value));
     setCurrentPage(1);
   };
+
+  const handleSort = (
+    value: "userName" | "title" | "project" | "date"
+  ): void => {
+    const sortTitle = () => {
+      setTasks(
+        tasks.sort((p1, p2) =>
+          (sortedValue ? p2 : p1).title.localeCompare(
+            (sortedValue ? p1 : p2).title
+          )
+        )
+      );
+    };
+    const sortUserName = () => {
+      setTasks(
+        tasks.sort((p1, p2) => {
+          const userName1 = (sortedValue ? p2 : p1).employee?.userName ?? "";
+          const userName2 = (sortedValue ? p1 : p2).employee?.userName ?? "";
+          return userName1.localeCompare(userName2);
+        })
+      );
+    };
+    const sortProjectName = () => {
+      setTasks(
+        tasks.sort((p1, p2) =>
+          (sortedValue ? p2 : p1).project.title.localeCompare(
+            (sortedValue ? p1 : p2).project.title
+          )
+        )
+      );
+    };
+    const sortDate = () => {
+      setTasks(
+        tasks.sort(
+          (a, b) =>
+            new Date((sortedValue ? b : a).creationDate).getTime() -
+            new Date((sortedValue ? a : b).creationDate).getTime()
+        )
+      );
+    };
+    switch (value) {
+      case "title":
+        sortTitle();
+        break;
+      case "userName":
+        sortUserName();
+        break;
+      case "project":
+        sortProjectName();
+        break;
+      case "date":
+        sortDate();
+        break;
+      default:
+        break;
+    }
+    setSortedValue(!sortedValue);
+  };
   if (userLoading) {
     return (
       <div
         className="loadingContainer d-flex justify-content-center align-items-center"
-        style={{ minHeight: "692px" }}
-      >
+        style={{ minHeight: "692px" }}>
         <ScaleLoader className="loader" color="rgba(49, 89, 81, 0.9)" />
       </div>
     );
@@ -148,8 +201,7 @@ const TasksList = () => {
             <button
               onClick={() => {
                 navigate("/dashboard/add-task");
-              }}
-            >
+              }}>
               <i className="fa-solid fa-plus mx-3"></i>Add New Task
             </button>
           </header>
@@ -174,8 +226,7 @@ const TasksList = () => {
                   className="form-select"
                   onChange={handleFilterChange}
                   value={filter}
-                  aria-label="Filter by status"
-                >
+                  aria-label="Filter by status">
                   <option value="">
                     <i className="fas fa-filter me-2" aria-hidden="true"></i>{" "}
                     Filter
@@ -192,31 +243,30 @@ const TasksList = () => {
                 <tr>
                   <th scope="col">
                     Title
-                    <span className="ms-5">
+                    <span onClick={() => handleSort("title")} className="ms-5">
                       <SortIcon />
                     </span>
                   </th>
-                  <th scope="col">
-                    Status
-                    <span className="ms-2">
-                      <SortIcon />
-                    </span>
-                  </th>
+                  <th scope="col">Status</th>
                   <th scope="col">
                     User
-                    <span className="ms-3">
+                    <span
+                      onClick={() => handleSort("userName")}
+                      className="ms-3">
                       <SortIcon />
                     </span>
                   </th>
                   <th scope="col">
                     Project
-                    <span className="ms-4">
+                    <span
+                      onClick={() => handleSort("project")}
+                      className="ms-4">
                       <SortIcon />
                     </span>
                   </th>
                   <th scope="col">
                     Date Created
-                    <span className="ms-2">
+                    <span onClick={() => handleSort("date")} className="ms-2">
                       <SortIcon />
                     </span>
                   </th>
@@ -276,16 +326,13 @@ const TasksList = () => {
                               : task.status === "Done"
                               ? "done"
                               : ""
-                          }`}
-                        >
+                          }`}>
                           {task.status}
                         </div>
                       </td>
                       <td>{task?.employee?.userName}</td>
                       <td>{task.project.title}</td>
-                      <td>
-                        {new Date(task.creationDate).toLocaleDateString()}
-                      </td>
+                      <td>{new Date(task.creationDate).toLocaleString()}</td>
                       <td>
                         <Dropdown>
                           <Dropdown.Toggle>
@@ -326,8 +373,7 @@ const TasksList = () => {
                   <select
                     className="me-3 form-select   d-inline-block w-auto"
                     value={pageSize}
-                    onChange={handlePageSizeChange}
-                  >
+                    onChange={handlePageSizeChange}>
                     {[1, 5, 10, 15, 20].map((size) => (
                       <option key={size} value={size}>
                         {size}
@@ -344,15 +390,13 @@ const TasksList = () => {
                   <button
                     className="btn  me-2 fs-3 "
                     onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
+                    disabled={currentPage === 1}>
                     &lt;
                   </button>
                   <button
                     className="btn fs-3 "
                     onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
+                    disabled={currentPage === totalPages}>
                     &gt;
                   </button>
                 </div>
