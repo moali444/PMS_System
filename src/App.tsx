@@ -61,11 +61,7 @@ const App = () => {
         { path: "add-task", element: <TaskData /> },
         {
           path: "users",
-          element: (
-            <ProtectedRoute>
-              <UsersList />{" "}
-            </ProtectedRoute>
-          ),
+          element: <UsersList />,
         },
         { path: "add-project", element: <AddProject /> },
         { path: "update-project", element: <UpdateProject /> },
