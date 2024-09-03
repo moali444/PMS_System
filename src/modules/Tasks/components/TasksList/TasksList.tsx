@@ -1,18 +1,18 @@
+import axios, { AxiosError } from "axios";
+import { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
+import { BASE_HEADERS, TASKS_URLS } from "../../../../constants/END_POINTS";
 import SortIcon from "./SortIcone";
 import "./TasksList.scss";
-import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { BASE_HEADERS, TASKS_URLS } from "../../../../constants/END_POINTS";
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
-import TaskModelView from "../TaskModelView/TaskModelView";
-import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import NoData from "../../../Shared/components/NoData/NoData";
+import { Link, useNavigate } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import useUserInformation from "../../../../constants/useUserInformation";
+import NoData from "../../../Shared/components/NoData/NoData";
+import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
+import TaskModelView from "../TaskModelView/TaskModelView";
 
 interface Manager {
   id: number;
@@ -53,6 +53,7 @@ interface ErrorResponse {
 
 const TasksList = () => {
   const { userInformation, loading: userLoading } = useUserInformation();
+  // console.log(userInformation);
   const navigate = useNavigate();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -81,6 +82,8 @@ const TasksList = () => {
         },
         ...BASE_HEADERS,
       });
+
+      // console.log(response.data.data);
       setTasks(response.data.data);
       setTotalPages(response.data.totalNumberOfPages);
     } catch (error) {
@@ -344,10 +347,12 @@ const TasksList = () => {
                               <TaskModelView task={task} />
                             </Dropdown.Item>
                             <Dropdown.Item>
-                              <button>
-                                <i className="fa-regular fa-pen-to-square me-3"></i>
-                                Edit
-                              </button>
+                              <Link
+                                to={`/dashboard/update-task/${task.id}`}
+                                state={{ updateTask: task, type: "update" }}
+                              ></Link>
+                              <i className="fa-regular fa-pen-to-square me-3"></i>
+                              Edit
                             </Dropdown.Item>
                             <Dropdown.Item>
                               <TaskDeleteModel
