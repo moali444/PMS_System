@@ -4,7 +4,11 @@ import Table from "react-bootstrap/Table";
 import SortIcon from "./SortIcon";
 import useUserInformation from "../../../../constants/useUserInformation";
 import axios, { AxiosError } from "axios";
-import { BASE_HEADERS, USERS_LIST, toggleStatusUrls } from "../../../../constants/END_POINTS";
+import {
+  BASE_HEADERS,
+  USERS_LIST,
+  toggleStatusUrls,
+} from "../../../../constants/END_POINTS";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
@@ -73,7 +77,7 @@ const UsersData = () => {
         ...BASE_HEADERS,
       });
       console.log(response.data);
-      setUsersList(response.data.data); 
+      setUsersList(response.data.data);
       setPaginationInfo({
         ...paginationInfo,
         totalNumberOfPages: response.data.totalNumberOfPages,
@@ -87,13 +91,17 @@ const UsersData = () => {
     }
   };
 
-  const toggleUserStatus = async (id:string) => {
+  const toggleUserStatus = async (id: string) => {
     try {
-      const response = await axios.put(USERS_LIST.toggleStatusUrls(id),{}, {
-        ...BASE_HEADERS,
-      });
+      const response = await axios.put(
+        USERS_LIST.toggleStatusUrls(id),
+        {},
+        {
+          ...BASE_HEADERS,
+        }
+      );
       console.log(response.data);
-      getAllUsers(); 
+      getAllUsers();
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "something went wrong");
@@ -176,10 +184,14 @@ const UsersData = () => {
                 <td>{user.email}</td>
                 <td>{user.creationDate}</td>
                 <td>
-                {user.isActivated ? (
-                    <i className="fa-solid fa-toggle-on text-success fa-2x" onClick={()=> toggleUserStatus(user.id)}></i>
+                  {user.isActivated ? (
+                    <i
+                      className="fa-solid fa-toggle-on text-success fa-2x"
+                      onClick={() => toggleUserStatus(user.id)}></i>
                   ) : (
-                    <i className="fa-solid fa-toggle-off text-danger fa-2x" onClick={()=> toggleUserStatus(user.id)}></i>
+                    <i
+                      className="fa-solid fa-toggle-off text-danger fa-2x"
+                      onClick={() => toggleUserStatus(user.id)}></i>
                   )}
                   {/* {isManager ? (
                     <Form.Check 
@@ -214,24 +226,20 @@ const UsersData = () => {
                 pageSize: e.target.value,
                 pageNumber: "1",
               });
-            }}
-          >
+            }}>
             <option
               selected={searchParams.get("pageSize") === "5" || false}
-              value={5}
-            >
+              value={5}>
               5
             </option>
             <option
               selected={searchParams.get("pageSize") === "10" || false}
-              value={10}
-            >
+              value={10}>
               10
             </option>
             <option
               selected={searchParams.get("pageSize") === "20" || false}
-              value={20}
-            >
+              value={20}>
               20
             </option>
           </select>{" "}
@@ -255,8 +263,7 @@ const UsersData = () => {
                 Number(searchParams.get("pageNumber")) - 1
               ).toString(),
             });
-          }}
-        >
+          }}>
           <i className="fa-solid fa-chevron-left" />
         </button>
         <button
@@ -276,8 +283,7 @@ const UsersData = () => {
               ).toString(),
             });
           }}
-          className="pagination-next"
-        >
+          className="pagination-next">
           <i className="fa-solid fa-chevron-right" />
         </button>
       </div>

@@ -5,6 +5,7 @@ import deletImg from "../../../../assets/images/delete.png";
 import { BASE_HEADERS, PROJECTS_URLS } from "../../../../constants/END_POINTS";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 interface IProps {
   modalShow: boolean;
@@ -12,26 +13,28 @@ interface IProps {
   selectedProjectId: number;
   getProject: () => void;
 }
+
 export default function ProjectDeleteModal({
   modalShow,
   setModalShow,
   selectedProjectId,
   getProject,
 }: IProps) {
-  const handelDelete = async () => {
-    try {
-      const response = await axios.delete(
-        PROJECTS_URLS.deleteProject(selectedProjectId),
-        {
-          ...BASE_HEADERS,
-        }
-      );
-      getProject();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const handleDelete = async () => {
+    setIsSubmitting(true);
+    try {
+      await axios.delete(PROJECTS_URLS.deleteProject(selectedProjectId), {
+        ...BASE_HEADERS,
+      });
+      getProject();
       toast.success("Item deleted successfully");
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
-      toast.error(axiosError.response?.data?.message || "some thing wrong");
+      toast.error(axiosError.response?.data?.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -59,17 +62,26 @@ export default function ProjectDeleteModal({
             <img src={deletImg} alt="delete-image" className="w-100" />
           </div>
           <div className="w-75 m-auto text-center">
-            <h6>Delete This Project ?</h6>
+            <h6>Delete This Project?</h6>
             <p>
-              Are you sure you want to delete this item ? if you are sure just
-              click on delete it
+              Are you sure you want to delete this item? If you are sure, just
+              click on delete.
             </p>
           </div>
         </Modal.Body>
 
         <Modal.Footer className="modal-footer border-0">
-          <Button variant="danger" onClick={handelDelete}>
-            Delete It
+          <Button
+            variant="danger"
+            onClick={handleDelete}
+            disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <ClipLoader size={15} color={"#fff"} />
+              </>
+            ) : (
+              "Delete It"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
