@@ -8,7 +8,6 @@ interface IProps {
 }
 export default function TaskDeleteModel({ deleteTask }: IProps) {
   const [modalShow, setModalShow] = useState(false);
-  console.log(deleteTask);
 
   const hadelDelete = () => {
     deleteTask();

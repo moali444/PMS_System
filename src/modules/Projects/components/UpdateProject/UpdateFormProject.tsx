@@ -33,7 +33,6 @@ export default function UpdateProject() {
   set_Data();
 
   const onSubmit: SubmitHandler<UpdateProject> = () => {
-    console.log("this is getValue", getValues());
 
     axios
       .put(PROJECTS_URLS.UpdateProject(project_id), getValues(), BASE_HEADERS)
@@ -47,7 +46,6 @@ export default function UpdateProject() {
           error?.response?.data?.message ||
             "An error occurred. Please try again."
         );
-        console.log(error);
       });
     set_data_list(undefined);
   };
@@ -58,7 +56,6 @@ export default function UpdateProject() {
         set_data_list(responce.data);
       })
       .catch((error) => {
-        console.log(error);
       });
   };
   useEffect(() => {

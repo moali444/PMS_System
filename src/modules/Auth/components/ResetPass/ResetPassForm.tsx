@@ -37,7 +37,6 @@ const ResetPassForm = () => {
   }, [setFocus]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
-    console.log(data);
     try {
       const response = await axios.post(USERS_URLS.Reset, data);
       toast.success(response?.data?.message);
@@ -45,7 +44,6 @@ const ResetPassForm = () => {
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "some_thing_wrong");
-      console.log(error);
     }
   };
 

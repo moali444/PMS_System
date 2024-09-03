@@ -10,9 +10,9 @@ import {
   toggleStatusUrls,
 } from "../../../../constants/END_POINTS";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
-import UserDeleteModal from "../UserDeleteModal/UserDeleteModal";
+
 import { toast } from "react-toastify";
 
 interface ErrorResponse {
@@ -23,7 +23,7 @@ interface UserType {
   userName: string;
   phoneNumber: string;
   email: string;
-  creationDate: string;
+  country: string;
   isActivated: boolean;
 }
 interface paginationInformation {
@@ -33,37 +33,22 @@ interface paginationInformation {
   pageNumber: number;
 }
 
-interface searchParams {
-  pageSize: string;
-  pageNumber: string;
-  title: string;
-}
-
 const UsersData = () => {
   const [usersList, setUsersList] = useState<UserType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [modalShow, setModalShow] = useState(false);
-  const [selectedUserId, setSelectedUsersId] = useState<number | null>(null);
+  const [sortedValue, setSortedValue] = useState(false);
   const [paginationInfo, setPaginationInfo] = useState<paginationInformation>({
     totalNumberOfPages: 0,
     totalNumberOfRecords: 0,
     pageSize: 10,
     pageNumber: 1,
   });
-  const [filtrationSearch, setFiltrationSeacrh] = useState({
-    title: "",
-  });
   const [searchParams, setSearchParams] = useSearchParams({
     pageSize: paginationInfo.pageSize.toString(),
     pageNumber: paginationInfo.pageNumber.toString(),
-    title: filtrationSearch.title,
   });
 
   const { userInformation } = useUserInformation();
-
-  const isManager = userInformation?.group.name === "Manager";
-
-  const navigate = useNavigate();
 
   const getAllUsers = async () => {
     setIsLoading(true);
@@ -72,11 +57,9 @@ const UsersData = () => {
         params: {
           pageSize: searchParams.get("pageSize") || 10,
           pageNumber: searchParams.get("pageNumber"),
-          title: searchParams.get("title"),
         },
         ...BASE_HEADERS,
       });
-      console.log(response.data);
       setUsersList(response.data.data);
       setPaginationInfo({
         ...paginationInfo,
@@ -87,7 +70,6 @@ const UsersData = () => {
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "something went wrong");
-      console.log(error);
     }
   };
 
@@ -100,68 +82,94 @@ const UsersData = () => {
           ...BASE_HEADERS,
         }
       );
-      console.log(response.data);
       getAllUsers();
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "something went wrong");
-      console.log(error);
     }
   };
 
   useEffect(() => {
     getAllUsers();
-  }, [
-    userInformation,
-    paginationInfo.pageNumber,
-    paginationInfo.pageSize,
-    filtrationSearch,
-  ]);
+  }, [userInformation, paginationInfo.pageNumber, paginationInfo.pageSize]);
 
-  const toggleActivation = (userId: number) => {
-    setUsersList((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === userId ? { ...user, isActivated: !user.isActivated } : user
-      )
-    );
+  const handleSort = (
+    value: "status" | "userName" | "country" | "phoneNumber"
+  ): void => {
+    const sortUserName = () => {
+      setUsersList(
+        usersList.sort((p1, p2) =>
+          (sortedValue ? p2 : p1).userName.localeCompare(
+            (sortedValue ? p1 : p2).userName
+          )
+        )
+      );
+    };
+    const sortCountry = () => {
+      setUsersList(
+        usersList.sort((p1, p2) =>
+          (sortedValue ? p2 : p1).country.localeCompare(
+            (sortedValue ? p1 : p2).country
+          )
+        )
+      );
+    };
+    const sortStatus = () => {
+      setUsersList(
+        usersList.sort((p1, p2) =>
+          (sortedValue ? p2 : p1).isActivated
+            .toString()
+            .localeCompare((sortedValue ? p1 : p2).isActivated.toString())
+        )
+      );
+    };
+    const sortPhoneNumber = () => {
+      setUsersList(
+        usersList.sort((a, b) =>
+          sortedValue
+            ? Number(b.phoneNumber) - Number(a.phoneNumber)
+            : Number(a.phoneNumber) - Number(b.phoneNumber)
+        )
+      );
+    };
+    setSortedValue(!sortedValue);
+    if (value === "userName") {
+      return sortUserName();
+    } else if (value === "status") {
+      return sortStatus();
+    } else if (value === "country") {
+      return sortCountry();
+    } else if (value === "phoneNumber") return sortPhoneNumber();
   };
-
   return (
-    <div id="project-data">
-      <div className="form-background">
-        <Form noValidate>
-          <Form.Group className="search-input" controlId="">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <Form.Control
-              type="text"
-              placeholder="Search By Title"
-              value={searchParams.get("title") || ""}
-              onChange={(e) => {
-                setFiltrationSeacrh({ title: e.target.value });
-                setSearchParams({ ...searchParams, title: e.target.value });
-              }}
-            />
-          </Form.Group>
-        </Form>
-      </div>
-
+    <div id="users-data">
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>
-              User Name <SortIcon />
+              User Name{" "}
+              <span onClick={() => handleSort("userName")}>
+                <SortIcon />
+              </span>
             </th>
             <th>
-              Status <SortIcon />
+              Status{" "}
+              <span onClick={() => handleSort("status")}>
+                <SortIcon />
+              </span>
             </th>
             <th>
-              Phone Number <SortIcon />
+              Phone Number{" "}
+              <span onClick={() => handleSort("phoneNumber")}>
+                <SortIcon />
+              </span>
             </th>
+            <th>Email</th>
             <th>
-              Email <SortIcon />
-            </th>
-            <th>
-              Date Created <SortIcon />
+              Country{" "}
+              <span onClick={() => handleSort("country")}>
+                <SortIcon />
+              </span>
             </th>
             <th></th>
           </tr>
@@ -182,28 +190,17 @@ const UsersData = () => {
                 </td>
                 <td>{user.phoneNumber}</td>
                 <td>{user.email}</td>
-                <td>{user.creationDate}</td>
+                <td>{user.country}</td>
                 <td>
                   {user.isActivated ? (
                     <i
                       className="fa-solid fa-toggle-on text-success fa-2x"
-                      onClick={() => toggleUserStatus(user.id)}></i>
+                      onClick={() => toggleUserStatus(user.id.toString())}></i>
                   ) : (
                     <i
                       className="fa-solid fa-toggle-off text-danger fa-2x"
-                      onClick={() => toggleUserStatus(user.id)}></i>
+                      onClick={() => toggleUserStatus(user.id.toString())}></i>
                   )}
-                  {/* {isManager ? (
-                    <Form.Check 
-                      type="switch"
-                      id={`switch-${user.id}`} // Unique ID for each switch
-                      label=""
-                      checked={user.isActivated}
-                      onChange={() => toggleActivation(user.id)} // Attach the toggle function
-                    />
-                  ) : (
-                    ""
-                  )} */}
                 </td>
               </tr>
             ))}
@@ -214,6 +211,7 @@ const UsersData = () => {
         <div className="pagination-info">
           Showing{" "}
           <select
+            value={searchParams.get("pageSize") || 10}
             disabled={isLoading}
             onChange={(e) => {
               setPaginationInfo({
@@ -227,21 +225,9 @@ const UsersData = () => {
                 pageNumber: "1",
               });
             }}>
-            <option
-              selected={searchParams.get("pageSize") === "5" || false}
-              value={5}>
-              5
-            </option>
-            <option
-              selected={searchParams.get("pageSize") === "10" || false}
-              value={10}>
-              10
-            </option>
-            <option
-              selected={searchParams.get("pageSize") === "20" || false}
-              value={20}>
-              20
-            </option>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
           </select>{" "}
           of {paginationInfo.totalNumberOfRecords} Results
         </div>
@@ -287,14 +273,6 @@ const UsersData = () => {
           <i className="fa-solid fa-chevron-right" />
         </button>
       </div>
-      {/* {modalShow && (
-        <UserDeleteModal
-          selectedUserId={selectedUserId}
-          modalShow={modalShow}
-          setModalShow={setModalShow}
-          getAllUsers={getAllUsers}
-        />
-      )} */}
     </div>
   );
 };

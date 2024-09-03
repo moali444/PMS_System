@@ -70,7 +70,6 @@ const ProjectData = () => {
           headers: { Authorization: getToken() },
         }
       );
-      console.log(response.data);
       setProjectsList(response.data.data);
       setPaginationInfo({
         ...paginationInfo,
@@ -81,7 +80,6 @@ const ProjectData = () => {
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "some thing wrong");
-      console.log(error);
     }
   };
 

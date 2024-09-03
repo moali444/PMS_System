@@ -29,7 +29,6 @@ const ForgetPassForm = () => {
   }, [setFocus]);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
-    console.log(data);
     try {
       const response = await axios.post(USERS_URLS.forgetPass, data);
       toast.info(response.data.message);
@@ -37,7 +36,6 @@ const ForgetPassForm = () => {
     } catch (error: any) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "some_thing_wrong");
-      console.log(error);
     }
   };
 
