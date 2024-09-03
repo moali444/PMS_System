@@ -29,6 +29,7 @@ export default function ProjectDeleteModal({
         ...BASE_HEADERS,
       });
       getProject();
+      setModalShow(false);
       toast.success("Item deleted successfully");
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
