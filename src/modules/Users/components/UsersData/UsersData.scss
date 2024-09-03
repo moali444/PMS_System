@@ -1,4 +1,4 @@
-#project-data {
+#users-data {
   margin-top: 24px;
   display: flex;
   flex-direction: column;
@@ -40,8 +40,8 @@
     margin-bottom: 0 !important;
     min-height: 400px;
     th {
-      &:nth-child(1) {
-        width: 30%;
+      &:nth-child(2) {
+        width: 15%;
       }
 
       &:nth-child(6) {
@@ -102,17 +102,19 @@
       border: none;
     }
   }
-  .active-label{
+  .active-label {
     margin-top: 5px;
     display: flex;
     padding: 6px 20px;
+    justify-content: center;
     border-radius: 50px;
     color: #fff;
     background-color: #009247;
   }
-  .deactive-label{
+  .deactive-label {
     margin-top: 5px;
     display: flex;
+    justify-content: center;
     padding: 6px 20px;
     border-radius: 50px;
     color: #fff;

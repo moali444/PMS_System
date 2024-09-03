@@ -52,7 +52,6 @@ const RegisterForm = () => {
       const response = await axios.post(USERS_URLS.register, registerData);
       toast.success(response?.data?.message || "registered successfuly");
       navigate("/verify-account");
-      console.log(response);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message);

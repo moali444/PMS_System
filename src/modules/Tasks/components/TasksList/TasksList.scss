@@ -118,6 +118,11 @@
           display: none;
         }
       }
+      .dropdown {
+        button {
+          cursor: pointer;
+        }
+      }
     }
 
     .pagination-controls {

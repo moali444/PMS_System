@@ -49,9 +49,15 @@ const App = () => {
       children: [
         { index: true, element: <Dashboard /> },
         { path: "", element: <Dashboard /> },
-        { path: "projects", element: <ProjectsList /> },
+        {
+          path: "projects",
+          element: <ProjectsList />,
+        },
         { path: "project-data", element: <ProjectData /> },
-        { path: "tasks", element: <TasksList /> },
+        {
+          path: "tasks",
+          element: <TasksList />,
+        },
         { path: "add-task", element: <TaskData /> },
         { path: "update-task/:id", element: <TaskData /> },
         { path: "users", element: <UsersList /> },

@@ -25,12 +25,7 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
 
   return (
     <div id="sidebar_bx">
-      <Sidebar
-        toggled={toggled}
-        customBreakPoint="800px"
-        onBreakPoint={setBroken}
-        collapsed={collapsed}
-      >
+      <Sidebar toggled={toggled} collapsed={collapsed}>
         {loading ? (
           ""
         ) : (
@@ -38,16 +33,14 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
             <MenuItem
               active={location.pathname === "/dashboard"}
               icon={<img src={IMAGES.homeIcon} alt="pic" />}
-              component={<Link to="/dashboard" />}
-            >
+              component={<Link to="/dashboard" />}>
               Home
             </MenuItem>
             {isManager ? (
               <MenuItem
                 active={location.pathname === "/dashboard/users"}
                 icon={<img src={IMAGES.usersIcon} alt="pic" />}
-                component={<Link to="/dashboard/users" />}
-              >
+                component={<Link to="/dashboard/users" />}>
                 Users
               </MenuItem>
             ) : (
@@ -57,22 +50,19 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
             <MenuItem
               active={location.pathname === "/dashboard/projects"}
               icon={<img src={IMAGES.projectsIcon} alt="pic" />}
-              component={<Link to="/dashboard/projects" />}
-            >
+              component={<Link to="/dashboard/projects" />}>
               Projects
             </MenuItem>
             <MenuItem
               active={location.pathname === "/dashboard/tasks"}
               icon={<img src={IMAGES.tasksIcon} alt="pic" />}
-              component={<Link to="/dashboard/tasks" />}
-            >
+              component={<Link to="/dashboard/tasks" />}>
               Tasks
             </MenuItem>
 
             <MenuItem
               icon={<img src={IMAGES.tasksIcon} alt="pic" />}
-              component={<Link to="/change-pass" />}
-            >
+              component={<Link to="/change-pass" />}>
               Change Password
             </MenuItem>
           </Menu>
@@ -81,15 +71,6 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
       <button className="sb-button toggle_btn" onClick={handleToggle}>
         <img src={IMAGES.menuArrow} alt="pic" />
       </button>
-      <main>
-        <div>
-          {broken && (
-            <button className="sb-button" onClick={() => setToggled(!toggled)}>
-              Toggle
-            </button>
-          )}
-        </div>
-      </main>
     </div>
   );
 };

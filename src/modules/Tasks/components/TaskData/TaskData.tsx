@@ -47,7 +47,6 @@ const TaskData = () => {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     try {
       const response = await axios({
         method: type === "update" ? "PUT" : "POST",
@@ -65,7 +64,6 @@ const TaskData = () => {
       navigate("/dashboard/tasks");
     } catch (error) {
       toast.error(error.response?.data?.message || "some_thing_wrong");
-      console.log(error);
     }
   };
 
@@ -81,7 +79,6 @@ const TaskData = () => {
       // console.log(response.data.data);
       setUserList(response.data.data);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -93,10 +90,8 @@ const TaskData = () => {
         },
         headers: { Authorization: getToken() },
       });
-      // console.log(response.data.data);
       setUserProject(response.data.data);
     } catch (error) {
-      console.log(error);
     }
   };
 
