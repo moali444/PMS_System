@@ -31,8 +31,7 @@ export const PROJECTS_URLS = {
 export const TASKS_URLS = {
   tasksManger: `${BASE_URL}/Task/manager`,
   delete: (id: number) => `${BASE_URL}/Task/${id}`,
-  update: (id: number) => `${BASE_URL}/Task/${id}`,
-
+  update: (id) => `${BASE_URL}/Task/${id}`,
   tasksCount: `${BASE_URL}/Task/count'`,
 };
 
