@@ -2,11 +2,12 @@ import axios from "axios";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   PROJECTS_URLS,
   TASKS_PROJECTS_URLS,
+  TASKS_URLS,
   USERS_URLS,
 } from "../../../../constants/END_POINTS";
 import { getToken } from "../../../../constants/Tokenhandler";
@@ -36,6 +37,8 @@ interface Project {
 const TaskData = () => {
   const [userList, setUserList] = useState<User[]>([]);
   const [userProject, setUserProject] = useState<Project[]>([]);
+  const location = useLocation();
+  const { updateTask, type } = location.state ? location.state : "";
 
   const navigate = useNavigate();
   const {
@@ -47,13 +50,15 @@ const TaskData = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     try {
-      const response = await axios.post(
-        TASKS_PROJECTS_URLS.creatTaskByManger,
+      const response = await axios({
+        method: type === "update" ? "PUT" : "POST",
+        url:
+          type === "update"
+            ? TASKS_PROJECTS_URLS.creatTaskByManger
+            : TASKS_URLS.update,
         data,
-        {
-          headers: { Authorization: getToken() },
-        }
-      );
+        headers: { Authorization: getToken() },
+      });
       console.log(response);
 
       toast.success(response?.data?.message || "task added");
@@ -62,7 +67,6 @@ const TaskData = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "some_thing_wrong");
       console.log(error);
-      
     }
   };
 
@@ -77,7 +81,6 @@ const TaskData = () => {
 
       // console.log(response.data.data);
       setUserList(response.data.data);
-      
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +94,7 @@ const TaskData = () => {
         },
         headers: { Authorization: getToken() },
       });
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setUserProject(response.data.data);
     } catch (error) {
       console.log(error);
@@ -115,13 +118,20 @@ const TaskData = () => {
     <>
       <div className="taskData-header m-4 p-3">
         <i className="fa-solid fa-less-than  "></i>
-        <Link to={"tasks"} className="text-decoration-none text-black mx-3 ">
+        <Link
+          to={"/dashboard/tasks"}
+          className="text-decoration-none text-black mx-3 "
+        >
           View All Tasks
         </Link>
-        <h3 className="my-3 ">Add a New Task</h3>
+        {type === "update" ? (
+          <h3 className="my-3 ">Update a Task</h3>
+        ) : (
+          <h3 className="my-3 ">Add a New Task</h3>
+        )}
       </div>
       <div className="container-fluid bg-light p-1">
-        <div className="form-container w-75 m-auto my-5 p-4 bg-white rounded-3">
+        <div className="form-container w-50 m-auto my-4 p-4 bg-white rounded-3">
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-4" controlId="">
               <Form.Label>Title</Form.Label>
@@ -133,6 +143,7 @@ const TaskData = () => {
                   {...register("title", {
                     required: "title is required",
                   })}
+                  value={type === "update" ? updateTask.title : ""}
                 />
               </InputGroup>
               {errors.title && (
@@ -146,10 +157,10 @@ const TaskData = () => {
                   as="textarea"
                   placeholder="Description"
                   style={{ height: "100px" }}
-                  
                   {...register("description", {
                     required: "description is required",
                   })}
+                  value={type === "update" ? updateTask.description : ""}
                 />
               </InputGroup>
               {errors.description && (
@@ -168,15 +179,14 @@ const TaskData = () => {
                       {...register("employeeId", {
                         required: "user is required",
                       })}
+                      value={type === "update" ? updateTask.employee.id : ""}
                     >
                       <option value="">Choose the User</option>
                       {userList?.map((user) => (
                         <option key={user.id} value={user.id}>
                           {user.userName}
                         </option>
-                        
                       ))}
-
                     </Form.Select>
                   </InputGroup>
                   {errors.employeeId && (
@@ -194,10 +204,9 @@ const TaskData = () => {
                       {...register("projectId", {
                         required: "project is required",
                       })}
+                      value={type === "update" ? updateTask.project.id : ""}
                     >
-                      <option value="" >
-                        Choose the Project
-                      </option>
+                      <option value="">Choose the Project</option>
 
                       {userProject?.map((proj) => (
                         <option key={proj.id} value={proj.id}>
@@ -221,7 +230,8 @@ const TaskData = () => {
                   variant=""
                   onClick={() => {
                     navigate("/dashboard/tasks");
-                  }}>
+                  }}
+                >
                   cancel
                 </Button>
               </div>
@@ -230,13 +240,16 @@ const TaskData = () => {
                   className="form-btn rounded-5 px-4 text-white"
                   variant="warning"
                   type="submit"
-                  disabled={isSubmitting}>
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? (
                     <>
                       <ClipLoader size={15} color={"#fff"} />
                     </>
+                  ) : type === "Update" ? (
+                    "update"
                   ) : (
-                    "Save"
+                    "Add"
                   )}
                 </Button>
               </div>

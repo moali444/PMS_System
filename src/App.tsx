@@ -54,10 +54,11 @@ const App = () => {
         { path: "project-data", element: <ProjectData /> },
         { path: "tasks", element: <TasksList /> },
         { path: "add-task", element: <TaskData /> },
+        { path: "update-task/:id", element: <TaskData /> },
         { path: "users", element: <UsersList /> },
         { path: "add-project", element: <AddProject /> },
         { path: "update-project", element: <UpdateProject /> },
-        { path: "TaskUpdateModel", element: <TaskUpdateModel /> },
+        // { path: "TaskUpdateModel", element: <TaskUpdateModel /> },
       ],
     },
   ]);
