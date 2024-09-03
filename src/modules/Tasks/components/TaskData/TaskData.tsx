@@ -38,6 +38,18 @@ const TaskData = () => {
   const [userProject, setUserProject] = useState<Project[]>([]);
   const location = useLocation();
   const { updateTask, type } = location.state ? location.state : "";
+  const [valueDescription, setValueDescription] = useState(
+    type === "update" ? updateTask.description : ""
+  );
+  const [valueTitle, setValueTitle] = useState(
+    type === "update" ? updateTask.title : ""
+  );
+  const[ valueProject ,setValueProject ] =useState(
+    type === "update" ? updateTask.project.id : ""
+  ) ;
+  const[ valueEmployee ,setValueEmployee ] =useState(
+     type === "update" ? updateTask.employee.id : ""
+  )
 
   const navigate = useNavigate();
   const {
@@ -50,11 +62,8 @@ const TaskData = () => {
     try {
       const response = await axios({
         method: type === "update" ? "PUT" : "POST",
-        url:
-          type === "update"
-            ? TASKS_PROJECTS_URLS.creatTaskByManger
-            : TASKS_URLS.update,
-        data,
+        url:type === "update" ? TASKS_URLS.update(updateTask.id) : TASKS_PROJECTS_URLS.creatTaskByManger,
+        data:data,
         headers: { Authorization: getToken() },
       });
       console.log(response);
@@ -79,7 +88,9 @@ const TaskData = () => {
       // console.log(response.data.data);
       setUserList(response.data.data);
     } catch (error) {
+      console.log(error);
     }
+    
   };
 
   const getAllProject = async () => {
@@ -92,6 +103,8 @@ const TaskData = () => {
       });
       setUserProject(response.data.data);
     } catch (error) {
+      console.log(error);
+      
     }
   };
 
@@ -137,7 +150,9 @@ const TaskData = () => {
                   {...register("title", {
                     required: "title is required",
                   })}
-                  value={type === "update" ? updateTask.title : ""}
+                 
+                  onChange={(e) => setValueTitle(e.target.value)}
+                  value={valueTitle}
                 />
               </InputGroup>
               {errors.title && (
@@ -154,7 +169,9 @@ const TaskData = () => {
                   {...register("description", {
                     required: "description is required",
                   })}
-                  value={type === "update" ? updateTask.description : ""}
+                  
+                  onChange={(e) => setValueDescription(e.target.value)}
+                  value={valueDescription}
                 />
               </InputGroup>
               {errors.description && (
@@ -173,7 +190,8 @@ const TaskData = () => {
                       {...register("employeeId", {
                         required: "user is required",
                       })}
-                      value={type === "update" ? updateTask.employee.id : ""}
+                      onChange={(e) => setValueEmployee(e.target.value)}
+                      value={valueEmployee}
                     >
                       <option value="">Choose the User</option>
                       {userList?.map((user) => (
@@ -198,12 +216,14 @@ const TaskData = () => {
                       {...register("projectId", {
                         required: "project is required",
                       })}
-                      value={type === "update" ? updateTask.project.id : ""}
+                      onChange={(e) => setValueProject(e.target.value)}
+                      value={valueProject}
+        
                     >
                       <option value="">Choose the Project</option>
 
                       {userProject?.map((proj) => (
-                        <option key={proj.id} value={proj.id}>
+                        <option key={proj.id} value={`${proj.id}`}>
                           {proj.title}
                         </option>
                       ))}
@@ -240,7 +260,7 @@ const TaskData = () => {
                     <>
                       <ClipLoader size={15} color={"#fff"} />
                     </>
-                  ) : type === "Update" ? (
+                  ) : type === "update" ? (
                     "update"
                   ) : (
                     "Add"

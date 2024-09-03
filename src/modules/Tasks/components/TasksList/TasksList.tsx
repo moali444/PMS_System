@@ -207,6 +207,7 @@ const TasksList = () => {
               onClick={() => {
                 navigate("/dashboard/add-task");
               }}
+              className="add-btn"
             >
               <i className="fa-solid fa-plus mx-3"></i>Add New Task
             </button>
