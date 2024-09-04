@@ -32,12 +32,13 @@ export const TASKS_URLS = {
   tasksManger: `${BASE_URL}/Task/manager`,
   delete: (id: number) => `${BASE_URL}/Task/${id}`,
   update: (id) => `${BASE_URL}/Task/${id}`,
-  tasksCount: `${BASE_URL}/Task/count'`,
+  tasksCount: `${BASE_URL}/Task/count`,
 };
 
 export const USERS_LIST = {
   getUsersUrls: `${BASE_URL}/Users/Manager`,
   toggleStatusUrls: (id) => `${BASE_URL}/Users/${id}`,
+  usersCount: `${BASE_USERS}/count`,
 };
 
 // HEADERS TOKEN
