@@ -61,7 +61,7 @@ const Dashboard = () => {
     }
 
     getTaskCount();
-  }, []);
+  }, [userInformation]);
 
   if (loading) {
     return (
