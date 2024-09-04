@@ -17,7 +17,10 @@ export default function TaskDeleteModel({ deleteTask }: IProps) {
 
   return (
     <>
-      <button className="dropdown-item" onClick={() => setModalShow(true)}>
+      <button
+        className="dropdown-item w-100"
+        onClick={() => setModalShow(true)}
+      >
         <i className="fa-solid fa-trash me-2" aria-hidden="true"></i> Delete
       </button>
       <Modal

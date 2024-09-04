@@ -29,7 +29,10 @@ export default function TaskModelView({ task }: TaskModelViewProps) {
 
   return (
     <>
-      <button className="dropdown-item" onClick={() => setModalShow(true)}>
+      <button
+        className="dropdown-item w-100"
+        onClick={() => setModalShow(true)}
+      >
         <i className="fa-regular fa-eye me-2" aria-hidden="true"></i> View
       </button>
 

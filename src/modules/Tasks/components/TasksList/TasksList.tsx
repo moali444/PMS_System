@@ -351,7 +351,7 @@ const TasksList = () => {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item as="button" className="mb-1 mx-3">
+                            <Dropdown.Item as="li" className="w-100">
                               <TaskModelView task={task} />
                             </Dropdown.Item>
 
@@ -364,7 +364,7 @@ const TasksList = () => {
                               Edit
                             </Dropdown.Item>
 
-                            <Dropdown.Item as="button" className="my-1 mx-3">
+                            <Dropdown.Item as="li" className="w-100">
                               <TaskDeleteModel
                                 deleteTask={() => deleteTask(task.id)}
                               />
