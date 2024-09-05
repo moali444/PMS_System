@@ -9,7 +9,10 @@ import { TASKS_URLS, USERS_LIST } from "../../../constants/END_POINTS";
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-
+import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
+import { Pie } from "react-chartjs-2";
+import { PieChart } from "./Chart";
+ChartJS.register(Tooltip, Legend, ArcElement);
 interface ErrorResponse {
   message: string;
 }
@@ -154,6 +157,11 @@ const Dashboard = () => {
                 </Col>
               </Row>
             </div>
+          </Col>
+        )}
+        {userInformation?.group?.name !== "Manager" && (
+          <Col md={4}>
+            <div>{taskCount && <PieChart taskCount={taskCount} />}</div>
           </Col>
         )}
       </Row>
