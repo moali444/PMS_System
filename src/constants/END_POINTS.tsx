@@ -33,6 +33,8 @@ export const TASKS_URLS = {
   delete: (id: number) => `${BASE_URL}/Task/${id}`,
   update: (id) => `${BASE_URL}/Task/${id}`,
   tasksCount: `${BASE_URL}/Task/count`,
+  getAllAssignedTasks: `${BASE_URL}/Task`,
+  changeStatus: (id: string) => `${BASE_URL}/Task/${id}/change-status`,
 };
 
 export const USERS_LIST = {

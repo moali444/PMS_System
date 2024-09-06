@@ -13,7 +13,7 @@ import useUserInformation from "../../../../constants/useUserInformation";
 import NoData from "../../../Shared/components/NoData/NoData";
 import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
 import TaskModelView from "../TaskModelView/TaskModelView";
-import { icon } from "@fortawesome/fontawesome-svg-core";
+import UserTasks from "../UserTasks/UserTasks";
 
 interface Manager {
   id: number;
@@ -421,9 +421,7 @@ const TasksList = () => {
           </div>
         </>
       ) : (
-        <div className="p-5">
-          <h3>Task Board</h3>
-        </div>
+        <UserTasks />
       )}
     </div>
   );
