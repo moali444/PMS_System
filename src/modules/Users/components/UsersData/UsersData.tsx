@@ -14,6 +14,7 @@ import { useSearchParams } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 
 import { toast } from "react-toastify";
+import { getToken } from "../../../../constants/Tokenhandler";
 
 interface ErrorResponse {
   message: string;
@@ -58,7 +59,7 @@ const UsersData = () => {
           pageSize: searchParams.get("pageSize") || 10,
           pageNumber: searchParams.get("pageNumber"),
         },
-        ...BASE_HEADERS,
+        headers: { Authorization: getToken() },
       });
       setUsersList(response.data.data);
       setPaginationInfo({
@@ -79,7 +80,7 @@ const UsersData = () => {
         USERS_LIST.toggleStatusUrls(id),
         {},
         {
-          ...BASE_HEADERS,
+          headers: { Authorization: getToken() },
         }
       );
       getAllUsers();
