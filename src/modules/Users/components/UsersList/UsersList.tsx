@@ -4,11 +4,13 @@ import UsersData from "../UsersData/UsersData";
 import "./UsersList.scss";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useTheme } from "../../../../constants/ThemeContext";
 
 const UsersList = () => {
   const { loading, userInformation } = useUserInformation();
   const isManager = userInformation?.group.name === "Manager";
   const navigate = useNavigate();
+  const { themeStyle } = useTheme();
 
   if (loading) {
     return (
@@ -23,9 +25,17 @@ const UsersList = () => {
   return (
     <>
       {isManager ? (
-        <div id="projects-list">
-          <div className="head">
-            <span className="title">Users</span>
+        <div
+          style={{ background: themeStyle.pageBackgroundColor }}
+          id="projects-list">
+          <div
+            style={{ background: themeStyle.boxBackgroundColor }}
+            className="head">
+            <span
+              style={{ color: themeStyle.textColorWhite }}
+              className="title">
+              Users
+            </span>
           </div>
           <UsersData />
         </div>

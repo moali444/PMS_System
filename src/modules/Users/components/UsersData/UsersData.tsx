@@ -144,7 +144,7 @@ const UsersData = () => {
   return (
     <div id="users-data">
       <Table striped bordered hover>
-        <thead>
+        <thead style={{ background: "blue !important" }}>
           <tr>
             <th>
               User Name{" "}
