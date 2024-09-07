@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.scss";
 import IMAGES from "../../../../assets/images/images";
 import useUserInformation from "../../../../constants/useUserInformation";
+import SwitchButton from "./SwitchButton";
+import { useTheme } from "../../../../constants/ThemeContext";
 
 interface ISideBarProps {
   toggleSidebar: () => void;
@@ -13,6 +15,7 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
   const [broken, setBroken] = useState(
     window.matchMedia("(max-width: 800px)").matches
   );
+  const { themeStyle } = useTheme();
   const { userInformation, loading } = useUserInformation();
   const isManager = userInformation?.group.name === "Manager";
   const [collapsed, setCollapsed] = useState(false);
@@ -25,7 +28,10 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
 
   return (
     <div id="sidebar_bx">
-      <Sidebar toggled={toggled} collapsed={collapsed}>
+      <Sidebar
+        backgroundColor={`${themeStyle.boxBackgroundColor2} !important`}
+        toggled={toggled}
+        collapsed={collapsed}>
         {loading ? (
           ""
         ) : (
@@ -67,6 +73,9 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
             </MenuItem>
           </Menu>
         )}
+        <div className="d-flex justify-content-center">
+          <SwitchButton checked={true} />
+        </div>
       </Sidebar>
       <button className="sb-button toggle_btn" onClick={handleToggle}>
         <img src={IMAGES.menuArrow} alt="pic" />

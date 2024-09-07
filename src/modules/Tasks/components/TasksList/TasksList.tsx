@@ -14,6 +14,7 @@ import NoData from "../../../Shared/components/NoData/NoData";
 import TaskDeleteModel from "../TaskDeleteModel/TaskDeleteModel";
 import TaskModelView from "../TaskModelView/TaskModelView";
 import UserTasks from "../UserTasks/UserTasks";
+import { useTheme } from "../../../../constants/ThemeContext";
 
 interface Manager {
   id: number;
@@ -66,7 +67,7 @@ const TasksList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(0);
-
+  const { themeStyle } = useTheme();
   useEffect(() => {
     localStorage.setItem("searchTitle", title);
   }, [title]);
@@ -190,25 +191,30 @@ const TasksList = () => {
     return (
       <div
         className="loadingContainer d-flex justify-content-center align-items-center"
-        style={{ minHeight: "692px" }}
-      >
+        style={{ minHeight: "692px" }}>
         <ScaleLoader className="loader" color="rgba(49, 89, 81, 0.9)" />
       </div>
     );
   }
 
   return (
-    <div id="tasks-bx" style={{ minHeight: "692px" }}>
+    <div
+      id="tasks-bx"
+      style={{
+        minHeight: "692px",
+        background: themeStyle.pageBackgroundColor,
+      }}>
       {userInformation?.group?.name === "Manager" ? (
         <>
-          <header className="d-flex justify-content-between p-4">
-            <h2>Tasks</h2>
+          <header
+            style={{ background: themeStyle.boxBackgroundColor }}
+            className="d-flex justify-content-between p-4">
+            <h2 style={{ color: themeStyle.textColorWhite }}>Tasks</h2>
             <button
               onClick={() => {
                 navigate("/dashboard/add-task");
               }}
-              className="add-btn"
-            >
+              className="add-btn">
               <i className="fa-solid fa-plus mx-3"></i>Add New Task
             </button>
           </header>
@@ -233,8 +239,7 @@ const TasksList = () => {
                   className="form-select"
                   onChange={handleFilterChange}
                   value={filter}
-                  aria-label="Filter by status"
-                >
+                  aria-label="Filter by status">
                   <option value="">
                     <i className="fas fa-filter me-2" aria-hidden="true"></i>{" "}
                     Filter
@@ -260,8 +265,7 @@ const TasksList = () => {
                     User
                     <span
                       onClick={() => handleSort("userName")}
-                      className="ms-3"
-                    >
+                      className="ms-3">
                       <SortIcon />
                     </span>
                   </th>
@@ -269,8 +273,7 @@ const TasksList = () => {
                     Project
                     <span
                       onClick={() => handleSort("project")}
-                      className="ms-4"
-                    >
+                      className="ms-4">
                       <SortIcon />
                     </span>
                   </th>
@@ -336,8 +339,7 @@ const TasksList = () => {
                               : task.status === "Done"
                               ? "done"
                               : ""
-                          }`}
-                        >
+                          }`}>
                           {task.status}
                         </div>
                       </td>
@@ -358,8 +360,7 @@ const TasksList = () => {
                             <Dropdown.Item
                               as={Link}
                               to={`/dashboard/update-task/${task.id}`}
-                              state={{ updateTask: task, type: "update" }}
-                            >
+                              state={{ updateTask: task, type: "update" }}>
                               <i className="fa-regular fa-pen-to-square me-3"></i>
                               Edit
                             </Dropdown.Item>
@@ -386,8 +387,7 @@ const TasksList = () => {
                   <select
                     className="me-3 form-select   d-inline-block w-auto"
                     value={pageSize}
-                    onChange={handlePageSizeChange}
-                  >
+                    onChange={handlePageSizeChange}>
                     {[1, 5, 10, 15, 20].map((size) => (
                       <option key={size} value={size}>
                         {size}
@@ -404,15 +404,13 @@ const TasksList = () => {
                   <button
                     className="btn  me-2 fs-3 "
                     onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
+                    disabled={currentPage === 1}>
                     &lt;
                   </button>
                   <button
                     className="btn fs-3 "
                     onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
+                    disabled={currentPage === totalPages}>
                     &gt;
                   </button>
                 </div>

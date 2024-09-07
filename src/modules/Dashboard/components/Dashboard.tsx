@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { PieChart } from "./Chart";
+import { useTheme } from "../../../constants/ThemeContext";
 ChartJS.register(Tooltip, Legend, ArcElement);
 interface ErrorResponse {
   message: string;
@@ -31,6 +32,7 @@ const Dashboard = () => {
   const { userInformation, loading } = useUserInformation();
   const [usersCount, setUsersCount] = useState<UsersCountType | null>(null);
   const [taskCount, setTaskCount] = useState<TaskCountType | null>(null);
+  const { themeStyle } = useTheme();
 
   const getUsersCount = async () => {
     try {
@@ -77,7 +79,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div id="home_page" style={{ height: "692px" }}>
+    <div
+      id="home_page"
+      style={{ height: "692px", background: themeStyle.pageBackgroundColor }}>
       <div className="banner">
         <h3>
           Welcome <span>{userInformation?.userName}</span>
@@ -87,40 +91,54 @@ const Dashboard = () => {
 
       <Row>
         <Col md={6}>
-          <div className="data-cart">
+          <div
+            style={{ background: themeStyle.boxBackgroundColor }}
+            className="data-cart">
             <div className="title">
-              <h3>Tasks</h3>
+              <h3 style={{ color: themeStyle.textColorWhite }}>Tasks</h3>
               <p>Lorem ipsum dolor sit amet,consecteture</p>
             </div>
 
             <Row>
               <Col md={4}>
-                <div className="static-bx color-1">
+                <div
+                  style={{ background: themeStyle.boxBackgroundColor2 }}
+                  className="static-bx color-1">
                   <span className="icon">
                     <img src={IMAGES.static1} alt="pic" />
                   </span>
                   <p>To do</p>
-                  <h3>{taskCount?.toDo}</h3>
+                  <h3 style={{ color: themeStyle.textColorWhite }}>
+                    {taskCount?.toDo}
+                  </h3>
                 </div>
               </Col>
 
               <Col md={4}>
-                <div className="static-bx color-2">
+                <div
+                  style={{ background: themeStyle.boxBackgroundColor2 }}
+                  className="static-bx color-2">
                   <span className="icon">
                     <img src={IMAGES.static2} alt="pic" />
                   </span>
                   <p>In progress</p>
-                  <h3>{taskCount?.inProgress}</h3>
+                  <h3 style={{ color: themeStyle.textColorWhite }}>
+                    {taskCount?.inProgress}
+                  </h3>
                 </div>
               </Col>
 
               <Col md={4}>
-                <div className="static-bx color-3">
+                <div
+                  style={{ background: themeStyle.boxBackgroundColor2 }}
+                  className="static-bx color-3">
                   <span className="icon">
                     <img src={IMAGES.static3} alt="pic" />
                   </span>
                   <p>Done</p>
-                  <h3>{taskCount?.done}</h3>
+                  <h3 style={{ color: themeStyle.textColorWhite }}>
+                    {taskCount?.done}
+                  </h3>
                 </div>
               </Col>
             </Row>
@@ -129,30 +147,40 @@ const Dashboard = () => {
 
         {userInformation?.group?.name === "Manager" && (
           <Col md={6}>
-            <div className="data-cart">
+            <div
+              style={{ background: themeStyle.boxBackgroundColor }}
+              className="data-cart">
               <div className="title">
-                <h3>Users</h3>
+                <h3 style={{ color: themeStyle.textColorWhite }}>Users</h3>
                 <p>Lorem ipsum dolor sit amet,consecteture</p>
               </div>
 
               <Row>
                 <Col md={4}>
-                  <div className="static-bx color-1">
+                  <div
+                    style={{ background: themeStyle.boxBackgroundColor2 }}
+                    className="static-bx color-1">
                     <span className="icon">
                       <img src={IMAGES.static1} alt="pic" />
                     </span>
                     <p>active</p>
-                    <h3>{usersCount?.activatedEmployeeCount}</h3>
+                    <h3 style={{ color: themeStyle.textColorWhite }}>
+                      {usersCount?.activatedEmployeeCount}
+                    </h3>
                   </div>
                 </Col>
 
                 <Col md={4}>
-                  <div className="static-bx color-2">
+                  <div
+                    style={{ background: themeStyle.boxBackgroundColor2 }}
+                    className="static-bx color-2">
                     <span className="icon">
                       <img src={IMAGES.static2} alt="pic" />
                     </span>
                     <p>inactive</p>
-                    <h3>{usersCount?.deactivatedEmployeeCount}</h3>
+                    <h3 style={{ color: themeStyle.textColorWhite }}>
+                      {usersCount?.deactivatedEmployeeCount}
+                    </h3>
                   </div>
                 </Col>
               </Row>
