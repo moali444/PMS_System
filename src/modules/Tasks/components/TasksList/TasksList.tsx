@@ -67,7 +67,7 @@ const TasksList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const { themeStyle } = useTheme();
+
   useEffect(() => {
     localStorage.setItem("searchTitle", title);
   }, [title]);
@@ -202,14 +202,11 @@ const TasksList = () => {
       id="tasks-bx"
       style={{
         minHeight: "692px",
-        background: themeStyle.pageBackgroundColor,
       }}>
       {userInformation?.group?.name === "Manager" ? (
         <>
-          <header
-            style={{ background: themeStyle.boxBackgroundColor }}
-            className="d-flex justify-content-between p-4">
-            <h2 style={{ color: themeStyle.textColorWhite }}>Tasks</h2>
+          <header className="d-flex justify-content-between p-4">
+            <h2>Tasks</h2>
             <button
               onClick={() => {
                 navigate("/dashboard/add-task");

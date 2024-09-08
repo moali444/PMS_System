@@ -73,9 +73,6 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
             </MenuItem>
           </Menu>
         )}
-        <div className="d-flex justify-content-center">
-          <SwitchButton checked={true} />
-        </div>
       </Sidebar>
       <button className="sb-button toggle_btn" onClick={handleToggle}>
         <img src={IMAGES.menuArrow} alt="pic" />
