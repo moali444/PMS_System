@@ -188,7 +188,7 @@ const Dashboard = () => {
           </Col>
         )}
         {userInformation?.group?.name !== "Manager" && (
-          <Col md={4}>
+          <Col md={3}>
             <div>{taskCount && <PieChart taskCount={taskCount} />}</div>
           </Col>
         )}
