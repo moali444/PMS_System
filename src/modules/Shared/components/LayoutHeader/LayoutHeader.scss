@@ -13,7 +13,16 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
-
+  .logo {
+    width: 182px;
+  }
+  .toggle-icon {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .fa-sun {
+    color: #ef9b28;
+  }
   .user-details {
     position: relative;
     @media (max-width: 767px) {
