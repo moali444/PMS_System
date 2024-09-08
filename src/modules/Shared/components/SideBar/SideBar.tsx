@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.scss";
 import IMAGES from "../../../../assets/images/images";
 import useUserInformation from "../../../../constants/useUserInformation";
-import SwitchButton from "./SwitchButton";
+import SwitchButton from "../LayoutHeader/SwitchButton";
 import { useTheme } from "../../../../constants/ThemeContext";
 
 interface ISideBarProps {
@@ -73,9 +73,6 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
             </MenuItem>
           </Menu>
         )}
-        <div className="d-flex justify-content-center">
-          <SwitchButton checked={true} />
-        </div>
       </Sidebar>
       <button className="sb-button toggle_btn" onClick={handleToggle}>
         <img src={IMAGES.menuArrow} alt="pic" />

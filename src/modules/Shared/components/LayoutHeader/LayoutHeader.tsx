@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import skeleton styles
 import { useTheme } from "../../../../constants/ThemeContext";
+import SwitchButton from "./SwitchButton";
 
 interface UserInformation {
   userName: string;
@@ -87,7 +88,7 @@ const UserDetails = () => {
 const LayoutHeader = () => {
   const { screenSizeCategory } = useScreenSize();
   const navigate = useNavigate();
-  const { themeStyle } = useTheme();
+  const { theme, themeStyle, toggleTheme } = useTheme();
   const logOut = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -96,8 +97,23 @@ const LayoutHeader = () => {
     <div
       style={{ background: themeStyle.boxBackgroundColor2 }}
       id="layout_header">
-      <img src={IMAGES.headerLogo} alt="pic" />
-
+      <img
+        className="logo"
+        src={theme === "light" ? IMAGES.headerLogo : IMAGES.headerLogoDark}
+        alt="pic"
+      />
+      <div className="d-flex flex-grow-1 flex-fill justify-content-center">
+        {/* <SwitchButton checked={true} /> */}
+        <div
+          onClick={toggleTheme}
+          className="toggle-icon d-flex mx-4 flex-grow-1 justify-content-end flex-fill">
+          {theme === "dark" ? (
+            <i className="fas fa-sun" />
+          ) : (
+            <i className="fas fa-moon" />
+          )}
+        </div>
+      </div>
       <div className="user-info-container d-flex flex-row align-items-center">
         <i className="notification-icon fa-solid fa-bell " />
 
