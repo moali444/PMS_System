@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createHashRouter,
+} from "react-router-dom";
 import ChangePass from "./modules/Auth/components/ChangePass/ChangePass";
 import ForgetPass from "./modules/Auth/components/ForgetPass/ForgetPass";
 import Login from "./modules/Auth/components/Login/Login";
@@ -23,7 +27,7 @@ import UpdateProject from "./modules/Projects/components/UpdateProject/UpdatePro
 import { ProtectedRoute } from "./modules/Shared/components/ProtectedRoute/ProtectedRoute";
 
 const App = () => {
-  const routs = createBrowserRouter([
+  const routs = createHashRouter([
     {
       path: "/",
       element: <AuthLayout />,
