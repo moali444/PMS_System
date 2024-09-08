@@ -23,7 +23,6 @@ interface ErrorResponse {
 }
 const ChangePassForm = () => {
   const navigate = useNavigate();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -54,14 +53,12 @@ const ChangePassForm = () => {
     <div>
       <Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Form.Group className="mb-3" controlId="">
-        <Form.Group className="mb-3" controlId="">
           <Form.Label>Old Password</Form.Label>
           <InputGroup>
             <Form.Control
               type={showOldPassword ? "text" : "password"}
               placeholder="Enter your New Password"
               {...register("oldPassword", {
-                required: "oldPassword is required",
                 required: "oldPassword is required",
                 minLength: {
                   value: 8,
@@ -71,7 +68,8 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowOldPassword(!showOldPassword)}>
+              onClick={() => setShowOldPassword(!showOldPassword)}
+            >
               {showOldPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -92,7 +90,6 @@ const ChangePassForm = () => {
               placeholder="Enter your New Password"
               {...register("newPassword", {
                 required: "newPassword is required",
-                required: "newPassword is required",
                 minLength: {
                   value: 8,
                   message: "Password must be at least 8 characters long",
@@ -101,7 +98,8 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowPassword(!showPassword)}>
+              onClick={() => setShowPassword(!showPassword)}
+            >
               {showPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -122,7 +120,6 @@ const ChangePassForm = () => {
               placeholder="Confirm New Password"
               {...register("confirmNewPassword", {
                 required: "confirmNewPassword is required",
-                required: "confirmNewPassword is required",
                 validate: (value) => {
                   return (
                     value === watch("newPassword") || "Password does not match"
@@ -132,7 +129,8 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
               {showConfirmPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -151,7 +149,8 @@ const ChangePassForm = () => {
           className="form-btn"
           variant="primary"
           type="submit"
-          disabled={isSubmitting}>
+          disabled={isSubmitting}
+        >
           {isSubmitting ? (
             <>
               <span className="m-2">Loading... </span>
