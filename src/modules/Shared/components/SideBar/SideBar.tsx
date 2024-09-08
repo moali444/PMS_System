@@ -31,7 +31,8 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
       <Sidebar
         backgroundColor={`${themeStyle.boxBackgroundColor2} !important`}
         toggled={toggled}
-        collapsed={collapsed}>
+        collapsed={collapsed}
+      >
         {loading ? (
           ""
         ) : (
@@ -39,14 +40,16 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
             <MenuItem
               active={location.pathname === "/dashboard"}
               icon={<img src={IMAGES.homeIcon} alt="pic" />}
-              component={<Link to="/dashboard" />}>
+              component={<Link to="/dashboard" />}
+            >
               Home
             </MenuItem>
             {isManager ? (
               <MenuItem
                 active={location.pathname === "/dashboard/users"}
                 icon={<img src={IMAGES.usersIcon} alt="pic" />}
-                component={<Link to="/dashboard/users" />}>
+                component={<Link to="/dashboard/users" />}
+              >
                 Users
               </MenuItem>
             ) : (
@@ -56,19 +59,22 @@ const SideBar = ({ toggleSidebar }: ISideBarProps) => {
             <MenuItem
               active={location.pathname === "/dashboard/projects"}
               icon={<img src={IMAGES.projectsIcon} alt="pic" />}
-              component={<Link to="/dashboard/projects" />}>
+              component={<Link to="/dashboard/projects" />}
+            >
               Projects
             </MenuItem>
             <MenuItem
               active={location.pathname === "/dashboard/tasks"}
               icon={<img src={IMAGES.tasksIcon} alt="pic" />}
-              component={<Link to="/dashboard/tasks" />}>
+              component={<Link to="/dashboard/tasks" />}
+            >
               Tasks
             </MenuItem>
 
             <MenuItem
               icon={<img src={IMAGES.tasksIcon} alt="pic" />}
-              component={<Link to="/change-pass" />}>
+              component={<Link to="/change-pass" />}
+            >
               Change Password
             </MenuItem>
           </Menu>

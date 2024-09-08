@@ -63,7 +63,6 @@ const App = () => {
         { path: "users", element: <UsersList /> },
         { path: "add-project", element: <AddProject /> },
         { path: "update-project", element: <UpdateProject /> },
-        
       ],
     },
   ]);

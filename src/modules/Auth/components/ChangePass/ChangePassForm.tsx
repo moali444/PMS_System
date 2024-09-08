@@ -23,6 +23,7 @@ interface ErrorResponse {
 }
 const ChangePassForm = () => {
   const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -53,12 +54,14 @@ const ChangePassForm = () => {
     <div>
       <Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Form.Group className="mb-3" controlId="">
+        <Form.Group className="mb-3" controlId="">
           <Form.Label>Old Password</Form.Label>
           <InputGroup>
             <Form.Control
               type={showOldPassword ? "text" : "password"}
               placeholder="Enter your New Password"
               {...register("oldPassword", {
+                required: "oldPassword is required",
                 required: "oldPassword is required",
                 minLength: {
                   value: 8,
@@ -89,6 +92,7 @@ const ChangePassForm = () => {
               placeholder="Enter your New Password"
               {...register("newPassword", {
                 required: "newPassword is required",
+                required: "newPassword is required",
                 minLength: {
                   value: 8,
                   message: "Password must be at least 8 characters long",
@@ -117,6 +121,7 @@ const ChangePassForm = () => {
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm New Password"
               {...register("confirmNewPassword", {
+                required: "confirmNewPassword is required",
                 required: "confirmNewPassword is required",
                 validate: (value) => {
                   return (
