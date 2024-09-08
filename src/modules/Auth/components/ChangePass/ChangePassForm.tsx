@@ -1,13 +1,15 @@
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
+import { Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Alert } from "react-bootstrap";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { BASE_HEADERS, USERS_URLS } from "../../../../constants/END_POINTS";
+import { USERS_URLS } from "../../../../constants/END_POINTS";
+import { getToken } from "../../../../constants/Tokenhandler";
 
 interface IFormInput {
   email?: string;
@@ -16,32 +18,34 @@ interface IFormInput {
   oldPassword?: string;
   seed?: number;
 }
-
+interface ErrorResponse {
+  message: string;
+}
 const ChangePassForm = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     try {
-      const response = await axios.put(
-        USERS_URLS.changePass,
-        data,
-        {headers:{Authorization:`Bearer ${localStorage.getItem("token")}`}}
+      const response = await axios.put(USERS_URLS.changePass, data, {
+        headers: { Authorization: getToken() },
+      });
+      toast.success(
+        response?.data?.message || "Password has been updated successfully"
       );
-      toast.success(response?.data?.message || "welcome back again");
+      localStorage.removeItem("token");
       navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "some_thing_wrong");
-      console.log(error);
+      const axiosError = error as AxiosError<ErrorResponse>;
+      toast.error(axiosError.response?.data?.message || "some_thing_wrong");
     }
   };
 
@@ -141,8 +145,20 @@ const ChangePassForm = () => {
           )}
         </Form.Group>
 
-        <Button className="form-btn" variant="primary" type="submit">
-          Save
+        <Button
+          className="form-btn"
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>
+              <span className="m-2">Loading... </span>
+              <ClipLoader size={15} color={"#fff"} />
+            </>
+          ) : (
+            "Change Password"
+          )}
         </Button>
       </Form>
 

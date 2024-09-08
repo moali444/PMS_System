@@ -8,6 +8,7 @@ import { Alert, Col, Row } from "react-bootstrap";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 interface IFormInput {
   userName: string;
@@ -24,7 +25,7 @@ const RegisterForm = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -51,7 +52,6 @@ const RegisterForm = () => {
       const response = await axios.post(USERS_URLS.register, registerData);
       toast.success(response?.data?.message || "registered successfuly");
       navigate("/verify-account");
-      console.log(response);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message);
@@ -209,8 +209,19 @@ const RegisterForm = () => {
           </Col>
         </Row>
 
-        <Button className="form-btn" variant="primary" type="submit">
-          Save
+        <Button
+          disabled={isSubmitting}
+          className="form-btn"
+          variant="primary"
+          type="submit">
+          {isSubmitting ? (
+            <>
+              <span className="m-2">Loading... </span>
+              <ClipLoader size={15} color={"#fff"} />
+            </>
+          ) : (
+            "Save"
+          )}
         </Button>
       </Form>
 

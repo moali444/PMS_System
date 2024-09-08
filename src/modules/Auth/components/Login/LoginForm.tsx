@@ -9,8 +9,8 @@ import { Alert } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { USERS_URLS } from "../../../../constants/END_POINTS";
-import { setToken } from "../../../../constants/Tokenhandler";
-import { BeatLoader } from "react-spinners";
+
+import { ClipLoader } from "react-spinners";
 
 interface IFormInput {
   email: string;
@@ -33,19 +33,16 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
 
     try {
       const response = await axios.post<LoginResponse>(USERS_URLS.login, data);
       const { token, message } = response.data;
       toast.success(message || "welcome back again");
       navigate("/dashboard");
-
-      setToken(token);
+      localStorage.setItem("token", token);
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
       toast.error(axiosError.response?.data?.message || "some_thing_wrong");
-      console.log(error);
     }
   };
 
@@ -109,7 +106,10 @@ const LoginForm = () => {
           variant="primary"
           type="submit">
           {isSubmitting ? (
-            <BeatLoader size={15} margin={"2px"} color="white" />
+            <>
+              <span className="m-2">Loading... </span>
+              <ClipLoader size={15} color={"#fff"} />
+            </>
           ) : (
             "Login"
           )}

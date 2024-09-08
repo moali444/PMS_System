@@ -4,7 +4,7 @@
   padding: 0 20px;
   height: 60px;
   background-color: #fff;
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
@@ -13,6 +13,16 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
+  .logo {
+    width: 182px;
+  }
+  .toggle-icon {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .fa-sun {
+    color: #ef9b28;
+  }
   .user-details {
     position: relative;
     @media (max-width: 767px) {
@@ -38,7 +48,10 @@
     }
   }
   .user-avatar {
-    margin-right: 8px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
   }
   .user-name {
     font-size: 14px;

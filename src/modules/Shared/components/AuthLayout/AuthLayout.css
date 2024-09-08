@@ -1,0 +1,8 @@
+/** ====================
+ *  Auth css
+=======================*/
+#auth_container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--main_green_color);
+}/*# sourceMappingURL=AuthLayout.css.map */
