@@ -18,9 +18,10 @@ import UsersList from "./modules/Users/components/UsersList/UsersList";
 //toastify
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddProject from "./modules/Projects/components/AddProject.tsx/AddProject";
-import UpdateProject from "./modules/Projects/components/UpdateProject/UpdateProject";
+
 import { ProtectedRoute } from "./modules/Shared/components/ProtectedRoute/ProtectedRoute";
+import UpdateProject from "./modules/Projects/components/UpdateProject/UpdateFormProject";
+import AddProject from "./modules/Projects/components/AddProject.tsx/AddProject";
 
 const App = () => {
   const routs = createBrowserRouter([
@@ -63,7 +64,6 @@ const App = () => {
         { path: "users", element: <UsersList /> },
         { path: "add-project", element: <AddProject /> },
         { path: "update-project", element: <UpdateProject /> },
-        
       ],
     },
   ]);

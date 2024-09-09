@@ -68,7 +68,8 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowOldPassword(!showOldPassword)}>
+              onClick={() => setShowOldPassword(!showOldPassword)}
+            >
               {showOldPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -97,7 +98,8 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowPassword(!showPassword)}>
+              onClick={() => setShowPassword(!showPassword)}
+            >
               {showPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -127,7 +129,8 @@ const ChangePassForm = () => {
             />
             <span
               className="show-icon"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
               {showConfirmPassword ? (
                 <i className="fa-regular fa-eye-slash" />
               ) : (
@@ -146,7 +149,8 @@ const ChangePassForm = () => {
           className="form-btn"
           variant="primary"
           type="submit"
-          disabled={isSubmitting}>
+          disabled={isSubmitting}
+        >
           {isSubmitting ? (
             <>
               <span className="m-2">Loading... </span>
