@@ -76,16 +76,13 @@ const UserDetails = () => {
 const LayoutHeader = () => {
   const { screenSizeCategory } = useScreenSize();
   const navigate = useNavigate();
-  const { themeStyle } = useTheme();
+
   const logOut = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
   return (
-    <div
-      style={{ background: themeStyle.boxBackgroundColor2 }}
-      id="layout_header"
-    >
+    <div id="layout_header">
       <img src={IMAGES.headerLogo} alt="pic" />
 
       <div className="user-info-container d-flex flex-row align-items-center">
