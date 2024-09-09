@@ -9,8 +9,6 @@ import { setToken } from "../../../../constants/Tokenhandler";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css"; // Import skeleton styles
-import { useTheme } from "../../../../constants/ThemeContext";
-import SwitchButton from "./SwitchButton";
 
 interface UserInformation {
   userName: string;
@@ -25,7 +23,7 @@ interface IUserDetailsProps {
 
 const UserDetails = () => {
   const { userInformation, loading }: IUserDetailsProps = useUserInformation();
-  const { themeStyle } = useTheme();
+
   // console.log(userInformation);
 
   // console.log("Loading:", loading);
@@ -58,9 +56,7 @@ const UserDetails = () => {
   const { userName, email, imagePath } = userInformation;
 
   return (
-    <div
-      style={{ color: themeStyle.textColorWhite }}
-      className="user-details d-flex flex-row align-items-center ">
+    <div className="user-details d-flex flex-row align-items-center ">
       <div>
         <img
           className="user-avatar mx-3 rounded-circle"
@@ -70,16 +66,8 @@ const UserDetails = () => {
       </div>
 
       <div className="user-credentials d-flex flex-column">
-        <span
-          style={{ color: themeStyle.textColorWhite }}
-          className="user-name">
-          {userName}
-        </span>
-        <span
-          style={{ color: themeStyle.textColorWhite }}
-          className="user-email">
-          {email}
-        </span>
+        <span className="user-name">{userName}</span>
+        <span className="user-email">{email}</span>
       </div>
     </div>
   );
@@ -88,7 +76,7 @@ const UserDetails = () => {
 const LayoutHeader = () => {
   const { screenSizeCategory } = useScreenSize();
   const navigate = useNavigate();
-  const { theme, themeStyle, toggleTheme } = useTheme();
+  const { themeStyle } = useTheme();
   const logOut = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -96,24 +84,10 @@ const LayoutHeader = () => {
   return (
     <div
       style={{ background: themeStyle.boxBackgroundColor2 }}
-      id="layout_header">
-      <img
-        className="logo"
-        src={theme === "light" ? IMAGES.headerLogo : IMAGES.headerLogoDark}
-        alt="pic"
-      />
-      <div className="d-flex flex-grow-1 flex-fill justify-content-center">
-        {/* <SwitchButton checked={true} /> */}
-        <div
-          onClick={toggleTheme}
-          className="toggle-icon d-flex mx-4 flex-grow-1 justify-content-end flex-fill">
-          {theme === "dark" ? (
-            <i className="fas fa-sun" />
-          ) : (
-            <i className="fas fa-moon" />
-          )}
-        </div>
-      </div>
+      id="layout_header"
+    >
+      <img src={IMAGES.headerLogo} alt="pic" />
+
       <div className="user-info-container d-flex flex-row align-items-center">
         <i className="notification-icon fa-solid fa-bell " />
 
@@ -121,13 +95,7 @@ const LayoutHeader = () => {
           <>
             <UserDetails />
 
-            <DropdownButton
-              title={
-                <i
-                  style={{ color: themeStyle.textColorWhite }}
-                  className="fa-solid fa-chevron-down"
-                />
-              }>
+            <DropdownButton title={<i className="fa-solid fa-chevron-down" />}>
               <Dropdown.Item onClick={logOut}>Log Out</Dropdown.Item>
             </DropdownButton>
           </>
